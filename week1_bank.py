@@ -3,6 +3,9 @@
 # 学员姓名：邱国昌
 # 日期：2018-03-15
 
+global hasLogin  # 全局变量判断用户是否已经登录过，输入过密码
+hasLogin = 0
+
 def menu_print():
     """
     用于打印登录窗体
@@ -11,6 +14,19 @@ def menu_print():
     Line = "="
     print(Line*16, "欢迎进入黄金银行", Line*20)
     print("|   {:<16}  |    {:<16}  |".format("1.用户登录", "2.余额查询"))
+    print("|   {:<18}  |    {:<18}  |".format("3.取款", "4.存款"))
+    print(Line*54)
+
+def menu_welcome(user_name):
+    """
+    用于打印登陆成功后界面，由用户【1登录变为】 【1退出登录】
+    :user_name: 传入用户姓名
+    :return:
+    """
+    Line = "="
+    print("登录成功！")
+    print(Line*16, "欢迎您，尊敬的"+user_name+"先生", Line*14)
+    print("|   {:<16}  |    {:<16}  |".format("1.退出登录", "2.余额查询"))
     print("|   {:<18}  |    {:<18}  |".format("3.取款", "4.存款"))
     print(Line*54)
 
@@ -23,6 +39,45 @@ def user_db():
              {"姓名": "孙六", "卡号": "100004", "密码": "123456", "编码": "0004", "余额": "3545"},
              {"姓名": "王七", "卡号": "100005", "密码": "123456", "编码": "0005", "余额": "18"}
              ]
+    return users
+
+def user_login(op_no):
+    """
+    #用于用户登录操作
+    :param op_no: 传入的操作编号
+    :return:
+    """
+    global hasLogin  # 初始值为未登录，0
+    # 如果用户未登录而且选择登录以外其他业务时，报出信息并要求用户进行登录
+    if not hasLogin and op_no != "1":
+        print("请您先登录您的账户")
+        ag_no = input("请输入您的业务：")  # 重新输入后递归调用
+        user_login(ag_no)
+        return
+    # 如果用户进行登录，则判断是否有用户，若存在用户则保留用户信息，不存在则提示信息并请求其重新登录
+    elif op_no == "1":
+        # 接收用户输入的卡号和密码
+        card_no = input("请您输入卡号：")
+        pass_wd = input("请您输入密码:")
+        # 获取用户列表信息
+        users = user_db()
+        """
+        处理逻辑说明：判断卡号是否存在及密码是否有误，有误则要求重新输入卡号密码
+        变量i 用于计算遍历时的次数，先进行用户及密码匹配，如果所有用户都遍历了，
+        但仍然没有匹配到，暨i次数已经到达列表长度时，则结束，并要求用户重新输入
+        """
+        i = 0
+        for user in users:  # 遍历用户信息表，每次循环代表一个用户
+            i += 1
+            cn = len(users)
+            if user["卡号"] == card_no and user["密码"] == pass_wd:  # 如果有卡号信息，则进一步判断用户的密码是否正确
+                menu_welcome(user["姓名"])
+                hasLogin = 1  # 如果登陆成功，则把登陆标识符设置为1
+                return
+            elif i == cn:  # 如果遍历用户列表没有找到相关信息，则返回错误信息，
+                print("用户信息有误，请重新输入")
+                ag_no = input("请输入您的业务：")  # 重新输入后递归调用
+                user_login(ag_no)  # 递归调用函数
 
 
 while True:
@@ -30,6 +85,10 @@ while True:
     user_db()
     # 打印窗口界面
     menu_print()
+    # 接受用户输入业务
+    opNo = input("请输入您的业务：")
+    user_login(opNo)
+    print("2222")
     break
     # 存取操作，1.余额查询 2.取款 3.存款
 
