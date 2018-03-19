@@ -81,14 +81,16 @@ def user_login(op_no):
 
 
 while True:
-    # 生成后台数据
-    user_db()
+    global hasLogin  # 用于查看用户是否已经登录
     # 打印窗口界面
     menu_print()
     # 接受用户输入业务
-    opNo = input("请输入您的业务：")
-    user_login(opNo)
-    print("2222")
+    if not hasLogin:
+        opNo = input("请输入您的业务：")
+        user_login(opNo)
+    else:
+
+        print("2222")
     break
     # 存取操作，1.余额查询 2.取款 3.存款
 
