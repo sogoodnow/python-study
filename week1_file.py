@@ -12,7 +12,6 @@ def copyfile(file1, file2):
     :return:
     """
 
-    # print(file1+" "+file2)
     #  打开文件
     f1 = open(file1, "rb")
     f2 = open(file2, "wb")
@@ -49,10 +48,7 @@ def copyfolder(path1, path2):
             copyfolder(os.path.join(path1, i), os.path.join(path2, i))
 
 
-global sum_size
 sum_size = 0  # 定义全局变量存储大小，初始为0
-
-
 def count_size(path):
     """
     计算制定目录及子目录的大小
@@ -64,13 +60,14 @@ def count_size(path):
         for i in os.listdir(path):  # 存在则遍历路径下文件及文件夹
             if os.path.getsize(os.path.join(path, i)):   # 计算文件大小,不为0则累加
                 sum_size += os.path.getsize(os.path.join(path, i))
-                print("文件名：{}，大小：{},累计：{}".format(os.path.join(path, i),
+                print("文件名：{}，单文件大小：{},累计大小：{}".format(os.path.join(path, i),
                                                   os.path.getsize(os.path.join(path, i)),
                                                   sum_size))
             else:  # 为0则为文件夹，递归调用函数
                 count_size(os.path.join(path, i))
     else:  # 为空则表示返回错误信息
         print("没有找到指定目录")
+    # print("文件总大小为：", sum_size)
     return sum_size
 
 
