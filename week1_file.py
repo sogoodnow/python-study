@@ -58,13 +58,15 @@ def count_size(path):
     global sum_size  # 引入全局变量
     if os.path.exists(path):  # 判断路径是否存在
         for i in os.listdir(path):  # 存在则遍历路径下文件及文件夹
-            if os.path.getsize(os.path.join(path, i)):   # 计算文件大小,不为0则累加
+            # 计算文件大小,不为0则累加 ※奇诡的问题，用size判断时，文件夹可能不为0
+            # 用isdir判断是否为文件夹，是文件夹则递归调用，不是则累加文件大小
+            if os.path.isdir(os.path.join(path, i)):
+                count_size(os.path.join(path, i))  # 递归调用
+            else:  # 不是文件夹，累计文件大小
                 sum_size += os.path.getsize(os.path.join(path, i))
                 print("文件名：{}，单文件大小：{},累计大小：{}".format(os.path.join(path, i),
                                                   os.path.getsize(os.path.join(path, i)),
                                                   sum_size))
-            else:  # 为0则为文件夹，递归调用函数
-                count_size(os.path.join(path, i))
     else:  # 为空则表示返回错误信息
         print("没有找到指定目录")
     # print("文件总大小为：", sum_size)
