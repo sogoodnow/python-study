@@ -4,8 +4,7 @@ Python学习第一周作业
 1) 使用while和for…in两个循环分别输出四种九九乘法表效果（共计8个）。
 2) 使用文件和目录操作，定义一个统计指定目录大小的函数（注意目录中还有子目录）。
 """
-import week1_multi99  # 99乘法表
-import week1_file  # 文件计算
+from week1 import week1_multi99, week1_file
 
 
 def common_print():
