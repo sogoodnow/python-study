@@ -8,10 +8,6 @@ import week1_multi99  # 99乘法表
 import week1_file  # 文件计算
 
 
-def work3():
-    print("ccc")
-
-
 def common_print():
     """用于主函数执行后输出的共通信息
     return ：返回值为接收到的终端录入命令
