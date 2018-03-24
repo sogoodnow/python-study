@@ -1,0 +1,42 @@
+#  查询sql语句
+
+1. 在users表中查询注册时间最早的十条会员信息。
+use blogdb;
+SELECT * FROM blogdb.users order by cdate asc limit 10;
+
+/* 2. 从两个表中查询点赞数最高的5条博客信息，要求显示字段：
+   （博文id，标题，点赞数，会员名）
+*/
+use blogdb;
+SELECT  a.name, b.id, b.title, b.pcount
+FROM users as a ,blog as b
+where a.id = b.uid
+order by b.pcount desc limit 10;
+
+/* 3. 统计每个会员的发表博文数量（降序），要求显示字段（会员id号，姓名，博文数量）
+*/
+use blogdb;
+SELECT  a.id , a.name ,count(a.id) as count
+FROM users as a left join blog as b on a.id = b.uid
+group by
+a.id,
+a.name
+order by count desc;
+
+/* 4. 获取会员的博文平均点赞数量最高的三位。显示字段（会员id，姓名，平均点赞数）
+*/
+select  a.id , a.name ,avg(b.pcount) as pcount
+FROM users as a left join blog as b on a.id = b.uid
+group by
+a.id,
+a.name
+order by pcount desc;
+
+/* 5. 删除没有发表博文的所有会员信息
+*/
+SET SQL_SAFE_UPDATES = 0;
+delete from users where id not in (select uid from blog);
+
+
+
+
