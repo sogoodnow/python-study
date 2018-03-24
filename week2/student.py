@@ -14,6 +14,7 @@ class Student:
         :param user:用户名
         :param password:密码
         :param dbname:数据库
+        :param table:数据表
         """
         self.host = host
         self.user = user
@@ -27,7 +28,7 @@ class Student:
             self.state = True
             print("数据库连接成功")
         except Exception as con_err:
-            print("连接异常！")
+            print("连接异常！", con_err)
 
     def __del__(self):
         """
@@ -66,9 +67,7 @@ class Student:
     def insert_stu(self, params):
         """
         插入学生记录
-        :param name:姓名
-        :param age: 年龄
-        :param sid: 课程
+        :param params:参数列表
         :return:
         """
         count = 0 # 成功插入条数
@@ -98,7 +97,6 @@ if __name__ == '__main__':
         txt_res.WriteText("==="*3+"查询完成！"+"==="*3+"\n")
         del stu
 
-
     def del_stu(event):
         """
         删除输入的id对应记录
@@ -113,7 +111,7 @@ if __name__ == '__main__':
             else: # 没有找到学生
                 txt_res.WriteText("========没有找到该学生！========" + "\n")
         else: # 没有输入id内容时
-            txt_res.WriteText("===" * 3 + "请输入id号！" + "===" * 3 + "\n")
+            txt_res.WriteText("===" * 3 + "请输入正确id号！" + "===" * 3 + "\n")
 
     def add_stu(event):
         # 获取输入信息
@@ -148,10 +146,10 @@ if __name__ == '__main__':
     txt_name = wx.TextCtrl(win, pos=(140, 64), size=(120, 30) )
     # =========年龄输入
     lab_age  = wx.StaticText(win, label=u'年龄:', style=wx.ALIGN_LEFT, size=(150, 50), pos=(10,94))
-    txt_age = wx.TextCtrl(win, pos=(140, 94), size=(120, 30))
+    txt_age = wx.TextCtrl(win, pos=(140, 94), size=(50, 30))
     # =========班级输入
     lab_class = wx.StaticText(win, label=u'参加班级:', style=wx.ALIGN_LEFT, size=(150, 30), pos=(10, 124))
-    txt_class = wx.TextCtrl(win, pos=(140, 124), size=(120,30))
+    txt_class = wx.TextCtrl(win, pos=(140, 124), size=(220,30))
     # ========按钮事件
     bt_search.Bind(wx.EVT_BUTTON, search)
     bt_del.Bind(wx.EVT_BUTTON, del_stu)
