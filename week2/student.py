@@ -7,8 +7,6 @@ import wx
 # 2. 使用使用上面自定义stu表操作类，结合1.10的综合案例，做出增，删，查询操作。
 
 class Student:
-
-
     def __init__(self, host, user, password, dbname,table):
         """
         初始化时连接数据库
@@ -31,14 +29,12 @@ class Student:
         except Exception as con_err:
             print("连接异常！")
 
-
     def __del__(self):
         """
         销毁对象时关闭连接
         """
         self.cursor.close()
         self.connection.close()
-
 
     def findAll(self):
         """
@@ -51,7 +47,6 @@ class Student:
                 print("没有记录！")
         except Exception as all_err:
             print("连接错误：", all_err)
-
 
     def del_stu(self,stu_id):
         """
@@ -67,7 +62,6 @@ class Student:
         except Exception as del_err:
             print("删除出错:",del_err )
         return count
-
 
     def insert_stu(self, params):
         """
@@ -86,8 +80,6 @@ class Student:
             print("添加出错:", ins_err)
         return count
 
-
-
 if __name__ == '__main__':
 
     def search(event):
@@ -100,7 +92,7 @@ if __name__ == '__main__':
         txt_res.WriteText("========连接成功！========"+"\n")
         txt = ""
         for row in stu.findAll():
-            txt += "id:{:<6}   姓名：{:<8}  年龄：{:<6}  课程：{:<10}".format(row[0],row[1],row[2],row[3])
+            txt += "id:{:<10}|姓名:{:<10}|年龄:{:<10}|课程:{:<10}".format(row[0],row[1],row[2],row[3])
             txt += "\n"
         txt_res.WriteText(txt)
         txt_res.WriteText("==="*3+"查询完成！"+"==="*3+"\n")
@@ -123,50 +115,52 @@ if __name__ == '__main__':
         else: # 没有输入id内容时
             txt_res.WriteText("===" * 3 + "请输入id号！" + "===" * 3 + "\n")
 
+    def add_stu(event):
+        # 获取输入信息
+        stu_name = txt_name.GetValue()
+        stu_age = txt_age.GetValue()
+        stu_class = txt_class.GetValue()
+        if stu_age  and stu_class and stu_name: # 全部都输入才能新增
+            if str(stu_age).isdigit():  # 判断输入的年龄是否为数值
+                stu = Student("localhost", "root", "root", "blogdb", "student")  # 实例化类，连接数据库
+                stu.insert_stu((stu_name,stu_age,stu_class))
+                txt_res.WriteText("===" * 3 + "添加成功！" + "===" * 3 + "\n")
+            else:
+                txt_res.WriteText("===" * 3 + "请输入正确年龄！" + "===" * 3 + "\n")
 
+        else:
+            txt_res.WriteText("===" * 3 + "请输入完整信息！" + "===" * 3 + "\n")
 
 
     # ========创建应用
     app = wx.App()
     # ========创建窗口,第一个参数为父窗口
     win = wx.Frame(None,title = "学员管理系统",size=(500,450))
-
     # ========创建按钮
     bt_search = wx.Button(win, label="搜索全部", pos=(250, 5), size=(80, 30)) # 查询按钮，用于查询学生
     bt_add = wx.Button(win, label="添加", pos=(350, 5), size=(50, 30))
     bt_del = wx.Button(win, label="删除", pos=(420, 5), size=(50, 30))
     lab_id = wx.StaticText(win, label = u'输入删除学员ID', style=wx.ALIGN_LEFT ,size=(150, 30), pos=(10, 14))
     txt_search = wx.TextCtrl(win, pos=(140, 5), size=(100, 30))
-    txt_res = wx.TextCtrl(win, pos=(20, 150), size=(440, 250), style = wx.TE_MULTILINE | wx.VSCROLL)
+    txt_res = wx.TextCtrl(win, pos=(20, 160), size=(440, 250), style = wx.TE_MULTILINE | wx.VSCROLL)
     # =========姓名输入
     lab_name = wx.StaticText(win, label=u'学生姓名:', style=wx.ALIGN_LEFT, size=(150, 50), pos=(10, 64))
-    txt_name = wx.TextCtrl(win, pos=(140, 64), size=(100, 20) )
-    # =========姓名输入
-    lab_age  = wx.StaticText(win, label=u'年龄:', style=wx.ALIGN_LEFT, size=(150, 50), pos=(10,84))
-    txt_age = wx.TextCtrl(win, pos=(140, 84), size=(100, 20))
+    txt_name = wx.TextCtrl(win, pos=(140, 64), size=(120, 30) )
+    # =========年龄输入
+    lab_age  = wx.StaticText(win, label=u'年龄:', style=wx.ALIGN_LEFT, size=(150, 50), pos=(10,94))
+    txt_age = wx.TextCtrl(win, pos=(140, 94), size=(120, 30))
     # =========班级输入
-    lab_class = wx.StaticText(win, label=u'参加班级:', style=wx.ALIGN_LEFT, size=(150, 30), pos=(10, 104))
-    txt_class = wx.TextCtrl(win, pos=(140, 104), size=(100, 20))
-
+    lab_class = wx.StaticText(win, label=u'参加班级:', style=wx.ALIGN_LEFT, size=(150, 30), pos=(10, 124))
+    txt_class = wx.TextCtrl(win, pos=(140, 124), size=(120,30))
     # ========按钮事件
     bt_search.Bind(wx.EVT_BUTTON, search)
     bt_del.Bind(wx.EVT_BUTTON, del_stu)
-
-
-
+    bt_add.Bind(wx.EVT_BUTTON, add_stu)
     # ========设置可见
     win.Show()
     # ========加载主程序
     app.MainLoop()
 
-    # 创建对象并建立连接 可以改为从文件中读取配置信息
-    # try:
-    #     stu = Student("localhost", "root", "root", "blogdb")
-    #     print("连接成功！")
-    #     params = ["张三", 26 ,"Python一期"]
-    #     cout = stu.insert_stu(params)
-    #     print(cout)
-    # except Exception as err:
-    #     print("连接错误：",err)
+
 
 
