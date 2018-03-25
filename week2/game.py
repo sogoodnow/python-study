@@ -9,13 +9,16 @@ ENEMY_SPEED = 10 # 敌机速度
 class Enemy:
     def __init__(self,screen_enemy):
         self.bullets = []
-        self.x = random.choice([125,25,300,450,500])
+        self.x = random.choice(range(450))
         self.y = -100
         self.screen_plane = screen_enemy  # 窗口对象
         self.image = pygame.image.load("./images/e0.png")  # 飞机的图片
     # 显示飞机
     def display(self):
         self.screen_plane.blit(self.image,(self.x ,self.y)) # 填充画布
+    # 移动
+    def move(self):
+        self.y += 5
 
 
 class Bullet:
@@ -133,17 +136,21 @@ def main():
 
     # 创建玩家飞机
     hero = HeroPlane(screen_main)
-    enemy = Enemy(screen_main)
+    enemy_lis = []
 
     m = -968
     while True:
         # 绘制画面,blit:draw one image onto another 理解为将源图片刷入某一区域或另一图片
         screen_main.blit(backround, (0, m))
 
-
-        enemy.display()
+        if random.choice(range(50)) == 10:
+            en = Enemy(screen_main)
+            enemy_lis.append(en)
+        for en in enemy_lis:
+            en.move()
+            en.display()
         hero.display()
-        enemy.y += 5
+
         # 飞机控制，传入英雄飞机对象
         key_control(hero)
         buli = hero.bullets
