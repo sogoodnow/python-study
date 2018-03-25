@@ -225,7 +225,7 @@ def main():
                 if crs.crashed():    # 如果碰撞则销毁子弹和敌机对象
                     print("碰到了")
                     crs.display()
-                    enemy_lis.remove(en)
+                    # enemy_lis.remove(en)
 
         #  画布控制，每次向+Y反向移动2，当到达一定位置后，重置位置
         m += 2
