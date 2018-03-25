@@ -226,6 +226,14 @@ def main():
                     print("碰到了")
                     crs.display()
                     enemy_lis.remove(en)
+        # 遍历敌机与我及，判断是否碰撞
+        for en in enemy_lis:
+            # 进行碰撞检测
+            crs = Crash(hero ,en,screen_main)  # 传入检测对象
+            if crs.crashed():    # 如果碰撞则销毁子弹和敌机对象
+                print("碰到了")
+                crs.display()
+                enemy_lis.remove(en)
 
         #  画布控制，每次向+Y反向移动2，当到达一定位置后，重置位置
         m += 2
