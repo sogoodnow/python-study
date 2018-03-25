@@ -40,8 +40,10 @@ class HeroPlane:
         self.x = 220
         self.y = 450
         self.screen_plane = screen_plane  # 窗口对象
-        self.image = pygame.image.load("./images/me.png")  # 飞机的图片
-    # 显示飞机
+        self.image = pygame.image.load("./images/me.png").convert_alpha()  # 飞机的图片
+        self.size = self.image.get_size()
+        print(self.size)
+    # 显示飞机elf.image
     def display(self):
         self.screen_plane.blit(self.image,(self.x ,self.y)) # 填充画布
     # 动作
@@ -127,16 +129,29 @@ def key_control(hero):
         hero.mv_fire()
         print("fire")
 
+class Crash:
+    def __init__(self, obj1 ,obj2):
+        self.x1 = obj1.x
+        self.y1 = obj1.y
+        self.x2 = obj2.x
+        self.y2 = obj2.y
+    def crashed(self):
+        return True
+
+
+
 def main():
     # 定义窗体
     screen_main = pygame.display.set_mode((512, 568), 0, 0)
     # 定义背景
     backround = pygame.image.load("./images/bg2.jpg")
+    print(backround.get_size())
     # 显示子弹
 
     # 创建玩家飞机
     hero = HeroPlane(screen_main)
     enemy_lis = []
+
 
     m = -968
     while True:
@@ -147,8 +162,17 @@ def main():
             en = Enemy(screen_main)
             enemy_lis.append(en)
         for en in enemy_lis:
-            en.move()
-            en.display()
+            for bu in buli:  #  遍历子弹和敌机对象
+                # 进行碰撞检测
+                crs = Crash(en ,bu)  # 传入检测对象
+                if crs.crashed():    # 如果碰撞则销毁子弹和敌机对象
+                    enemy_lis.remove(en)
+
+                en.move()
+                en.display()
+
+
+
         hero.display()
 
         # 飞机控制，传入英雄飞机对象
@@ -156,13 +180,20 @@ def main():
         buli = hero.bullets
         # print(len(buli))
         for i in buli:
-
             if i.y < 0:  # 已经出界的子弹，销毁对象
                 buli.remove(i)
                 del i
             else:
+
                 i.display()
                 i.y -= BULLET_SPEED
+        # 碰撞判定
+        # 设定碰撞范围，碰撞判定，销毁子弹及飞机
+
+
+
+
+
         m += 2
         if m >= -100:
             m == -968
