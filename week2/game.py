@@ -6,6 +6,26 @@ import random
 HERO_SPEED = 10  # 英雄飞机速度
 BULLET_SPEED = 10 # 子弹速度
 ENEMY_SPEED = 10 # 敌机速度
+ENEMY_IMG = "./images/e0.png"
+HERO_IMG = "./images/me.png"
+BULLET_IMG = "./images/pd.png"
+
+class Plane:
+    """
+    定义飞机父类
+    """
+    def __init__(self,screen_temp, img_path):
+        # self.bullets = []
+        # self.x = random.choice(range(450))
+        # self.y = -100
+        self.screen_plane = screen_temp  # 窗口对象
+        self.image = pygame.image.load(img_path)  # 飞机的图片
+        self.size = self.image.get_size()
+        # 显示飞机
+    def display(self):
+        self.screen_plane.blit(self.image, (self.x, self.y))  # 填充画布
+
+
 class Enemy:
     def __init__(self,screen_enemy):
         self.bullets = []
@@ -13,6 +33,7 @@ class Enemy:
         self.y = -100
         self.screen_plane = screen_enemy  # 窗口对象
         self.image = pygame.image.load("./images/e0.png")  # 飞机的图片
+        self.size = self.image.get_size()
     # 显示飞机
     def display(self):
         self.screen_plane.blit(self.image,(self.x ,self.y)) # 填充画布
@@ -136,6 +157,7 @@ class Crash:
         self.x2 = obj2.x
         self.y2 = obj2.y
     def crashed(self):
+
         return True
 
 
@@ -168,8 +190,8 @@ def main():
                 if crs.crashed():    # 如果碰撞则销毁子弹和敌机对象
                     enemy_lis.remove(en)
 
-                en.move()
-                en.display()
+            en.move()
+            en.display()
 
 
 
