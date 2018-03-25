@@ -218,14 +218,14 @@ def main():
                 i.y -= BULLET_SPEED
 
         # 遍历敌机与子弹，判断是否碰撞
-        for en in enemy_lis:
-            for bu in bullet_list:
+        for bu in bullet_list:
+            for en in enemy_lis:
                 # 进行碰撞检测
                 crs = Crash(bu ,en,screen_main)  # 传入检测对象
                 if crs.crashed():    # 如果碰撞则销毁子弹和敌机对象
                     print("碰到了")
                     crs.display()
-                    # enemy_lis.remove(en)
+                    enemy_lis.remove(en)
 
         #  画布控制，每次向+Y反向移动2，当到达一定位置后，重置位置
         m += 2
