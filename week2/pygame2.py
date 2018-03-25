@@ -26,6 +26,19 @@ class Game:
     def display(self):
         self.screen_plane.blit(self.image, (self.x, self.y))  # 填充画布
 
+class Bullet(Game):
+    """
+    子弹
+    """
+    def __init__(self,screen_bullet, posX ,posY):
+        self.x = posX
+        self.y = posY
+        Game.__init__(self, screen_bullet, BULLET_IMG)
+    def __del__(self):
+        print("销毁对象")
+    # 显示子弹
+    def display(self):
+        self.screen_plane.blit(self.image,(self.x ,self.y)) # 填充画布
 
 class Enemy(Game):
     """
@@ -43,21 +56,10 @@ class Enemy(Game):
     # 移动
     def move(self):
         self.y += 5
+        if random.choice(range(5)) == 3:
+            bu = Bullet(self.screen_plane, self.x + 75, self.y - 25)
+            self.bullets.append(bu)
 
-
-class Bullet(Game):
-    """
-    子弹
-    """
-    def __init__(self,screen_bullet, posX ,posY):
-        self.x = posX
-        self.y = posY
-        Game.__init__(self, screen_bullet, BULLET_IMG)
-    def __del__(self):
-        print("销毁对象")
-    # 显示子弹
-    def display(self):
-        self.screen_plane.blit(self.image,(self.x ,self.y)) # 填充画布
 
 
 class HeroPlane(Game):
@@ -231,6 +233,7 @@ def main():
             # 进行碰撞检测
             crs = Crash(hero ,en,screen_main)  # 传入检测对象
             if crs.crashed():    # 如果碰撞则销毁子弹和敌机对象
+                # time.sleep(60)
                 print("碰到了")
                 crs.display()
                 enemy_lis.remove(en)
