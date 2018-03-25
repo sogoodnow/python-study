@@ -32,7 +32,33 @@ insert into blog(`title`,`abstract`,`content`,`uid`,`pcount`,`flag`,`cdate`) val
 2、鸡蛋打入碗内，加入盐少许，搅匀;
 3、将炒锅放植物油，先将鸡蛋倒入，炒成散块，盛出;
 4、炒锅中再少放些植物油，油烧热后放入西红柿翻炒几下，再放入鸡蛋，搅炒均匀加入白糖、盐，再翻炒几下，用淀粉勾芡即成。",
-"1","23","1","2018-04-05")
+"1","23","1","2018-04-05");
 
+insert into blog(`title`,`abstract`,`content`,`uid`,`pcount`,`flag`,`cdate`) values("BP神经网络梯度下降算法","菜鸟初学人智相关问题，智商低，艰苦学习中，转文只为保存，其中加上了一些个人注释，便于更简单的理解~新手也可以看，共勉",
+"第一区域的来说，它们相当于外界的刺激，是刺激的来源并且将刺激传递给神经元，因此把第一区域命名为输入层。第二区域，表示神经元相互之间传递刺激相当于人脑里面，因此把第二区命名为隐藏层。第三区域，表示神经元经过多层次相互传递后对外界的反应，因此把第三区域命名为输出层。
+ 简单的描述就是，输入层将刺激传递给隐藏层，隐藏层通过神经元之间联系的强度（权重）和传递规则（激活函数）将刺激传到输出层，输出层整理隐藏层处理的后的刺激产生最终结果。若有正确的结果，那么将正确的结果和产生的结果进行比较，得到误差，再逆推对神经网中的链接权重进行反馈修正，从而来完成学习的过程。这就是BP神经网的反馈机制，也正是BP（Back  Propagation）名字的来源：运用向后反馈的学习机制，来修正神经网中的权重，最终达到输出正确结果的目的！。",
+"1","52","1","2018-04-10");
+
+insert into blog(`title`,`abstract`,`content`,`uid`,`pcount`,`flag`,`cdate`) values("牛顿迭代法求解开方问题","求解开方问题","以方程 x2=nx2=n 为例，
+令 f(x)=x2−nf(x)=x2−n，也就是相当于求解 f(x)=0f(x)=0 的解。，即可求出：
+","2","13","1","2018-04-10");
+
+insert into blog(`title`,`abstract`,`content`,`uid`,`pcount`,`flag`,`cdate`) values("自动驾驶语义分割模型","Deep Learning Architectures",
+"In a previous post, we studied various open datasets that could be used to train a model for pixel-wise semantic segmentation of urban scenes. Here, we take a look at various deep learning architectures that cater specifically to time-sensitive domains like autonomous vehicles. In recent years, deep learning has surpassed traditional computer vision algorithms by learning a hierarchy of features from the training dataset itself. This eliminates the need for hand-crafted features and thus such techniques are being extensively explored in academia and industry.",
+"3","25","1","2018-04-12");
+
+insert into blog(`title`,`abstract`,`content`,`uid`,`pcount`,`flag`,`cdate`) values("tensorflow队列读取机制","tensorflow提供了三种读取数据的机制，分别是1.constant, 2.feed_dict ,3. file reader。",
+"对于数据读取一般会有这两个问题：1.内存占用 2.数据读取时间。对于较大的数据集，由于内存限制，feed方式直接把全部数据加载到内存中是不可能的，
+tf.train.batch(
+tensors,
+batch_size,
+num_threads=1,
+capacity=32
+)其中，capcity是样本队列的容量，num_thread是reader的读取线程，如果超过1，会进行单reader多线程读取。当进行多线程读取时，队列会将数据均匀的分给不同的线程，最大程度的提高速度。由于是并行的所以数据会被打乱，如果想要更shuffle的效果，可以使用shuffle_batch，每次出队时数据会被shuffle一次，但是这个函数要注意设置capcity，已提供足够的空间执行shuffle操作",
+"4","22","1","2018-04-16");
+
+insert into blog(`title`,`abstract`,`content`,`uid`,`pcount`,`flag`,`cdate`) values("测试标题1","用于测试1",
+"测试内容1啊",
+"5","1","0","2018-04-16");
 
 mysqldump -u root -p root blogdb users>d:/users.sql;
