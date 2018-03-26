@@ -5,14 +5,15 @@ import random
 
 HERO_SPEED = 10  # 英雄飞机速度
 BULLET_SPEED = 10 # 子弹速度
-ENEMY_SPEED = 10 # 敌机速度
+ENEMY_SPEED = 4 # 敌机速度
 ENEMY_IMG1 = "./images/e0.png"   # 敌机图片1
 ENEMY_IMG2 = "./images/e1.png"   # 敌机图片2
 HERO_IMG = "./images/me.png"    # 英雄图片
-BULLET_IMG = "./images/pd.png"  # 子弹图片
+BULLET_IMG1 = "./images/pd.png"  # 英雄子弹图片
+BULLET_IMG2 = "./images/epd.png"  # 敌机子弹图片
 MAIN_IMG = "./images/bg2.jpg"   # 背景图片
 MAIN_BOMB = "./images/aa.jpg"  # 爆炸图片
-
+BULLET_ENEMY = 8            # 敌机子弹速度
 
 class Game:
     """
@@ -30,15 +31,23 @@ class Bullet(Game):
     """
     子弹
     """
-    def __init__(self,screen_bullet, posX ,posY):
+    def __init__(self,screen_bullet, posX ,posY, flag):
         self.x = posX
         self.y = posY
-        Game.__init__(self, screen_bullet, BULLET_IMG)
+        self.flag = flag
+        if flag=="hero":
+            Game.__init__(self, screen_bullet, BULLET_IMG1)
+        else:
+            Game.__init__(self, screen_bullet, BULLET_IMG2)
     def __del__(self):
         print("销毁对象")
-    # 显示子弹
+    # 显示英雄子弹
     def display(self):
         self.screen_plane.blit(self.image,(self.x ,self.y)) # 填充画布
+
+    # 显示敌人子弹
+    def display_enbu(self):
+        self.screen_plane.blit(self.image,(self.x+25 ,self.y+80)) # 填充画布
 
 class Enemy(Game):
     """
@@ -56,11 +65,15 @@ class Enemy(Game):
     # 移动
     def move(self):
         self.y += 5
-        if random.choice(range(5)) == 3:
-            bu = Bullet(self.screen_plane, self.x + 75, self.y - 25)
+        if random.choice(range(150)) == 25:
+            self.x += random.randrange(65)
+        if random.choice(range(50))==10 :
+            self.x -= random.randrange(65)
+    # 开火
+    def fire(self):
+        if self.y > 10:  # 敌机在屏幕上显示后，添加子弹对象
+            bu = Bullet(self.screen_plane, self.x +25, self.y - 25,"enmey")
             self.bullets.append(bu)
-
-
 
 class HeroPlane(Game):
     x = 220  # 初始位置
@@ -112,7 +125,7 @@ class HeroPlane(Game):
         :return:
         """
         # 创建子弹
-        bu = Bullet(self.screen_plane, self.x + 75, self.y - 25)
+        bu = Bullet(self.screen_plane, self.x + 75, self.y - 25, "hero")
         self.bullets.append(bu)
 
 
@@ -170,18 +183,17 @@ class Crash(Game):
         self.y2 = obj2.y
         self.width1, self.height1 = obj1.size
         self.width2, self.height2 = obj2.size
-        # 物体一的目前所占范围
-        self.rangX1 = (self.x1,self.x1+self.width1)
-        self.rangY1 = (self.y1,self.y1+self.height1)
-        # 物体二的目前所占范围
-        self.rangX2 = (self.x2,self.x2+self.width2)
-        self.rangY2 = (self.y2,self.y2+self.height2)
+    def display(self):
+        self.screen_plane.blit(self.image, (self.x+25, self.y+25))  # 填充画布
 
-    def crashed(self):
-        print(self.x1,self.x2)
-        print((self.x1 >= self.x2) and (self.x1 <= self.x2+self.width2))
-        print((self.y1 >= self.y2) and (self.y1 <= self.y2 + self.height2))
-        return (self.x1 >= self.x2) and (self.x1 <= self.x2+self.width2) and ((self.y1 >= self.y2) and (self.y1 <= self.y2 + self.height2))
+    def crashed_enmey(self):
+        return (self.x1 >= self.x2) and (self.x1 <= self.x2+self.width2) and \
+               ((self.y1 >= self.y2) and (self.y1 <= self.y2 + self.height2))
+
+
+    def crashed_hero(self):
+        return (self.x1 >= self.x2) and (self.x1 <= self.x2+self.width2) and \
+               ((self.y1 >= self.y2) and (self.y1 <= self.y2 + self.height2))
 
 def main():
     # 定义窗体
@@ -189,7 +201,7 @@ def main():
     # 定义背景
     backround = pygame.image.load(MAIN_IMG)
     # # 子弹列表
-    # bullet_list = []
+    # hero_bullet_list = []
     # 创建玩家飞机
     hero = HeroPlane(screen_main)
     enemy_lis = []
@@ -200,43 +212,73 @@ def main():
         # 生成英雄飞机，接受键盘操作
         hero.display()
         key_control(hero)
+        # 在英雄对象按下SPACE键后，生成子弹对象，并添加至列表
+        hero_bullet_list = hero.bullets
+
         # 随机生成放置敌机
-        if random.choice(range(60)) == 10:   # 随机数等于某一数值后，产生敌机
+        if random.choice(range(20)) == 10:   # 随机数等于某一数值后，产生敌机
             en = Enemy(screen_main)
             enemy_lis.append(en)             # 加入敌机列表
-        # 已生成的敌机，每次循环理解为每一帧，调用移动方法，进行移动
+
+        # 已生成的敌机，每次while循环理解为每一帧，调用移动方法，进行移动
         for en in enemy_lis:
             en.move()               # 移动敌机
-            en.display()            # 显示敌机
-        # 在英雄对象按下SPACE键后，生成子弹对象，并添加至列表
-        bullet_list = hero.bullets
+            if random.choice(range(20)) == 3:  # 20分之3的概率发射子弹
+                en.fire()
+            en.display()
+            # 在敌机移动过程中，随机产生子弹
+            for i in en.bullets:
+                i.y += BULLET_ENEMY     # 敌机子弹速度
+                i.display_enbu()
+                if i.y > 600:  # 已经出界的子弹，销毁对象
+                    en.bullets.remove(i)
+                crs = Crash(hero, i, screen_main)  # 传入检测对象
+                if crs.crashed_hero():  # 如果碰撞则销毁子弹和敌机对象
+                    # time.sleep(60)
+                    print("中弹了")
+                    crs.display()
+                    print("game over")
+
+
         # 对子弹队列进行位置判断，对已经出界的子弹，销毁对象
-        for i in bullet_list:
+        for i in hero_bullet_list:
             if i.y < 0:  # 已经出界的子弹，销毁对象
-                bullet_list.remove(i)
+                hero_bullet_list.remove(i)
                 del i
             else:
                 i.display()  # 没有出界的则进行移动
                 i.y -= BULLET_SPEED
 
+
         # 遍历敌机与子弹，判断是否碰撞
-        for bu in bullet_list:
+        for bu in hero_bullet_list:
             for en in enemy_lis:
                 # 进行碰撞检测
                 crs = Crash(bu ,en,screen_main)  # 传入检测对象
-                if crs.crashed():    # 如果碰撞则销毁子弹和敌机对象
+                if crs.crashed_enmey():    # 如果碰撞则销毁子弹和敌机对象
                     print("碰到了")
                     crs.display()
                     enemy_lis.remove(en)
-        # 遍历敌机与我及，判断是否碰撞
+                    hero_bullet_list.remove(bu)
+                    continue
+
+
+        # 遍历敌机与我及，判断是否碰撞,没有碰撞且出界的则销毁敌机对象
         for en in enemy_lis:
             # 进行碰撞检测
             crs = Crash(hero ,en,screen_main)  # 传入检测对象
-            if crs.crashed():    # 如果碰撞则销毁子弹和敌机对象
+            if crs.crashed_enmey():    # 如果碰撞则销毁子弹和敌机对象
                 # time.sleep(60)
                 print("碰到了")
                 crs.display()
                 enemy_lis.remove(en)
+            if en.y > 570 :
+                enemy_lis.remove(en)
+                print("销毁敌机对象")
+
+
+
+
 
         #  画布控制，每次向+Y反向移动2，当到达一定位置后，重置位置
         m += 2
