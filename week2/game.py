@@ -61,9 +61,9 @@ class Enemy(Game):
         # 随机选择敌机种类
         choice = random.choice(range(5))
 
-        if choice == 5:
+        if choice == 5 or choice == 4 :
             Game.__init__(self, screen_enemy, ENEMY_IMG2)  # 调用父类初始化 普通机
-        if choice == 1:
+        elif choice == 1 or choice == 2:
             Game.__init__(self, screen_enemy, ENEMY_IMG3)  # 调用父类初始化 普通机
         else:
             Game.__init__(self, screen_enemy, ENEMY_IMG1)  # 调用父类初始化 红色机
@@ -274,7 +274,7 @@ def main():
         #  画布控制，每次向+Y反向移动2，当到达一定位置后，重置位置
         m += 2
         if m >= -100:
-            m == -968
+            m = -968
         pygame.display.update()
         # 定时显示
         time.sleep(0.04)
