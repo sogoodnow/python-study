@@ -133,7 +133,6 @@ class HeroPlane(Game):
         bu = Bullet(self.screen_plane, self.x + 75, self.y - 25, "hero")
         self.bullets.append(bu)
 
-
 def key_control(hero):
     """
     用于获取键盘控制操作,并进行对应处理
