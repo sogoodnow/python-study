@@ -61,9 +61,9 @@ class Enemy(Game):
         # 随机选择敌机种类
         choice = random.choice(range(5))
 
-        if choice == 5 or choice == 4 :
+        if choice == 5 or choice == 2:
             Game.__init__(self, screen_enemy, ENEMY_IMG2)  # 调用父类初始化 普通机
-        elif choice == 1 or choice == 2:
+        elif choice == 1 or choice == 3:
             Game.__init__(self, screen_enemy, ENEMY_IMG3)  # 调用父类初始化 普通机
         else:
             Game.__init__(self, screen_enemy, ENEMY_IMG1)  # 调用父类初始化 红色机
@@ -132,6 +132,7 @@ class HeroPlane(Game):
         # 创建子弹
         bu = Bullet(self.screen_plane, self.x + 75, self.y - 25, "hero")
         self.bullets.append(bu)
+
 
 def key_control(hero):
     """
