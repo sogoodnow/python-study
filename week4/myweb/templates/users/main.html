@@ -5,6 +5,26 @@
     <title>学员信息管理系统</title>
 </head>
 <body>
-        {{ info }}
+
+        <table width="500px" id="tb1" border="1px red solid">
+            <tr>
+                <th>编号</th>
+                <th>姓名</th>
+                <th>年龄</th>
+                <th>性别</th>
+                <th>课程</th>
+            </tr>
+            {%  for i in info %}
+                <tr>
+                    <td>{{ i.id }}</td>
+                    <td>{{ i.name }}</td>
+                    <td>{{  i.age }}</td>
+                    <td>{{ i.phone }}</td>
+                    <td>{{ i.classname }}</td>
+                </tr>
+            {% endfor %}
+
+        </table>
+
 </body>
 </html>
