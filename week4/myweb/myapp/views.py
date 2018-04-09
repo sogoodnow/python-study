@@ -1,8 +1,9 @@
-from django.shortcuts import render,HttpResponse
+from django.shortcuts import render,HttpResponse,reverse,redirect
 from . models import *
 # Create your views here.
 def index(request):
-    return HttpResponse("hello")
+    return render(request, "index.html")
+
 
 def usermain(request):
     try:

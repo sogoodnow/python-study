@@ -2,9 +2,38 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>在线相册信息管理</title>
+    <style>
+        div {
+            width: 600px;
+            text-align: center;
+            margin-left: 35%
+        }
+
+        #content {
+            text-align: left;
+            width: 660px
+        }
+
+        h1 {
+            color: #0d8ddb;
+            margin: 9px;
+        }
+    </style>
 </head>
 <body>
-    <h1>hello</h1>
+<div><h1>在线相册信息管理</h1></div>
+<div id="content">
+    <h1 STYLE="color: red">说明：</h1>
+    <h1>1.可以对学员进行增删改查 </h1>
+    <h1>2.图片按照学员id分配静态文件夹存储 </h1>
+    <h1>3.点击某位学员的图库后，可以查看所有图片 </h1>
+    <h1>4.可在图库中进行图片添加或删除操作 </h1>
+    <h1>5.数据库只保留图片路径 </h1>
+    <h1>6.图片生成时同时生成缩略图 </h1>
+    <a href='{% url "main"   %}'><h1 STYLE="color: red;font-stretch: extra-condensed">===========>进入</h1></a>
+
+
+</div>
 </body>
 </html>
