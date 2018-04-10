@@ -13,3 +13,9 @@ def usermain(request):
         return render(request, "users/main.html", context)
     except Exception as e:
         return HttpResponse("error:"+str(e))
+
+def stuedit(request,uid):
+    return render(request, "users/stuedit.html",{"id" : uid})
+
+def stuedel(request,uid):
+    return render(request, "users/stuedit.html",{"id" : uid})

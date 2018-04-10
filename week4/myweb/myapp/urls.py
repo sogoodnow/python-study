@@ -21,4 +21,6 @@ from django.contrib import admin
 urlpatterns = [
     url(r'^$', views.index,name="index"),
     url(r'^main$', views.usermain,name="main"),
+    url(r'^stuedit/(?P<uid>[0-9]+)$', views.stuedit,name="stuedit"),
+    url(r'^stuedel/(?P<uid>[0-9]+)$', views.stuedel,name="stuedel"),
 ]
