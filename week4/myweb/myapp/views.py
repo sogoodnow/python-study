@@ -2,7 +2,7 @@ from django.shortcuts import render,HttpResponse,reverse,redirect
 from . models import *
 # Create your views here.
 def index(request):
-    return render(request, "index.html")
+    return render(request, "users/example.html")
 
 
 def usermain(request):
@@ -16,6 +16,6 @@ def usermain(request):
 
 def stuedit(request,uid):
     return render(request, "users/stuedit.html",{"id" : uid})
-
-def stuedel(request,uid):
-    return render(request, "users/stuedit.html",{"id" : uid})
+#
+# def stuedel(request,uid):
+#     return render(request, "users/stuedit.html",{"id" : uid})

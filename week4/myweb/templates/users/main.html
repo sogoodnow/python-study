@@ -49,7 +49,9 @@
             <td width="100px">{{ i.phone }}</td>
             <td width="200px">{{ i.classname }}</td>
             <td width="250px">{{ i.picpath }}</td>
-            <td width="150px"><a href='{% url  "stuedit" i.id  %}'>编辑</a>  &nbsp; &nbsp;<a href="{% url  'studel' i.id  %}">删除</a></td>
+            <td width="150px"><a href='{% url  "stuedit" i.id  %}'>编辑</a>  &nbsp; &nbsp;
+{#                <a href="{% url  'studel' i.id  %}">删除</a>#}
+            </td>
         </tr>
         {% endfor %}
 
