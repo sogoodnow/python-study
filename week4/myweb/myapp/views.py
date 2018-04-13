@@ -2,7 +2,7 @@ from django.shortcuts import render,HttpResponse,reverse,redirect
 from . models import *
 # Create your views here.
 def index(request):
-    return render(request, "users/example.html")
+    return render(request, "index.html")
 
 
 def usermain(request):
@@ -14,8 +14,17 @@ def usermain(request):
     except Exception as e:
         return HttpResponse("error:"+str(e))
 
-def stuedit(request,uid):
-    return render(request, "users/stuedit.html",{"id" : uid})
-#
-# def stuedel(request,uid):
-#     return render(request, "users/stuedit.html",{"id" : uid})
+def stuedit(request):
+    return render(request, "users/stuedit.html")
+
+def stusave(request):
+
+    print("inininiininin")
+    # context为字典类型
+    # context = {"info": userinfo}
+    mod = Userinfo.objects
+    ls = request["data"]
+    mod.name = ls["name"]
+    content = {"aa":mod.name}
+    print(mod.name+"dfdfdfdfdfdfdfdfdfdf")
+    return render(request, "users/stuedit.html", content)
