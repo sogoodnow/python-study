@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>模板</title>
+
+    <link href="/static/resource/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/resource/font-awesome/css/font-awesome.css" rel="stylesheet">
+
+    <link href="/static/resource/css/animate.css" rel="stylesheet">
+    <link href="/static/resource/css/style.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+<div id="wrapper">
+
+    <nav class="navbar-default navbar-static-side" role="navigation">
+        <div class="sidebar-collapse">
+            <ul class="nav metismenu" id="side-menu">
+                <li class="nav-header">
+                    <div class="dropdown profile-element">
+                            <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                            <span class="clear"> <span class="block m-t-xs"> <strong class="font-bold">管理员</strong>
+                             </span> <span class="text-muted text-xs block">班主任 <b class="caret"></b></span> </span> </a>
+                            <ul class="dropdown-menu animated fadeInRight m-t-xs">
+                                <li><a href="#">退出</a></li>
+                            </ul>
+                    </div>
+                    <div class="logo-element">
+                        IN+
+                    </div>
+                </li>
+                <li>
+                    <a href="{% url 'main' 1 %}"><i class="fa fa-th-large"></i> <span class="nav-label">学员管理</span></a>
+                </li>
+                <li class="active">
+                    <a href="#"><i class="fa fa-th-large"></i> <span class="nav-label">其他</span> </a>
+                </li>
+            </ul>
+
+        </div>
+    </nav>
+
+    <div id="page-wrapper" class="gray-bg">
+        <div class="row border-bottom">
+            <nav class="navbar navbar-static-top white-bg" role="navigation" style="margin-bottom: 0">
+                <div class="navbar-header">
+                    <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
+                    <form role="search" class="navbar-form-custom" method="post" action="#">
+                        <div class="form-group">
+                            <input type="text" placeholder="Search for something..." class="form-control" name="top-search" id="top-search">
+                        </div>
+                    </form>
+                </div>
+                <ul class="nav navbar-top-links navbar-right">
+                    <li>
+                        <a href="#">
+                            <i class="fa fa-sign-out"></i> Log out
+                        </a>
+                    </li>
+                </ul>
+
+            </nav>
+        </div>
+        <div class="wrapper wrapper-content animated fadeInRight">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="text-center m-t-lg">
+                        <h1>
+                            欢迎使用学员管理系统
+                        </h1>
+                        <small>可通过系统管理学员，并对学员对应的图库进行相关操作</small>
+                        <div class="ibox-content">
+                                <form action="{% url 'piclist' %}" method="post" enctype="multipart/form-data" class="form-horizontal">
+                                    {% csrf_token %}
+                                        <div class="form-group ">
+                                                <label for="pictitle" class="col-sm-5 control-label">图片标题</label>
+                                                <div class="col-sm-2">
+                                                    <input type="text" class="form-control" id="pictitle"
+                                                           placeholder="图片标题"  >
+                                                </div>
+                                        </div>
+                                        <div class="form-group ">
+                                                <label for="pictitle" class="col-sm-5 control-label">选择上传</label>
+                                                <div class="col-sm-2">
+                                                    <input type="file" class="form-control" name="picname" style="" >
+                                                </div>
+                                        </div>
+                                        <!--<div class="fileinput fileinput-new" data-provides="fileinput">-->
+                                            <!--<span class="btn btn-default btn-file"><span class="fileinput-new">选择文件</span>-->
+                                            <!--<span class="fileinput-exists">变更</span><input type="file" name="..."/></span>-->
+                                            <!--<span class="fileinput-filename"></span>-->
+                                            <!--<a href="#" class="close fileinput-exists" data-dismiss="fileinput" style="float: none">×</a>-->
+                                        <!--</div>-->
+                                         <div class="ibox-footer " >
+                                            <button type="submit" class="btn btn-primary" id="upload">上传</button>
+                                        </div>
+                                </form>
+
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+
+    </div>
+</div>
+
+<!-- Mainly scripts -->
+<script src="/static/resource/js/jquery-3.1.1.min.js"></script>
+<script src="/static/resource/js/bootstrap.min.js"></script>
+<script src="/static/resource/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+<script src="/static/resource/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+                    
+<!-- Custom and plugiresource/n javascript -->
+<script src="/static/resource/js/inspinia.js"></script>
+<script src="/static/resource/js/plugins/pace/pace.min.js"></script>
+
+
+</body>
+
+</html>

@@ -20,9 +20,13 @@ from django.contrib import admin
 
 urlpatterns = [
     url(r'^$', views.index,name="index"),
-    url(r'^main$', views.usermain,name="main"),
-    url(r'^stuedit/', views.stuedit,name="stuedit"),
-    url(r'^stusave/', views.stusave,name="stusave"),
-    # url(r'^stuedit/(?P<uid>[0-9]+)$', views.stuedit, name="stuedit"),
-    # url(r'^stuedel/(?P<uid>[0-9]+)$', views.stuedel,name="stuedel"),
+    url(r'^main/$', views.usermain,name="main"),
+    url(r'^main/(?P<pIndex>[0-9]*)$', views.usermain,name="main"),
+    url(r'^stuedit/$', views.stuedit,name="stuedit"),
+    url(r'^stuedit/(?P<uid>[0-9]+)$', views.stuedit,name="stuedit"),
+    url(r'^stuadd/', views.stuadd,name="stuadd"),
+    # url(r'^stuadd/<int:uid>$', views.stuadd,name="stuadd"),
+    url(r'^piclist/', views.piclist,name="piclist"),
+    url(r'^studel/(?P<uid>[0-9]+)$', views.studel,name="studel"),
+
 ]

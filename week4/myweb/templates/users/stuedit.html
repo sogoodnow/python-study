@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns="http://www.w3.org/1999/html">
 
 <head>
 
@@ -35,14 +35,14 @@
                         </ul>
                     </div>
                     <div class="logo-element">
-                        IN+
+                        相册管理系统
                     </div>
                 </li>
                 <li class="active">
-                    <a href="index.html"><i class="fa fa-th-large"></i> <span class="nav-label">学员管理</span></a>
+                    <a href="{% url 'main'  %}"><i class="fa fa-th-large"></i> <span class="nav-label">学员管理</span></a>
                 </li>
                 <li>
-                    <a href="minor.html"><i class="fa fa-th-large"></i> <span class="nav-label">Minor view</span> </a>
+                    <a href="piclist.html"><i class="fa fa-th-large"></i> <span class="nav-label">Minor view</span> </a>
                 </li>
             </ul>
 
@@ -84,47 +84,61 @@
                         </small>
                         <div class="ibox float-e-margins">
                             <div class="ibox-title">
-                                <h5>学员信息 </h5>
+                                <h5>学员信息 {{id}} </h5>
 
                                 <div class="ibox-tools">
                                 </div>
                             </div>
                             <div class="ibox-content">
-                                <form class="form-horizontal" action="#">
+                                <form class="form-horizontal" >
                                     {% csrf_token %}
+                                    <input  id="uid" type="hidden" value="{{id}}">
                                     <div class="form-group">
                                         <label for="stuname" class="col-sm-4 control-label">姓名</label>
                                         <div class="col-sm-4">
                                             <input type="text" class="form-control" id="stuname"
-                                                   placeholder="姓名">
+                                                   placeholder="姓名" value="{{name}}" >
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label for="stuage" class="col-sm-4 control-label">年龄</label>
                                         <div class="col-sm-4">
                                             <input type="text" class="form-control" id="stuage"
-                                                   placeholder="年龄">
+                                                   placeholder="年龄" value="{{age}}">
                                         </div>
                                     </div>
                                      <div class="form-group">
                                         <label for="stuphone" class="col-sm-4 control-label">电话</label>
                                         <div class="col-sm-4">
                                             <input type="text" class="form-control" id="stuphone"
-                                                   placeholder="电话">
+                                                   placeholder="电话" value="{{phone}}">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="stuclass" class="col-sm-4 control-label">课程</label>
+                                        <div class="col-sm-4">
+                                            <input type="text" class="form-control" id="stuclass"
+                                                   placeholder="课程" value="{{classname}}">
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label for="stusex" class="col-sm-4 control-label">性别</label>
-                                        <div class="col-sm-4">
-                                            <input type="text" class="form-control" id="stusex"
-                                                   placeholder="性别">
-                                        </div>
-                                    </div>
-                                     <div class="form-group">
-                                        <label for="stuclass" class="col-sm-4 control-label">课程</label>
-                                        <div class="col-sm-4">
-                                            <input type="text" class="form-control" id="stuclass"
-                                                   placeholder="课程">
+                                        <div class=" col-sm-4">
+                                            {% if sex == 1  %}
+                                                <label class="radio-inline">
+                                                        <input type="radio" name="sex" id="inlineRadio1" value="1" checked="checked"> 男
+                                                </label>
+                                                <label class="radio-inline">
+                                                        <input type="radio" name="sex" id="inlineRadio2" value="2" > 女
+                                                </label>
+                                            {% else %}
+                                                <label class="radio-inline">
+                                                        <input type="radio" name="sex" id="inlineRadio1" value="1"  > 男
+                                                </label>
+                                                <label class="radio-inline">
+                                                       <input type="radio" name="sex" id="inlineRadio2" value="2" checked="checked"> 女
+                                                </label>
+                                            {% endif %}
                                         </div>
                                     </div>
 
@@ -138,16 +152,6 @@
                         </div>
                     </div>
                 </div>
-{#                <div class="footer">#}
-{#                    <div class="pull-right">#}
-{#                        10GB of <strong>250GB</strong> Free.#}
-{#                    </div>#}
-{#                    <div>#}
-{#                        <strong>Copyright</strong> Example Company &copy; 2014-2017#}
-{#                    </div>#}
-{#                </div>#}
-
-
             </div>
         </div>
 
@@ -165,26 +169,51 @@
                   data: {csrfmiddlewaretoken: '{{ csrf_token }}' },
                 });
             $(function () {
-                {#返回按钮返回列表页面#}
+
+
+                // {#返回按钮返回列表页面#}
                 $("#tomain").click(function () {
                     window.location.href = '{%  url "main"  %}'
                 });
-                {#保存按钮调用保存方法并提示操作成功信息#}
+                // {#保存按钮调用保存方法并提示操作成功信息#}
                 $("#save").click(function () {
-                    {#alert($("#stuname").val())#}
 
-                    $.ajax({
-                        url: "stusave",
-                        data: {name: $("#stuname").val(), age:$("#stuage").val(), phone:$("#stuphone").val(),
-                                sex:$("#stusex").val(), classname:$("#stuclass").val()},
-                        type: "post",
-                        datatype:"json",
-                        success:function (res) {
-                            var a = res["aa"]
-                            alert( a)
-                        }
+                    if($("#uid").val()!="")
+                    {
+                        var suid = $("#uid").val();
+                        $.ajax({
+                            url: '{%  url "stuadd" %}?uid='+suid,
 
-                    });
+                            data: {
+                                name: $("#stuname").val(), age: $("#stuage").val(), phone: $("#stuphone").val(),
+                                sex: $("input[name=sex]:checked").val(), classname: $("#stuclass").val()
+                            },
+                            type: "get",
+                            datatype: "json",
+                            success: function (arg) {
+                                // var a = arg.context.info();
+
+                                alert(arg['info'])
+                            }
+
+                        });
+                    }else {
+                            $.ajax({
+                            url: '{%  url "stuadd"  %}',
+                            data: {
+                                name: $("#stuname").val(), age: $("#stuage").val(), phone: $("#stuphone").val(),
+                                sex: $("input[name=sex]:checked").val(), classname: $("#stuclass").val()
+                            },
+                            type: "POST",
+                            datatype: "json",
+                            success: function (arg) {
+                                // var a = arg.context.info();
+
+                                alert(arg['info'])
+                            }
+
+                        });
+                    }
                 });
 
             })
