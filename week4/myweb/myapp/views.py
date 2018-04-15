@@ -8,26 +8,30 @@ import os,time
 def index(request):
     return render(request, "index.html")
 
-def piclist(request):
-    myfile = request.FILES.get("picname",None)
-    if not myfile:
-        return HttpResponse("没有文件！")
-    filename = str(time.time())+'.'+myfile.name.split('.').pop()
-    try:
-        savepath = open('./static/img/'+filename,'wb+')
-        for ch in myfile.chunks():
-            savepath.write(ch)
-        savepath.close()
-        print(os.path.dirname(os.path.abspath(__file__)))
-    except IOError:
-        return HttpResponse("文件保存失败！")
+def piclist(request,uid=0):
+    print(uid)
+    return render(request,"users/piclist.html",{"uid":str(uid)})
 
-    im = Image.open("./static/img/"+filename)
-    im.thumbnail((75,75))
-    im.save("./static/img/s_"+filename)
-
-
-    return render(request, "users/piclist.html")
+def savefile(request,uid=0):
+    if uid!=0:
+        myfile = request.FILES.get("picname",None)
+        if not myfile:
+            return HttpResponse("没有文件！")
+        filename = str(uid)+'_'+str(time.time())+'.'+myfile.name.split('.').pop()
+        try:
+            savepath = open('./static/img/'+filename,'wb+')
+            for ch in myfile.chunks():
+                savepath.write(ch)
+            savepath.close()
+            print(os.path.dirname(os.path.abspath(__file__)))
+        except IOError:
+            return HttpResponse("文件保存失败！"+IOError)
+        im = Image.open("./static/img/"+filename)
+        im.thumbnail((75,75))
+        im.save("./static/img/s_"+filename)
+        return render(request, "users/piclist.html")
+    else:
+        return HttpResponse("没有该学生图库")
 
 def usermain(request, pIndex=1):
     try:
