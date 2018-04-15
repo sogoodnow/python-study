@@ -29,5 +29,6 @@ urlpatterns = [
     url(r'^picupload/(?P<uid>[0-9]+)$', views.picupload,name="picupload"),
     url(r'^studel/(?P<uid>[0-9]+)$', views.studel,name="studel"),
     url(r'^savefile/(?P<uid>[0-9]+)$', views.savefile, name="savefile"),
+    url(r'^piclist/(?P<uid>[0-9]+)$', views.piclist,name="piclist"),
 
 ]

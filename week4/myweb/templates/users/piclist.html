@@ -1,4 +1,6 @@
+
 <!DOCTYPE html>
+{% load static %}
 <html>
 
 <head>
@@ -108,67 +110,43 @@
                         </small>
                         <div class="ibox float-e-margins">
                             <div class="ibox-title">
-                                <h5>学员信息 </h5>
+                                <h5>学员图库 </h5>
 
                                 <div class="ibox-tools">
-
-{#                                    <a class="collapse-link">#}
-{#                                        <i class="fa fa-chevron-up"></i>#}
-{#                                    </a>#}
-{#                                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">#}
-{#                                        <i class="fa fa-wrench"></i>#}
-{#                                    </a>#}
-{#                                    <ul class="dropdown-menu dropdown-user">#}
-{#                                        <li><a href="#">Config option 1</a>#}
-{#                                        </li>#}
-{#                                        <li><a href="#">Config option 2</a>#}
-{#                                        </li>#}
-{#                                    </ul>#}
-{#                                    <a class="close-link">#}
-{#                                        <i class="fa fa-times"></i>#}
-{#                                    </a>#}
-
                                 </div>
                             </div>
                             <div class="ibox-content">
                                 <table id="tb1" class="table table-bordered">
                                     <tr>
                                         <th width="50px" style="text-align: center">编号</th>
-                                        <th width="70px" style="text-align: center">姓名</th>
-                                        <th width="50px" style="text-align: center">年龄</th>
-                                        <th width="50px" style="text-align: center">性别</th>
-                                        <th width="100px" style="text-align: center">电话</th>
-                                        <th width="200px" style="text-align: center">课程</th>
-                                        <th width="150px" style="text-align: center">图库</th>
+                                        <th width="150px" style="text-align: center">图片标题</th>
+                                        <th width="150px" style="text-align: center">缩略图</th>
+                                        <th width="100px" style="text-align: center">更新时间</th>
                                         <th width="150px" style="text-align: center">操作</th>
                                     </tr>
-                                    {% for i in plist %}
+                                    {% for i in pics %}
                                         <tr class="del">
+                                            <!--<td width="50px">{{ i.id }}</td>-->
                                             <td width="50px">{{ i.id }}</td>
-                                            <td width="70px">{{ i.name }}</td>
-                                            <td width="50px">{{ i.age }}</td>
-                                            <td width="50px">{%  if i.sex == 1 %} 男 {% else %} 女 {% endif %}</td>
-                                            <td width="100px">{{ i.phone }}</td>
-                                            <td width="200px">{{ i.classname }}</td>
+                                            <td width="150px">{{ i.pictitle }}</td>
+                                            <!--<td width="150px"><img src='{{ i.spicname }}' alt=" "></td>-->
+                                            <td width="150px"><img src='{% static i.spicname %}' alt=" "></td>
+                                            <td width="100px">{{ i.updatetime }}</td>
                                             <td width="150px">
-                                                <a href="{% url 'picupload' i.id %}">进入图库</a>&nbsp&nbsp&nbsp
-                                                <a href="{% url 'picupload' i.id %}">上传图片</a>
-                                            </td>
-                                            <td width="150px">
-                                                <a href="{% url 'stuedit' i.id %}">编辑</a> &nbsp; &nbsp;
-                                                <a  href='javascript:delstu("{% url 'studel' i.id %}")'>删除</a>
+                                                <a href="#">更改</a>&nbsp&nbsp&nbsp
+                                                <a href="#">删除</a>
                                             </td>
                                         </tr>
                                     {% endfor %}
 
                                 </table>
-                            {% for i in pnums %}
-                                {% if i == pIndex %}
-                                    {{ i }}
-                                {% else %}
-                                <a href="{% url 'main' i %}">{{ i }}</a>
-                                {% endif %}
-                            {% endfor %}
+                            <!--{% for i in pnums %}-->
+                                <!--{% if i == pIndex %}-->
+                                    <!--{{ i }}-->
+                                <!--{% else %}-->
+                                <!--<a href="{% url 'main' i %}">{{ i }}</a>-->
+                                <!--{% endif %}-->
+                            <!--{% endfor %}-->
                             </div>
                             <div class="ibox-footer " >
                                 <button id = "addstu" type="button" class="btn btn-primary">添加学员</button>
@@ -204,9 +182,9 @@
                   data: {csrfmiddlewaretoken: '{{ csrf_token }}' },
                 });
             $(function () {
-                $("#addstu").click(function () {
-                    window.location.href = '{%  url "stuedit"  %}'
-                 });
+                // $("#addstu").click(function () {
+                //     window.location.href = '{%  url "stuedit"  %}'
+                //  });
 
 
             })

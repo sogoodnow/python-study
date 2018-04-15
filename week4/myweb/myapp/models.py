@@ -1,4 +1,4 @@
-from django.db import models
+from django.db import models,connection
 import PIL
 # Create your models here.
 
@@ -31,3 +31,4 @@ class Pics(models.Model):
         return "学员id：{} 图片标题：{} 图片名称：{} 小图片名称：{} 更新时间：{} ".format(self.uid,self.pictitle,self.bpicname,self.spicname,self.updatetime)
     class Meta:
         db_table = "pics" #数据库表名
+        ordering = ['id']

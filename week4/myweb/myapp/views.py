@@ -8,6 +8,13 @@ import os,time
 def index(request):
     return render(request, "index.html")
 
+def piclist(request,uid):
+    pics = Pics.objects.all().filter(uid = uid)
+    content = {"pics":pics}
+
+    return  render(request,"users/piclist.html",content)
+
+
 def picupload(request,uid=0):
     print(uid)
     return render(request,"users/picupload.html",{"uid":uid})
@@ -42,8 +49,8 @@ def savefile(request,uid):
             # 保存成功后，将信息存入数据库
             pic = Pics()
             pic.pictitle = title
-            pic.bpicname = './static/img/'+filename
-            pic.spicname = './static/img/s_'+filename
+            pic.bpicname = 'img/'+filename
+            pic.spicname = 'img/s_'+filename
             pic.updatetime = da
             pic.uid = uid
             pic.save()
