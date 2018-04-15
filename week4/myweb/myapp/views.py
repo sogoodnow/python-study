@@ -8,28 +8,49 @@ import os,time
 def index(request):
     return render(request, "index.html")
 
-def piclist(request,uid=0):
+def picupload(request,uid=0):
     print(uid)
-    return render(request,"users/piclist.html",{"uid":str(uid)})
+    return render(request,"users/picupload.html",{"uid":uid})
 
-def savefile(request,uid=0):
+def savefile(request,uid):
+
+    # 获取当前时间
+    time_now = int(time.time())
+    time_local = time.localtime(time_now)
+    da = time.strftime("%Y-%m-%d-%H-%M-%S",time_local)
+    # 获取页面上的学员id
     if uid!=0:
+        # 获取图片标题
+        title = request.POST["pictitle"]
+        # 获取上传文件
         myfile = request.FILES.get("picname",None)
-        if not myfile:
+        if not myfile:  # 文件为空
             return HttpResponse("没有文件！")
-        filename = str(uid)+'_'+str(time.time())+'.'+myfile.name.split('.').pop()
+        # 文件名称的定义：学员id+当前时间+文件后缀
+        filename = str(uid)+'_'+str(da)+'.'+myfile.name.split('.').pop()
+        # 保存文件至服务器stati/img目录
         try:
+            # 保存操作
             savepath = open('./static/img/'+filename,'wb+')
             for ch in myfile.chunks():
                 savepath.write(ch)
             savepath.close()
-            print(os.path.dirname(os.path.abspath(__file__)))
-        except IOError:
-            return HttpResponse("文件保存失败！"+IOError)
-        im = Image.open("./static/img/"+filename)
-        im.thumbnail((75,75))
-        im.save("./static/img/s_"+filename)
-        return render(request, "users/piclist.html")
+            # 生成小图操作
+            im = Image.open("./static/img/" + filename)
+            im.thumbnail((75, 75))
+            im.save("./static/img/s_" + filename)
+            # 保存成功后，将信息存入数据库
+            pic = Pics()
+            pic.pictitle = title
+            pic.bpicname = './static/img/'+filename
+            pic.spicname = './static/img/s_'+filename
+            pic.updatetime = da
+            pic.uid = uid
+            pic.save()
+        except Exception as e:
+            return HttpResponse("文件保存失败！"+e)
+        # 操作完成后
+        return render(request, "users/picupload.html",{"uid":uid})
     else:
         return HttpResponse("没有该学生图库")
 

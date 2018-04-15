@@ -6,13 +6,35 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>模板</title>
+    <title>相册管理系统</title>
 
     <link href="/static/resource/css/bootstrap.min.css" rel="stylesheet">
     <link href="/static/resource/font-awesome/css/font-awesome.css" rel="stylesheet">
 
     <link href="/static/resource/css/animate.css" rel="stylesheet">
     <link href="/static/resource/css/style.css" rel="stylesheet">
+    <style>
+        .del{}
+    </style>
+    <script>
+
+            // 删除用户
+            function delstu(surl){
+                    // alert(surl)
+                if(confirm("是否删除？")) {
+                    $.ajax({
+                        url: surl,
+                        type: "get",
+                        datatype: 'json',
+                        success: function (arg) {
+                            alert(arg.info);
+                            window.location.reload()
+                            // window.location.href={%  url  "main"  %};
+                        }
+                    });
+                }else{return }
+            }
+    </script>
 
 </head>
 
@@ -25,22 +47,24 @@
             <ul class="nav metismenu" id="side-menu">
                 <li class="nav-header">
                     <div class="dropdown profile-element">
-                            <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                            <span class="clear"> <span class="block m-t-xs"> <strong class="font-bold">管理员</strong>
-                             </span> <span class="text-muted text-xs block">班主任 <b class="caret"></b></span> </span> </a>
-                            <ul class="dropdown-menu animated fadeInRight m-t-xs">
-                                <li><a href="#">退出</a></li>
-                            </ul>
+                        <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                            <span class="clear"> <span class="block m-t-xs"> <strong
+                                    class="font-bold">管理员</strong>
+                             </span> <span class="text-muted text-xs block">班主任 <b
+                                    class="caret"></b></span> </span> </a>
+                        <ul class="dropdown-menu animated fadeInRight m-t-xs">
+                            <li><a href="#">Logout</a></li>
+                        </ul>
                     </div>
                     <div class="logo-element">
-                        IN+
+                        管理系统
                     </div>
                 </li>
-                <li>
-                    <a href="{% url 'main' 1 %}"><i class="fa fa-th-large"></i> <span class="nav-label">学员管理</span></a>
-                </li>
                 <li class="active">
-                    <a href="#"><i class="fa fa-th-large"></i> <span class="nav-label">其他</span> </a>
+                    <a href="{% url 'main'  %}"><i class="fa fa-th-large"></i> <span class="nav-label">学员管理</span></a>
+                </li>
+                <li>
+                    <a href="picupload.html"><i class="fa fa-th-large"></i> <span class="nav-label">Minor view</span> </a>
                 </li>
             </ul>
 
@@ -51,17 +75,21 @@
         <div class="row border-bottom">
             <nav class="navbar navbar-static-top white-bg" role="navigation" style="margin-bottom: 0">
                 <div class="navbar-header">
-                    <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
+                    <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i>
+                    </a>
                     <form role="search" class="navbar-form-custom" method="post" action="#">
                         <div class="form-group">
-                            <input type="text" placeholder="开始搜索..." class="form-control" name="top-search" id="top-search">
+                            <input type="text" placeholder="学员搜索" class="form-control"
+                                   name="top-search" id="top-search">
+
                         </div>
+
                     </form>
                 </div>
                 <ul class="nav navbar-top-links navbar-right">
                     <li>
                         <a href="#">
-                            <i class="fa fa-sign-out"></i> Log out
+                            <i class="fa fa-sign-out"></i> 退出
                         </a>
                     </li>
                 </ul>
@@ -70,65 +98,125 @@
         </div>
         <div class="wrapper wrapper-content animated fadeInRight">
             <div class="row">
-                <div class="col-md-12">
+                <div class="col-lg-12">
                     <div class="text-center m-t-lg">
                         <h1>
                             欢迎使用学员管理系统
                         </h1>
-                        <small>可通过系统管理学员，并对学员对应的图库进行相关操作</small>
+                        <small>
+                            可通过系统管理学员，并对学员对应的图库进行相关操作
+                        </small>
+                        <div class="ibox float-e-margins">
+                            <div class="ibox-title">
+                                <h5>学员信息 </h5>
 
-                        <div class="ibox-content">
-                                <form action="{% url 'savefile'  uid   %}" method="post" enctype="multipart/form-data" class="form-horizontal">
-                                    {% csrf_token %}
-                                    {{ uid }}
-                                        <div class="form-group ">
-                                                <label for="pictitle" class="col-sm-5 control-label">图片标题</label>
-                                                <div class="col-sm-2">
-                                                    <input type="text" class="form-control" name="pictitle" id="pictitle"
-                                                           placeholder="图片标题"  >
-                                                </div>
-                                        </div>
-                                        <div class="form-group ">
-                                                <label for="picname" class="col-sm-5 control-label">选择上传</label>
-                                                <div class="col-sm-2">
-                                                    <input type="file" class="form-control" name="picname" id="picname" style="" >
-                                                </div>
-                                        </div>
-                                        <!--<div class="fileinput fileinput-new" data-provides="fileinput">-->
-                                            <!--<span class="btn btn-default btn-file"><span class="fileinput-new">选择文件</span>-->
-                                            <!--<span class="fileinput-exists">变更</span><input type="file" name="..."/></span>-->
-                                            <!--<span class="fileinput-filename"></span>-->
-                                            <!--<a href="#" class="close fileinput-exists" data-dismiss="fileinput" style="float: none">×</a>-->
-                                        <!--</div>-->
-                                         <div class="ibox-footer " >
-                                            <button type="submit" class="btn btn-primary" id="upload">上传</button>
-                                        </div>
-                                </form>
+                                <div class="ibox-tools">
 
+{#                                    <a class="collapse-link">#}
+{#                                        <i class="fa fa-chevron-up"></i>#}
+{#                                    </a>#}
+{#                                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">#}
+{#                                        <i class="fa fa-wrench"></i>#}
+{#                                    </a>#}
+{#                                    <ul class="dropdown-menu dropdown-user">#}
+{#                                        <li><a href="#">Config option 1</a>#}
+{#                                        </li>#}
+{#                                        <li><a href="#">Config option 2</a>#}
+{#                                        </li>#}
+{#                                    </ul>#}
+{#                                    <a class="close-link">#}
+{#                                        <i class="fa fa-times"></i>#}
+{#                                    </a>#}
+
+                                </div>
+                            </div>
+                            <div class="ibox-content">
+                                <table id="tb1" class="table table-bordered">
+                                    <tr>
+                                        <th width="50px" style="text-align: center">编号</th>
+                                        <th width="70px" style="text-align: center">姓名</th>
+                                        <th width="50px" style="text-align: center">年龄</th>
+                                        <th width="50px" style="text-align: center">性别</th>
+                                        <th width="100px" style="text-align: center">电话</th>
+                                        <th width="200px" style="text-align: center">课程</th>
+                                        <th width="150px" style="text-align: center">图库</th>
+                                        <th width="150px" style="text-align: center">操作</th>
+                                    </tr>
+                                    {% for i in plist %}
+                                        <tr class="del">
+                                            <td width="50px">{{ i.id }}</td>
+                                            <td width="70px">{{ i.name }}</td>
+                                            <td width="50px">{{ i.age }}</td>
+                                            <td width="50px">{%  if i.sex == 1 %} 男 {% else %} 女 {% endif %}</td>
+                                            <td width="100px">{{ i.phone }}</td>
+                                            <td width="200px">{{ i.classname }}</td>
+                                            <td width="150px">
+                                                <a href="{% url 'picupload' i.id %}">进入图库</a>&nbsp&nbsp&nbsp
+                                                <a href="{% url 'picupload' i.id %}">上传图片</a>
+                                            </td>
+                                            <td width="150px">
+                                                <a href="{% url 'stuedit' i.id %}">编辑</a> &nbsp; &nbsp;
+                                                <a  href='javascript:delstu("{% url 'studel' i.id %}")'>删除</a>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+
+                                </table>
+                            {% for i in pnums %}
+                                {% if i == pIndex %}
+                                    {{ i }}
+                                {% else %}
+                                <a href="{% url 'main' i %}">{{ i }}</a>
+                                {% endif %}
+                            {% endfor %}
+                            </div>
+                            <div class="ibox-footer " >
+                                <button id = "addstu" type="button" class="btn btn-primary">添加学员</button>
+                            </div>
                         </div>
-
                     </div>
                 </div>
+<!--{#                <div class="footer">#}-->
+<!--{#                    <div class="pull-right">#}-->
+<!--{#                        10GB of <strong>250GB</strong> Free.#}-->
+<!--{#                    </div>#}-->
+<!--{#                    <div>#}-->
+<!--{#                        <strong>Copyright</strong> Example Company &copy; 2014-2017#}-->
+<!--{#                    </div>#}-->
+<!--{#                </div>#}-->
+
 
             </div>
-
         </div>
 
+        <!-- Mainly scripts -->
+        <script src="/static/resource/js/jquery-3.1.1.min.js"></script>
+        <script src="/static/resource/js/bootstrap.min.js"></script>
+        <script src="/static/resource/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+        <script src="/static/resource/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
 
+        <!-- Custom and plugin javascript -->
+        <script src="/static/resource/js/inspinia.js"></script>
+        <script src="/static/resource/js/plugins/pace/pace.min.js"></script>
+        <script>
+
+            $.ajaxSetup({
+                  data: {csrfmiddlewaretoken: '{{ csrf_token }}' },
+                });
+            $(function () {
+                $("#addstu").click(function () {
+                    window.location.href = '{%  url "stuedit"  %}'
+                 });
+
+
+            })
+
+
+
+
+        </script>
     </div>
 </div>
-
-<!-- Mainly scripts -->
-<script src="/static/resource/js/jquery-3.1.1.min.js"></script>
-<script src="/static/resource/js/bootstrap.min.js"></script>
-<script src="/static/resource/js/plugins/metisMenu/jquery.metisMenu.js"></script>
-<script src="/static/resource/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
-                    
-<!-- Custom and plugiresource/n javascript -->
-<script src="/static/resource/js/inspinia.js"></script>
-<script src="/static/resource/js/plugins/pace/pace.min.js"></script>
-
-
 </body>
 
 </html>

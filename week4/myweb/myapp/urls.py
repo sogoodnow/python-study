@@ -21,16 +21,13 @@ from django.contrib import admin
 urlpatterns = [
     url(r'^$', views.index,name="index"),
     url(r'^main/$', views.usermain,name="main"),
-
-    url(r'^savefile/(?P<uid>[0-9]+)$', views.savefile,name="savefile"),
     url(r'^main/(?P<pIndex>[0-9]+)$', views.usermain,name="main"),
     url(r'^stuedit/$', views.stuedit,name="stuedit"),
     url(r'^stuedit/(?P<uid>[0-9]+)$', views.stuedit,name="stuedit"),
     url(r'^stuadd/', views.stuadd,name="stuadd"),
-    # url(r'^stuadd/<int:uid>$', views.stuadd,name="stuadd"),
-    url(r'^piclist/$', views.piclist,name="piclist"),
-    url(r'^piclist/(?P<uid>[0-9]+)$', views.piclist,name="piclist"),
-
+    url(r'^picupload/$', views.picupload,name="picupload"),
+    url(r'^picupload/(?P<uid>[0-9]+)$', views.picupload,name="picupload"),
     url(r'^studel/(?P<uid>[0-9]+)$', views.studel,name="studel"),
+    url(r'^savefile/(?P<uid>[0-9]+)$', views.savefile, name="savefile"),
 
 ]
