@@ -1,5 +1,6 @@
 from django.shortcuts import render,HttpResponse,reverse,redirect
 from django.http import JsonResponse
+from django.conf import settings
 from . models import *
 from PIL import Image
 from django.core.paginator import Paginator
@@ -8,11 +9,74 @@ import os,time
 def index(request):
     return render(request, "index.html")
 
-def picupdata(request,pid):
-    # if pid != 0:
-    #     # 根据图片id检索数据库该图片信息
+def picdel(request,pid):
+    pic = Pics.objects.get(id=pid)
+    sname = "static/"+pic.spicname
+    bname = "static/"+pic.bpicname
+    try:
+        if os.path.exists(sname):
+            os.remove(sname)
+        if os.path.exists(bname):
+            os.remove(bname)
+        pic.delete()
+        return HttpResponse("图片删除成功！")
+    except:
+        return HttpResponse("图片删除失败！")
 
-    pass
+def picupdata(request,pid = 0):
+    # 根据图片id检索数据库该图片信息
+    if request.method=="GET":
+        pid = request.GET["pid"]
+        pictitle = request.GET["pictitle"]
+        bpicname = request.GET["bpicname"]
+        content = {"pid":pid, "pictitle":pictitle, "bpicname":bpicname}
+        # 跳转至更新上传页面
+        return render(request,"users/picupdata.html",content)
+    else:
+        # 获取当前时间
+        time_now = int(time.time())
+        time_local = time.localtime(time_now)
+        da = time.strftime("%Y-%m-%d-%H-%M-%S", time_local)
+
+        # 获取该图片原来的数据库信息
+        pic = Pics.objects.get(id = pid)
+
+        # 更新图片标题
+        pic.pictitle = request.POST["pictitle"]
+        uid = pic.uid # 用户id，用于图片名称规则
+
+        # 获取上传文件
+        myfile = request.FILES.get("picname", None)
+        if not myfile:  # 文件为空
+            return HttpResponse("没有文件！")
+
+        # 文件名称的定义：学员id+当前时间+文件后缀
+        print(str(myfile))
+        # 文件名规则为用户id+“_”+时间
+        filename = str(uid) + '_' + str(da) + '.' + myfile.name.split('.').pop()
+        # 保存文件至服务器stati/img目录
+        try:
+            # 保存操作
+            savepath = open('./static/img/' + filename, 'wb+')
+            for ch in myfile.chunks():
+                savepath.write(ch)
+            savepath.close()
+            # 生成小图操作
+            im = Image.open("./static/img/" + filename)
+            im.thumbnail((75, 75))
+            im.save("./static/img/s_" + filename)
+
+            # 保存成功后，更新数据库
+            pic.bpicname = 'img/' + filename
+            pic.spicname = 'img/s_' + filename
+            pic.updatetime = da
+            pic.uid = uid
+            pic.save()
+            return redirect(reverse("piclist",args=(uid,)))
+        except Exception as e:
+            return HttpResponse("文件保存失败！" + e)
+
+
 
 def piclist(request,uid):
     pics = Pics.objects.all().filter(uid = uid)
