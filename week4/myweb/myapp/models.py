@@ -22,11 +22,11 @@ class Pics(models.Model):
     """
     图片表
     """
-    uid = models.IntegerField(name="uid")                           #学员id
-    pictitle = models.CharField(max_length=45,name="pictitle")      #图片标题
+    uid = models.IntegerField(name="uid")                             #学员id
+    pictitle = models.CharField(max_length=45,name="pictitle")        #图片标题
     bpicname = models.CharField(max_length=45,name="bpicname")        #图片名称
-    spicname = models.CharField(max_length=45,name="spicname")      #小图片名称
-    updatetime = models.CharField(max_length=40,name="updatetime")     #更新时间
+    spicname = models.CharField(max_length=45,name="spicname")        #小图片名称
+    updatetime = models.CharField(max_length=40,name="updatetime")    #更新时间
     def __str__(self):
         return "学员id：{} 图片标题：{} 图片名称：{} 小图片名称：{} 更新时间：{} ".format(self.uid,self.pictitle,self.bpicname,self.spicname,self.updatetime)
     class Meta:

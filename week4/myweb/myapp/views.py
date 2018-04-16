@@ -8,6 +8,12 @@ import os,time
 def index(request):
     return render(request, "index.html")
 
+def picupdata(request,pid):
+    # if pid != 0:
+    #     # 根据图片id检索数据库该图片信息
+
+    pass
+
 def piclist(request,uid):
     pics = Pics.objects.all().filter(uid = uid)
     content = {"pics":pics}
