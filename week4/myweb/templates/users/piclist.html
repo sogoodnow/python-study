@@ -133,7 +133,8 @@
                                             <td width="150px"><img src='{% static i.spicname %}' alt=" "></td>
                                             <td width="100px">{{ i.updatetime }}</td>
                                             <td width="150px">
-                                                <a href="{% url "picupdata" i.id %}">更改</a>&nbsp&nbsp&nbsp
+                                                <a href="{% url "picupdata" %}?pid={{ i.id }}&pictitle={{ i.pictitle }}&bpicname={{ i.bpicname }}">
+                                                    更改</a>&nbsp&nbsp&nbsp
                                                 <a href="#">删除</a>
                                             </td>
                                         </tr>
