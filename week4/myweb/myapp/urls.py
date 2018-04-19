@@ -31,5 +31,7 @@ urlpatterns = [
     url(r'^savefile/(?P<uid>[0-9]+)$', views.savefile, name="savefile"),
     url(r'^piclist/(?P<uid>[0-9]+)$', views.piclist,name="piclist"),
     url(r'^picupdata/(?P<pid>[0-9]+)$', views.picupdata,name="picupdata"),
+    url(r'^picupdata/$', views.picupdata,name="picupdata"),
+    url(r'^picdel/(?P<pid>[0-9]+)$', views.picdel,name="picdel"),
 
 ]

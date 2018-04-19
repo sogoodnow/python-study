@@ -133,9 +133,9 @@
                                             <td width="150px"><img src='{% static i.spicname %}' alt=" "></td>
                                             <td width="100px">{{ i.updatetime }}</td>
                                             <td width="150px">
-                                                <a href="{% url "picupdata" %}?pid={{ i.id }}&pictitle={{ i.pictitle }}&bpicname={{ i.bpicname }}">
+                                                <a href="{% url 'picupdata' %}?pid={{ i.id }}&pictitle={{ i.pictitle }}&bpicname={{ i.bpicname }}">
                                                     更改</a>&nbsp&nbsp&nbsp
-                                                <a href="#">删除</a>
+                                                <a href="{% url 'picdel' i.id %}">删除</a>
                                             </td>
                                         </tr>
                                     {% endfor %}
@@ -149,9 +149,7 @@
                                 <!--{% endif %}-->
                             <!--{% endfor %}-->
                             </div>
-                            <div class="ibox-footer " >
-                                <button id = "addstu" type="button" class="btn btn-primary">添加学员</button>
-                            </div>
+                                <button type="button" class="btn btn-primary" id="tomain">返回</button>
                         </div>
                     </div>
                 </div>
@@ -186,6 +184,10 @@
                 // $("#addstu").click(function () {
                 //     window.location.href = '{%  url "stuedit"  %}'
                 //  });
+                // {#返回按钮返回列表页面#}
+                $("#tomain").click(function () {
+                    window.location.href = '{%  url "main"  %}'
+                });
 
 
             })
