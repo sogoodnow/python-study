@@ -6,7 +6,7 @@
 </h3>
 <form id="edit-profile" action="{% url 'myadmin_users_insert' %}" class="form-horizontal" method="post">
     {% csrf_token %}
-    <fieldset>
+
         <legend>添加会员信息</legend>
         <div class="control-group">
             <label class="control-label" for="input01">账号：</label>
@@ -67,4 +67,5 @@
             <button type="submit" class="btn btn-primary">添加</button>
             <button type="reset" class="btn">重置</button>
         </div>
+</form>
 {% endblock %}

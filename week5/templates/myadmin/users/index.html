@@ -15,7 +15,7 @@
 							</tr>
 						</thead>
 						<tbody>
-                            {% for i in userslist %}
+                            {% for i in plist %}
 							    <tr>
 								<td>{{ i.id }}</td>
 								<td>{{ i.username }}</td>
@@ -30,7 +30,8 @@
                                 </td>
 								<td>{{ i.email }}</td>
 								<td>
-                                    <a href="#" class="view-link">编辑</a>
+									<a href="{% url 'myadmin_users_restpwd' i.id %}" class="view-link">修改密码</a>
+                                    <a href="{% url 'myadmin_users_edit' i.id %}" class="view-link">编辑</a>
 									<a href="{% url 'myadmin_users_del' i.id %}" class="view-link">删除</a>
 
 								</td>
@@ -38,5 +39,24 @@
                             {% endfor %}
 						</tbody>
 					</table>
+					<div >
+						<ul>
+
+							{% for i in pnums %}
+                                {% if i == pIndex %}
+									<li class="disabled">
+										{{ i }}&nbsp&nbsp&nbsp
+									</li>
+
+                                {% else %}
+									<li class="active">
+											<a href="{% url 'myadmin_users_index' i %}">{{ i }}&nbsp&nbsp&nbsp</a>
+									</li>
+                                {% endif %}
+                            {% endfor %}
+
+						</ul>
+
+					</div>
 
 {% endblock mainbody %}

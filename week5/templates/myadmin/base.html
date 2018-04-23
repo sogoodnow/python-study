@@ -84,13 +84,13 @@
 								导航栏
 							</li>
 							<li class="active">
-								<a href="{% url 'myadmin_index' %}"><i class="icon-white icon-home"></i> 首页</a>
+								<a href="{% url 'myadmin_index'  %}"><i class="icon-white icon-home"></i> 首页</a>
 							</li>
                             	<li class="nav-header">
 								会员管理
 							</li>
 							<li>
-								<a href="{% url 'myadmin_users_index' %}"><i class="icon-folder-open"></i> 浏览会员</a>
+								<a href="{% url 'myadmin_users_index' 1 %}"><i class="icon-folder-open"></i> 浏览会员</a>
 							</li>
 							<li>
 								<a href="{% url 'myadmin_users_add' %}"><i class="icon-check"></i> 添加会员</a>
@@ -137,5 +137,8 @@
 		<script src="{% static 'myadmin/js/jquery.min.js' %}"></script>
 		<script src="{% static 'myadmin/js/bootstrap.min.js' %}"></script>
 		<script src="{% static 'myadmin/js/site.js' %}"></script>
+		{% block script %}
+		{% endblock %}
+
 	</body>
 </html>
