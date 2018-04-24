@@ -2,8 +2,12 @@ from django.conf.urls import url,include
 from .views import index,users
 
 urlpatterns = [
+
     # 后台首页
     url(r'^$',index.index ,name="myadmin_index"),
+    url(r'^login$',index.login ,name="myadmin_login"),
+    url(r'^dologin$',index.dologin ,name="myadmin_dologin"),
+    url(r'^logout$',index.logout ,name="myadmin_logout"),
     url(r'^users/(?P<pIndex>[0-9]+)$',users.index ,name="myadmin_users_index"),
     url(r'^users/add$',users.add ,name="myadmin_users_add"),
     url(r'^users/insert$',users.insert ,name="myadmin_users_insert"),

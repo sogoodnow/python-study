@@ -39,24 +39,14 @@
                             {% endfor %}
 						</tbody>
 					</table>
-					<div >
-						<ul>
-
+					<div style="text-align: center;text-decoration: none">
 							{% for i in pnums %}
                                 {% if i == pIndex %}
-									<li class="disabled">
 										{{ i }}&nbsp&nbsp&nbsp
-									</li>
-
                                 {% else %}
-									<li class="active">
 											<a href="{% url 'myadmin_users_index' i %}">{{ i }}&nbsp&nbsp&nbsp</a>
-									</li>
                                 {% endif %}
                             {% endfor %}
-
-						</ul>
-
 					</div>
 
 {% endblock mainbody %}

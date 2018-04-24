@@ -1,0 +1,30 @@
+
+<!DOCTYPE html>
+{% load static from staticfiles %}
+<!--[if lt IE 7 ]><html lang="en" class="ie6 ielt7 ielt8 ielt9"><![endif]--><!--[if IE 7 ]><html lang="en" class="ie7 ielt8 ielt9"><![endif]--><!--[if IE 8 ]><html lang="en" class="ie8 ielt9"><![endif]--><!--[if IE 9 ]><html lang="en" class="ie9"> <![endif]--><!--[if (gt IE 9)|!(IE)]><!-->
+<html lang="ch"><!--<![endif]-->
+	<head>
+		<meta charset="utf-8">
+		<title>Login - Akira</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link href="{% static 'myadmin/css/bootstrap.min.css' %}" rel="stylesheet">
+		<link href="{% static 'myadmin/css/bootstrap-responsive.min.css' %}" rel="stylesheet">
+		<link href="{% static 'myadmin/css/site.css' %}" rel="stylesheet">
+		<!--[if lt IE 9]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	</head>
+	<body>
+		<div id="login-page" class="container">
+			<h1>后台管理登录</h1>
+			<form id="login-form" class="well" action="index.htm">
+			<input type="text" class="span2" placeholder="用户名" /><br />
+			<input type="password" class="span2" placeholder="密码" /><br />
+			<label class="checkbox"> <input type="checkbox" /> 记住我 </label>
+			<button type="submit" class="btn btn-primary">登录</button>
+			<button type="submit" class="btn">忘记密码</button>
+		</form>
+		</div>
+		<script src="{% static 'myadmin/js/jquery.min.js' %}"></script>
+		<script src="{% static 'myadmin/js/bootstrap.min.js' %}"></script>
+		<script src="{% static 'myadmin/js/site.js' %}"></script>
+	</body>
+</html>
