@@ -63,10 +63,10 @@
 							</form>
 							<ul class="nav pull-right">
 								<li>
-									<a href="profile.htm">@管理员</a>
+									<a href="profile.htm">{{ request.session.adminuser.name }}</a>
 								</li>
 								<li>
-									<a href="login.htm">退出</a>
+									<a href="{% url 'myadmin_logout' %}">退出</a>
 								</li>
 							</ul>
 						</div>

@@ -14,5 +14,8 @@ class Users(models.Model):
     state = models.IntegerField(default=1)
     addtime = models.DateTimeField(default=datetime.now())
 
+    def toDict(self):
+        return {'id': self.id, 'username': self.username, 'name': self.name, 'password': self.password,
+                'address': self.address, 'phone': self.phone, 'email': self.email, 'state': self.state}
     class Meta:
         db_table = "users"
