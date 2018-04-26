@@ -4,6 +4,9 @@ from common.models import Users
 
 
 # Create your views here.
+def verify(request):
+    return render(request,"myadmin/index.html")
+
 def index(request):
     return render(request,"myadmin/index.html")
 
