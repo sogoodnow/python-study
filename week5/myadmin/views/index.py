@@ -25,21 +25,22 @@ def verify(request):
         fill = (random.randrange(0, 255), 255, random.randrange(0, 255))
         draw.point(xy, fill=fill)
     # 定义验证码的备选值
-    str1 = 'ABCD123EFGHIJK456LMNOPQRS789TUVWXYZ0'
+    # str1 = 'ABCD123EFGHIJK456LMNOPQRS789TUVWXYZ0'
+    str1 = '0123456789'
     # 随机选取4个值作为验证码
     rand_str = ''
     for i in range(0, 4):
         rand_str += str1[random.randrange(0, len(str1))]
     # 构造字体对象，ubuntu的字体路径为“/usr/share/fonts/truetype/freefont”
-    font = ImageFont.truetype('static/STXIHEI.TTF', 21)
+    font = ImageFont.truetype('static/msyh.ttf', 21)
     # font = ImageFont.load_default().font
     # 构造字体颜色
     fontcolor = (255, random.randrange(0, 255), random.randrange(0, 255))
     # 绘制4个字
-    draw.text((5, 2), rand_str[0], font=font, fill=fontcolor)
-    draw.text((25, 2), rand_str[1], font=font, fill=fontcolor)
-    draw.text((50, 2), rand_str[2], font=font, fill=fontcolor)
-    draw.text((75, 2), rand_str[3], font=font, fill=fontcolor)
+    draw.text((5, 1), rand_str[0], font=font, fill=fontcolor)
+    draw.text((25, 1), rand_str[1], font=font, fill=fontcolor)
+    draw.text((50, 1), rand_str[2], font=font, fill=fontcolor)
+    draw.text((75, 1), rand_str[3], font=font, fill=fontcolor)
     # 释放画笔
     del draw
     # 存入session，用于做进一步验证
@@ -68,6 +69,12 @@ def login(request):
 
 def dologin(request):
     # 执行登录
+    # 校验验证码
+    verifycode = request.session['verifycode']
+    code = request.POST['code']
+    if verifycode != code:
+        context = {'info': '验证码错误！'}
+        return render(request, "myadmin/login.html", context)
     try:
         print(request.POST.get('username'))
         ob = Users.objects.get(username= request.POST["username"])

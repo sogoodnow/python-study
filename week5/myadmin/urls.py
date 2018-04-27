@@ -5,7 +5,7 @@ urlpatterns = [
 
     # 后台首页
     url(r'^$',index.index ,name="myadmin_index"),
-    url(r'^$',index.verify ,name="myadmin_verify"),
+    url(r'^verify$',index.verify ,name="myadmin_verify"),
 
     url(r'^login$',index.login ,name="myadmin_login"),
     url(r'^dologin$',index.dologin ,name="myadmin_dologin"),
