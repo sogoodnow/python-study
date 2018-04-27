@@ -9,7 +9,7 @@ class ShopMiddleware(object):
     def __call__(self, request):
         # Code to be executed for each request before
         # the view (and later middleware) are called.
-        urllist = ['/myadmin/login','/myadmin/dologin','/myadmin/logout']
+        urllist = ['/myadmin/login','/myadmin/dologin','/myadmin/logout','/myadmin/verify']
 
         print("call........."+request.path)
         path =request.path
