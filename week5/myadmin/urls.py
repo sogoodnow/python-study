@@ -10,7 +10,11 @@ urlpatterns = [
     url(r'^login$',index.login ,name="myadmin_login"),
     url(r'^dologin$',index.dologin ,name="myadmin_dologin"),
     url(r'^logout$',index.logout ,name="myadmin_logout"),
+
+
     url(r'^users/(?P<pIndex>[0-9]+)$',users.index ,name="myadmin_users_index"),
+    url(r'^search/(?P<pIndex>[0-9]+)$',users.search ,name="myadmin_users_search"),
+
     url(r'^users/add$',users.add ,name="myadmin_users_add"),
     url(r'^users/insert$',users.insert ,name="myadmin_users_insert"),
     url(r'^users/del/(?P<uid>[0-9]+)$',users.delete ,name="myadmin_users_del"),

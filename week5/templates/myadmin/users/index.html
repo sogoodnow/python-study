@@ -1,60 +1,86 @@
 {% extends "myadmin/base.html" %}
 
 {% block mainbody %}
-					<table class="table table-bordered table-striped">
-						<thead>
-							<tr>
-								<th>ID号</th>
-								<th>账号</th>
-								<th>姓名</th>
-								<th>性别</th>
-								<th>邮箱</th>
-								<th>注册时间</th>
-								<th>状态</th>
-								<th>操作</th>
-							</tr>
-						</thead>
-						<tbody>
-                            {% for i in plist %}
-							    <tr>
-								<td>{{ i.id }}</td>
-								<td>{{ i.username }}</td>
-								<td>{{ i.name }}</td>
-								<td>
-                                    {% if i.sex == 1 %}男{% else %}女{% endif %}
-                                </td>
-								<td>{{ i.email }}</td>
-								<td>{{ i.addtime }}</td>
-								<td>
-                                    {% if i.state == 1 %}启用{% elif i.state == 2 %}禁用{% else %}管理员{% endif %}
-                                </td>
-								<td>{{ i.email }}</td>
-								<td>
-									<a href="{% url 'myadmin_users_restpwd' i.id %}" class="view-link">修改密码</a>
-                                    <a href="{% url 'myadmin_users_edit' i.id %}" class="view-link">编辑</a>
-									<a href="{% url 'myadmin_users_del' i.id %}" class="view-link">删除</a>
 
-								</td>
-							</tr>
-                            {% endfor %}
-						</tbody>
-					</table>
+    <form class="form-inline" action="{% url 'myadmin_users_search' 1 %}" method="get">
+        <label>关键字：</label>
+        <input type="text" name="keyword" value="{{ request.GET.keyword }}" class="input-small" placeholder="账号/姓名">
+        <label> &nbsp; 性别：</label>
 
-				<div class="pagination">
-					<ul>
-						<li>
-							<a href="{% url 'myadmin_users_index' pIndex|add:-1 %}">&laquo;</a>
-						</li>
-						{% for p in pnums %}
-						<li {% if pIndex == p %}class="active"{% endif %}>
-							<a href="{% url 'myadmin_users_index' p %}">{{p}}</a>
-						</li>
-						{% endfor %}
-						<li>
-							<a href="{% url 'myadmin_users_index' pIndex|add:1 %}">&raquo;</a>
-						</li>
+        <select name="sex" class="span2">
 
-					</ul>
-				</div>
+            <option value="2" {% if request.GET.sex == '2' %}selected{% endif %}>全部</option>
+            <option value="1" {% if request.GET.sex == '1' %}selected{% endif %}>男</option>
+            <option value="0" {% if request.GET.sex == '0' %}selected{% endif %}>女</option>
+
+        </select>
+        <label> &nbsp; 状态：</label>
+{#        <select name="state" class="span1">#}
+{#            <option value="">全部</option>#}
+{#            <option value="1" {% if request.GET.state == '1' %}selected{% endif %}>新商品</option>#}
+{#            <option value="2" {% if request.GET.state == '2' %}selected{% endif %}>在售</option>#}
+{#            <option value="3" {% if request.GET.state == '3' %}selected{% endif %}>已下架</option>#}
+{#        </select>#}
+        <button type="submit" class="btn">搜索</button>
+        <a href="{% url 'myadmin_users_index' 1 %}" class="btn">全部</a>
+    </form>
+
+
+    <table class="table table-bordered table-striped">
+        <thead>
+        <tr>
+            <th>ID号</th>
+            <th>账号</th>
+            <th>姓名</th>
+            <th>性别</th>
+            <th>邮箱</th>
+            <th>注册时间</th>
+            <th>状态</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for i in plist %}
+            <tr>
+                <td>{{ i.id }}</td>
+                <td>{{ i.username }}</td>
+                <td>{{ i.name }}</td>
+                <td>
+                    {% if i.sex == 1 %}男{% else %}女{% endif %}
+                </td>
+                <td>{{ i.email }}</td>
+                <td>{{ i.addtime }}</td>
+                <td>
+                    {% if i.state == 1 %}启用{% elif i.state == 2 %}禁用{% else %}管理员{% endif %}
+                </td>
+                <td>{{ i.email }}</td>
+                <td>
+                    <a href="{% url 'myadmin_users_restpwd' i.id %}"  class="btn btn-mini btn-primary">修改密码</a>
+                    <a href="{% url 'myadmin_users_edit' i.id %}"  class="btn btn-mini btn-warning">编辑</a>
+                    <a href="{% url 'myadmin_users_del' i.id %}"  class="btn btn-mini btn-danger">删除</a>
+
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="pagination">
+        <ul>
+            <li>
+                <a href="{% url 'myadmin_users_search' pIndex|add:-1 %}?{{ mywhere|join:'&' }}">&laquo;</a>
+            </li>
+            {% for p in pnums %}
+                <li {% if pIndex == p %}class="active"{% endif %}>
+                    <a href="{% url 'myadmin_users_search' p %}?{{ mywhere|join:'&' }}">{{ p }}</a>
+                </li>
+            {% endfor %}
+            <li>
+                <a href="{% url 'myadmin_users_search' pIndex|add:1 %}?{{ mywhere|join:'&' }}">&raquo;</a>
+            </li>
+
+        </ul>
+    </div>
+    <h1>{{ mywhere|join:'&' }}</h1>
 
 {% endblock mainbody %}

@@ -4,8 +4,38 @@ from common.models import Users
 from datetime import datetime
 from django.core.paginator import Paginator
 
+
+def search(request,pIndex = 1):
+    # 获取检索字段
+    keyword = request.GET.get("keyword")
+    sex = request.GET.get("sex")
+    # 定义一个用于存放搜索条件列表
+    mywhere = []
+    # 性别有指定检索条件
+    if sex != "2":
+        ulist = Users.objects.all().filter(name__contains=keyword).filter(sex=sex)
+    else:
+        ulist = Users.objects.all().filter(name__contains=keyword)
+    # 添加条件
+    mywhere.append("keyword=" + keyword)
+    mywhere.append("sex=" + sex)
+
+    p = Paginator(ulist, 3)
+    maxpages = p.num_pages
+    if pIndex == '':
+        pIndex = '1'
+    pIndex = int(pIndex)
+    # 页数阈值判断
+    if pIndex > maxpages:
+        pIndex = maxpages
+    if pIndex < 1:
+        pIndex = 1
+    plist = p.page(pIndex)# 当前页数据
+    pnums = p.page_range  # 页码列表
+    context = {'plist': plist, 'pnums': pnums, 'pIndex': pIndex,'sex':sex,'mywhere':mywhere,'maxpages':maxpages}
+    return render(request, "myadmin/users/index.html", context)
+
 def index(request,pIndex = 1):
-    print(pIndex)
     ulist = Users.objects.all()
     p = Paginator(ulist, 3)
     if pIndex == '':
