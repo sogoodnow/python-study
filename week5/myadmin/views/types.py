@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect,reverse
 from django.http import HttpResponse
-from week5.common.models import Types,Users
+from common.models import Types,Users
 from datetime import datetime
 from django.core.paginator import Paginator
 

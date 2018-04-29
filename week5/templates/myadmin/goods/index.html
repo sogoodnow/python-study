@@ -1,0 +1,41 @@
+{% extends "myadmin/base.html" %}
+
+{% block mainbody %}
+<h3>
+    商品信息浏览
+</h3>
+     <table class="table table-bordered table-striped">
+        <thead>
+        <tr>
+            <th>ID号</th>
+            <th>商品名称</th>
+            <th>商品类别</th>
+            <th>图片</th>
+            <th>价格</th>
+            <th>点击量</th>
+            <th>状态</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for i in plist %}
+            <tr>
+                <td>{{ i.id }}</td>
+                <td>{{ i.goods }}</td>
+                <td>{{ i.typeid }}</td>
+                <td>{{ i.picname }}</td>
+                <td>{{ i.price }}</td>
+                <td>{{ i.clicknum }}</td>
+                <td>{{ i.state }}</td>
+                <td>
+                    <a href="{% url 'myadmin_goods_edit' i.id %}"  class="btn btn-mini btn-warning">编辑</a>
+                    <a href="{% url 'myadmin_goods_del' i.id %}"  class="btn btn-mini btn-danger">删除</a>
+
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+
+{% endblock mainbody %}
