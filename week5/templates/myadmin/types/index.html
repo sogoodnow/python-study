@@ -1,0 +1,34 @@
+{% extends "myadmin/base.html" %}
+
+{% block mainbody %}
+<h3>
+    商品类别浏览
+</h3>
+     <table class="table table-bordered table-striped">
+        <thead>
+        <tr>
+            <th>ID号</th>
+            <th>类别名称</th>
+            <th>父类别PID</th>
+            <th>路径</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for i in plist %}
+            <tr>
+                <td>{{ i.id }}</td>
+                <td>{{ i.pname }}|--{{ i.name }}</td>
+                <td>{{ i.pid }}</td>
+                <td>{{ i.path }}</td>
+                <td>
+                    <a href="{% url 'myadmin_types_edit' i.id %}"  class="btn btn-mini btn-warning">编辑</a>
+                    <a href="{% url 'myadmin_types_del' i.id %}"  class="btn btn-mini btn-danger">删除</a>
+                    <a href="{% url 'myadmin_types_add' i.id %}"  class="btn btn-mini btn-primary">添加子类别</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock mainbody %}

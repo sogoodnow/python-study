@@ -19,3 +19,12 @@ class Users(models.Model):
                 'address': self.address, 'phone': self.phone, 'email': self.email, 'state': self.state}
     class Meta:
         db_table = "users"
+
+#商品类别信息模型
+class Types(models.Model):
+    name = models.CharField(max_length=32)
+    pid = models.IntegerField(default=0)
+    path = models.CharField(max_length=255)
+
+    class Meta:
+        db_table = "type"  # 更改表名
