@@ -34,6 +34,7 @@ urlpatterns = [
     url(r'^goods/del/(?P<gid>[0-9]+)$', goods.delete, name="myadmin_goods_del"),
     url(r'^goods/edit/(?P<gid>[0-9]+)$', goods.edit, name="myadmin_goods_edit"),
     url(r'^goods/update/(?P<gid>[0-9]+)$', goods.update, name="myadmin_goods_update"),
+    url(r'^goods/ueditor$', goods.ueditor, name="myadmin_goods_ueditor"),
 
 
 ]

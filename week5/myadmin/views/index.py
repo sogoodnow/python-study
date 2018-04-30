@@ -61,7 +61,7 @@ def verify(request):
 
 
 def index(request):
-    return render(request,"myadmin/index.html")
+    return render(request,"myadmin/base.html")
 
 def login(request):
     # 登录页面
