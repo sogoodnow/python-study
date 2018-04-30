@@ -31,9 +31,9 @@ urlpatterns = [
     url(r'^goods/$', goods.index, name="myadmin_goods_index"),
     url(r'^goods/add/$', goods.add, name="myadmin_goods_add"),
     url(r'^goods/insert$', goods.insert, name="myadmin_goods_insert"),
-    url(r'^goods/del/(?P<tid>[0-9]+)$', goods.delete, name="myadmin_goods_del"),
-    url(r'^goods/edit/(?P<tid>[0-9]+)$', goods.edit, name="myadmin_goods_edit"),
-    url(r'^goods/update/(?P<tid>[0-9]+)$', goods.update, name="myadmin_goods_update"),
+    url(r'^goods/del/(?P<gid>[0-9]+)$', goods.delete, name="myadmin_goods_del"),
+    url(r'^goods/edit/(?P<gid>[0-9]+)$', goods.edit, name="myadmin_goods_edit"),
+    url(r'^goods/update/(?P<gid>[0-9]+)$', goods.update, name="myadmin_goods_update"),
 
 
 ]

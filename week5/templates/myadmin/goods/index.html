@@ -22,11 +22,12 @@
             <tr>
                 <td>{{ i.id }}</td>
                 <td>{{ i.goods }}</td>
-                <td>{{ i.typeid }}</td>
-                <td>{{ i.picname }}</td>
+                <td>{{ i.tyname }}</td>
+                <td><img src="/static/goods/s_{{ i.picname }}" width="40px"></td>
                 <td>{{ i.price }}</td>
                 <td>{{ i.clicknum }}</td>
                 <td>{{ i.state }}</td>
+                <td>{% if i.state == 1 %}新添加{% elif i.state == 2 %}在售{% else %}下架{% endif %}</td>
                 <td>
                     <a href="{% url 'myadmin_goods_edit' i.id %}"  class="btn btn-mini btn-warning">编辑</a>
                     <a href="{% url 'myadmin_goods_del' i.id %}"  class="btn btn-mini btn-danger">删除</a>
