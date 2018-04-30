@@ -13,7 +13,7 @@ def index(request,pIndex = 1):
         ty = Types.objects.get(id = ob.typeid)
         ob.tyname = ty.name
     context = {'plist': ulist}
-    return render(request, "myadmin/goods/base.html", context)
+    return render(request, "myadmin/goods/index.html", context)
 
 def add(request):
     tlist = Types.objects.extra(select={'_has': 'concat(path,id)'}).order_by('_has')

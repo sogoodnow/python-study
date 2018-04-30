@@ -10,7 +10,7 @@ def index(request,pIndex = 1):
     for ob in ulist:
         ob.pname = ".  .  .  ."*(ob.path.count(',')-1)
     context = {'plist': ulist}
-    return render(request, "myadmin/types/base.html", context)
+    return render(request, "myadmin/types/index.html", context)
 
 def add(request,tid):
     if tid == '0':

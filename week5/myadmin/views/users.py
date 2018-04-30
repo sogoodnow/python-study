@@ -33,7 +33,7 @@ def search(request,pIndex = 1):
     plist = p.page(pIndex)# 当前页数据
     pnums = p.page_range  # 页码列表
     context = {'plist': plist, 'pnums': pnums, 'pIndex': pIndex,'sex':sex,'mywhere':mywhere,'maxpages':maxpages}
-    return render(request, "myadmin/users/base.html", context)
+    return render(request, "myadmin/users/index.html", context)
 
 def index(request,pIndex = 1):
     ulist = Users.objects.all()
@@ -44,7 +44,7 @@ def index(request,pIndex = 1):
     plist = p.page(pIndex)
     pnums = p.page_range
     context = {'plist': plist, 'pnums': pnums, 'pIndex': pIndex}
-    return render(request, "myadmin/users/base.html", context)
+    return render(request, "myadmin/users/index.html", context)
 
 def add(request):
     return render(request, "myadmin/users/add.html")
