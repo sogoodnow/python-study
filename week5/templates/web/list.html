@@ -1,5 +1,9 @@
 {% extends "web/base.html" %}
-
+{% load static from staticfiles %}
+{% block mylink %}
+    <link rel="stylesheet" type="text/css" href="{% static 'web/public/css/list.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'web/public/css/list-app.css' %}">
+{% endblock %}
 {% block content %}
 <div class="mainlist app-list">
     <div class="container">
@@ -83,30 +87,30 @@
             </div>
         </div>
 
-        <!-- 移动端结构 -->
-        <div class="list-filter" id="J_listFilter">
-            <ul class="flex">
-                <li class="current"
-                    style="display: list-item; transform-origin: 0px 0px 0px; opacity: 1; transform: scale(1, 1);">
-                    <a>
-                        全部<i class="arrow-down"></i>
-                    </a>
-                </li>
-                <li style="display: list-item; transform-origin: 0px 0px 0px; opacity: 1; transform: scale(1, 1);">
-                    <a>
-                        价格<i class="arrow-mini-up active" data-direction="1"></i><i class="arrow-mini-down"
-                                                                                    data-direction="-1"></i>
-                    </a>
-                </li>
+        <!--&lt;!&ndash; 移动端结构 &ndash;&gt;-->
+        <!--<div class="list-filter" id="J_listFilter">-->
+            <!--<ul class="flex">-->
+                <!--<li class="current"-->
+                    <!--style="display: list-item; transform-origin: 0px 0px 0px; opacity: 1; transform: scale(1, 1);">-->
+                    <!--<a>-->
+                        <!--全部<i class="arrow-down"></i>-->
+                    <!--</a>-->
+                <!--</li>-->
+                <!--<li style="display: list-item; transform-origin: 0px 0px 0px; opacity: 1; transform: scale(1, 1);">-->
+                    <!--<a>-->
+                        <!--价格<i class="arrow-mini-up active" data-direction="1"></i><i class="arrow-mini-down"-->
+                                                                                    <!--data-direction="-1"></i>-->
+                    <!--</a>-->
+                <!--</li>-->
 
-                <li id="J_btnChangeStyle"
-                    style="display: list-item; transform-origin: 0px 0px 0px; opacity: 1; transform: scale(1, 1);">
-                    <a>
-                        <i class="glyphicon glyphicon-th-large"></i>
-                    </a>
-                </li>
-            </ul>
-        </div><!-- 移动端结构 E-->
+                <!--<li id="J_btnChangeStyle"-->
+                    <!--style="display: list-item; transform-origin: 0px 0px 0px; opacity: 1; transform: scale(1, 1);">-->
+                    <!--<a>-->
+                        <!--<i class="glyphicon glyphicon-th-large"></i>-->
+                    <!--</a>-->
+                <!--</li>-->
+            <!--</ul>-->
+        <!--</div>&lt;!&ndash; 移动端结构 E&ndash;&gt;-->
 
         <!-- 分类导航 E -->
 
@@ -124,19 +128,19 @@
                             <div class="tab-content">
                                 <div role="tabpanel" class="tab-pane active mod-pic" id="list-p1">
                                     <a href="./meilanx.html">
-                                        <img class="lazy j-modProduct" src="./public/img/list1.jpg" width="220"
+                                        <img class="lazy j-modProduct" src="{% static 'web/public/img/list1.jpg' %}" width="220"
                                              height="220">
                                     </a>
                                 </div>
                                 <div role="tabpanel" class="tab-pane mod-pic" id="list-p2">
                                     <a href="./meilanx.html">
-                                        <img class="lazy j-modProduct" src="./public/img/list04.jpg" width="220"
+                                        <img class="lazy j-modProduct" src="{% static 'web/public/img/list04.jpg' %}" width="220"
                                              height="220">
                                     </a>
                                 </div>
                                 <div role="tabpanel" class="tab-pane mod-pic" id="list-p3">
                                     <a href="./meilanx.html">
-                                        <img class="lazy j-modProduct" src="./public/img/list05.jpg" width="220"
+                                        <img class="lazy j-modProduct" src="{% static 'web/public/img/list05.jpg' %}" width="220"
                                              height="220">
                                     </a>
                                 </div>
@@ -147,19 +151,19 @@
                                 <ul class="nav nav-tabs  " role="tablist">
                                     <li role="presentation" class="active">
                                         <a href="#list-p1" aria-controls="list-p1" role="tab" data-toggle="tab">
-                                            <img class="lazy" src="./public/img/list01.jpg" style="display: inline;"
+                                            <img class="lazy" src="{% static 'web/public/img/list01.jpg' %}" style="display: inline;"
                                                  width="40" height="40">
                                         </a>
                                     </li>
                                     <li role="presentation">
                                         <a href="#list-p2" aria-controls="list-p2" role="tab" data-toggle="tab">
-                                            <img class="lazy" src="./public/img/list02.jpg" style="display: inline;"
+                                            <img class="lazy" src="{% static 'web/public/img/list02.jpg' %}" style="display: inline;"
                                                  width="40" height="40">
                                         </a>
                                     </li>
                                     <li role="presentation">
                                         <a href="#list-p3" aria-controls="list-p3" role="tab" data-toggle="tab">
-                                            <img class="lazy" src="./public/img/list03.jpg" style="display: inline;"
+                                            <img class="lazy" src="{% static 'web/public/img/list03.jpg' %}" style="display: inline;"
                                                  width="40" height="40">
                                         </a>
                                     </li>
@@ -192,19 +196,19 @@
                             <!-- Tab panes -->
                             <div class="tab-content">
                                 <div role="tabpanel" class="tab-pane active mod-pic" id="list-pr1">
-                                    <img class="lazy j-modProduct" src="./public/img/list2.jpg" width="220"
+                                    <img class="lazy j-modProduct" src="{% static 'web/public/img/list2.jpg' %}" width="220"
                                          height="220">
                                 </div>
                                 <div role="tabpanel" class="tab-pane mod-pic" id="list-pr2">
-                                    <img class="lazy j-modProduct" src="./public/img/list25.jpg" width="220"
+                                    <img class="lazy j-modProduct" src="{% static 'web/public/img/list25.jpg' %}" width="220"
                                          height="220">
                                 </div>
                                 <div role="tabpanel" class="tab-pane mod-pic" id="list-pr3">
-                                    <img class="lazy j-modProduct" src="./public/img/list26.jpg" width="220"
+                                    <img class="lazy j-modProduct" src="{% static 'web/public/img/list26.jpg' %}" width="220"
                                          height="220">
                                 </div>
                                 <div role="tabpanel" class="tab-pane mod-pic" id="list-pr4">
-                                    <img class="lazy j-modProduct" src="./public/img/list27.jpg" width="220"
+                                    <img class="lazy j-modProduct" src="{% static 'web/public/img/list27.jpg' %}" width="220"
                                          height="220">
                                 </div>
                             </div>
@@ -214,25 +218,25 @@
                                 <ul class="nav nav-tabs  " role="tablist">
                                     <li role="presentation" class="active">
                                         <a href="#list-pr1" aria-controls="list-pr1" role="tab" data-toggle="tab">
-                                            <img class="lazy" src="./public/img/list21.jpg" style="display: inline;"
+                                            <img class="lazy" src="{% static 'web/public/img/list21.jpg' %}" style="display: inline;"
                                                  width="40" height="40">
                                         </a>
                                     </li>
                                     <li role="presentation">
                                         <a href="#list-pr2" aria-controls="list-pr2" role="tab" data-toggle="tab">
-                                            <img class="lazy" src="./public/img/list22.jpg" style="display: inline;"
+                                            <img class="lazy" src="{% static 'web/public/img/list22.jpg' %}" style="display: inline;"
                                                  width="40" height="40">
                                         </a>
                                     </li>
                                     <li role="presentation">
                                         <a href="#list-pr3" aria-controls="list-pr3" role="tab" data-toggle="tab">
-                                            <img class="lazy" src="./public/img/list23.jpg" style="display: inline;"
+                                            <img class="lazy" src="{% static 'web/public/img/list23.jpg' %}" style="display: inline;"
                                                  width="40" height="40">
                                         </a>
                                     </li>
                                     <li role="presentation">
                                         <a href="#list-pr4" aria-controls="list-pr4" role="tab" data-toggle="tab">
-                                            <img class="lazy" src="./public/img/list24.jpg" style="display: inline;"
+                                            <img class="lazy" src="{% static 'web/public/img/list24.jpg' %}" style="display: inline;"
                                                  width="40" height="40">
                                         </a>
                                     </li>
@@ -264,15 +268,15 @@
                             <!-- Tab panes -->
                             <div class="tab-content">
                                 <div role="tabpanel" class="tab-pane active mod-pic" id="list-pn1">
-                                    <img class="lazy j-modProduct" src="./public/img/list6.jpg" width="220"
+                                    <img class="lazy j-modProduct" src="{% static 'web/public/img/list6.jpg' %}" width="220"
                                          height="220">
                                 </div>
                                 <div role="tabpanel" class="tab-pane mod-pic" id="list-pn2">
-                                    <img class="lazy j-modProduct" src="./public/img/list65.jpg" width="220"
+                                    <img class="lazy j-modProduct" src="{% static 'web/public/img/list65.jpg' %}" width="220"
                                          height="220">
                                 </div>
                                 <div role="tabpanel" class="tab-pane mod-pic" id="list-pn3">
-                                    <img class="lazy j-modProduct" src="./public/img/list65.jpg" width="220"
+                                    <img class="lazy j-modProduct" src="{% static 'web/public/img/list65.jpg' %}" width="220"
                                          height="220">
                                 </div>
                             </div>
@@ -282,19 +286,19 @@
                                 <ul class="nav nav-tabs  " role="tablist">
                                     <li role="presentation" class="active">
                                         <a href="#list-pn1" aria-controls="list-pn1" role="tab" data-toggle="tab">
-                                            <img class="lazy" src="./public/img/list61.jpg" style="display: inline;"
+                                            <img class="lazy" src="{% static 'web/public/img/list61.jpg' %}" style="display: inline;"
                                                  width="40" height="40">
                                         </a>
                                     </li>
                                     <li role="presentation">
                                         <a href="#list-pn2" aria-controls="list-pn2" role="tab" data-toggle="tab">
-                                            <img class="lazy" src="./public/img/list63.jpg" style="display: inline;"
+                                            <img class="lazy" src="{% static 'web/public/img/list63.jpg' %}" style="display: inline;"
                                                  width="40" height="40">
                                         </a>
                                     </li>
                                     <li role="presentation">
                                         <a href="#list-pn3" aria-controls="list-pn3" role="tab" data-toggle="tab">
-                                            <img class="lazy" src="./public/img/list62.jpg" style="display: inline;"
+                                            <img class="lazy" src="{% static 'web/public/img/list62.jpg' %}" style="display: inline;"
                                                  width="40" height="40">
                                         </a>
                                     </li>
@@ -328,15 +332,15 @@
                             <!-- Tab panes -->
                             <div class="tab-content">
                                 <div role="tabpanel" class="tab-pane active mod-pic" id="list-pe1">
-                                    <img class="lazy j-modProduct" src="./public/img/list7.jpg" width="220"
+                                    <img class="lazy j-modProduct" src="{% static 'web/public/img/list7.jpg' %}" width="220"
                                          height="220">
                                 </div>
                                 <div role="tabpanel" class="tab-pane mod-pic" id="list-pe2">
-                                    <img class="lazy j-modProduct" src="./public/img/list74.jpg" width="220"
+                                    <img class="lazy j-modProduct" src="{% static 'web/public/img/list74.jpg' %}" width="220"
                                          height="220">
                                 </div>
                                 <div role="tabpanel" class="tab-pane mod-pic" id="list-pe3">
-                                    <img class="lazy j-modProduct" src="./public/img/list7.jpg" width="220"
+                                    <img class="lazy j-modProduct" src="{% static 'web/public/img/list7.jpg' %}" width="220"
                                          height="220">
                                 </div>
                             </div>
@@ -346,19 +350,19 @@
                                 <ul class="nav nav-tabs  " role="tablist">
                                     <li role="presentation" class="active">
                                         <a href="#list-pe1" aria-controls="list-pe1" role="tab" data-toggle="tab">
-                                            <img class="lazy" src="./public/img/list71.jpg" style="display: inline;"
+                                            <img class="lazy" src="{% static 'web/public/img/list71.jpg' %}" style="display: inline;"
                                                  width="40" height="40">
                                         </a>
                                     </li>
                                     <li role="presentation">
                                         <a href="#list-pe2" aria-controls="list-pe2" role="tab" data-toggle="tab">
-                                            <img class="lazy" src="./public/img/list73.jpg" style="display: inline;"
+                                            <img class="lazy" src="{% static 'web/public/img/list73.jpg' %}" style="display: inline;"
                                                  width="40" height="40">
                                         </a>
                                     </li>
                                     <li role="presentation">
                                         <a href="#list-pe3" aria-controls="list-p3" role="tab" data-toggle="tab">
-                                            <img class="lazy" src="./public/img/list72.jpg" style="display: inline;"
+                                            <img class="lazy" src="{% static 'web/public/img/list72.jpg' %}" style="display: inline;"
                                                  width="40" height="40">
                                         </a>
                                     </li>
@@ -393,15 +397,15 @@
                             <!-- Tab panes -->
                             <div class="tab-content">
                                 <div role="tabpanel" class="tab-pane active mod-pic" id="list-p11">
-                                    <img class="lazy j-modProduct" src="./public/img/list1.jpg" width="220"
+                                    <img class="lazy j-modProduct" src="{% static 'web/public/img/list1.jpg' %}" width="220"
                                          height="220">
                                 </div>
                                 <div role="tabpanel" class="tab-pane mod-pic" id="list-p112">
-                                    <img class="lazy j-modProduct" src="./public/img/list04.jpg" width="220"
+                                    <img class="lazy j-modProduct" src="{% static 'web/public/img/list04.jpg' %}" width="220"
                                          height="220">
                                 </div>
                                 <div role="tabpanel" class="tab-pane mod-pic" id="list-p3">
-                                    <img class="lazy j-modProduct" src="./public/img/list05.jpg" width="220"
+                                    <img class="lazy j-modProduct" src="{% static 'web/public/img/list05.jpg' %}" width="220"
                                          height="220">
                                 </div>
                             </div>
@@ -411,19 +415,19 @@
                                 <ul class="nav nav-tabs  " role="tablist">
                                     <li role="presentation" class="active">
                                         <a href="#list-p11" aria-controls="list-p11" role="tab" data-toggle="tab">
-                                            <img class="lazy" src="./public/img/list01.jpg" style="display: inline;"
+                                            <img class="lazy" src="{% static 'web/public/img/list01.jpg' %}" style="display: inline;"
                                                  width="40" height="40">
                                         </a>
                                     </li>
                                     <li role="presentation">
                                         <a href="#list-p12" aria-controls="list-p12" role="tab" data-toggle="tab">
-                                            <img class="lazy" src="./public/img/list02.jpg" style="display: inline;"
+                                            <img class="lazy" src="{% static 'web/public/img/list02.jpg' %}" style="display: inline;"
                                                  width="40" height="40">
                                         </a>
                                     </li>
                                     <li role="presentation">
                                         <a href="#list-p13" aria-controls="list-p13" role="tab" data-toggle="tab">
-                                            <img class="lazy" src="./public/img/list03.jpg" style="display: inline;"
+                                            <img class="lazy" src="{% static 'web/public/img/list03.jpg' %}" style="display: inline;"
                                                  width="40" height="40">
                                         </a>
                                     </li>
@@ -458,19 +462,19 @@
                             <!-- Tab panes -->
                             <div class="tab-content">
                                 <div role="tabpanel" class="tab-pane active mod-pic" id="list-pr11">
-                                    <img class="lazy j-modProduct" src="./public/img/list2.jpg" width="220"
+                                    <img class="lazy j-modProduct" src="{% static 'web/public/img/list2.jpg' %}" width="220"
                                          height="220">
                                 </div>
                                 <div role="tabpanel" class="tab-pane mod-pic" id="list-pr12">
-                                    <img class="lazy j-modProduct" src="./public/img/list25.jpg" width="220"
+                                    <img class="lazy j-modProduct" src="{% static 'web/public/img/list25.jpg' %}" width="220"
                                          height="220">
                                 </div>
                                 <div role="tabpanel" class="tab-pane mod-pic" id="list-pr13">
-                                    <img class="lazy j-modProduct" src="./public/img/list26.jpg" width="220"
+                                    <img class="lazy j-modProduct" src="{% static 'web/public/img/list26.jpg' %}" width="220"
                                          height="220">
                                 </div>
                                 <div role="tabpanel" class="tab-pane mod-pic" id="list-pr4">
-                                    <img class="lazy j-modProduct" src="./public/img/list27.jpg" width="220"
+                                    <img class="lazy j-modProduct" src="{% static 'web/public/img/list27.jpg' %}" width="220"
                                          height="220">
                                 </div>
                             </div>
@@ -480,19 +484,19 @@
                                 <ul class="nav nav-tabs  " role="tablist">
                                     <li role="presentation" class="active">
                                         <a href="#list-pr11" aria-controls="list-pr11" role="tab" data-toggle="tab">
-                                            <img class="lazy" src="./public/img/list21.jpg" style="display: inline;"
+                                            <img class="lazy" src="{% static 'web/public/img/list21.jpg' %}" style="display: inline;"
                                                  width="40" height="40">
                                         </a>
                                     </li>
                                     <li role="presentation">
                                         <a href="#list-pr12" aria-controls="list-pr12" role="tab" data-toggle="tab">
-                                            <img class="lazy" src="./public/img/list22.jpg" style="display: inline;"
+                                            <img class="lazy" src="{% static 'web/public/img/list22.jpg' %}" style="display: inline;"
                                                  width="40" height="40">
                                         </a>
                                     </li>
                                     <li role="presentation">
                                         <a href="#list-pr13" aria-controls="list-pr13" role="tab" data-toggle="tab">
-                                            <img class="lazy" src="./public/img/list23.jpg" style="display: inline;"
+                                            <img class="lazy" src="{% static 'web/public/img/list23.jpg' %}" style="display: inline;"
                                                  width="40" height="40">
                                         </a>
                                     </li>
@@ -527,15 +531,15 @@
                             <!-- Tab panes -->
                             <div class="tab-content">
                                 <div role="tabpanel" class="tab-pane active mod-pic" id="list-pn11">
-                                    <img class="lazy j-modProduct" src="./public/img/list6.jpg" width="220"
+                                    <img class="lazy j-modProduct" src="{% static 'web/public/img/list6.jpg' %}" width="220"
                                          height="220">
                                 </div>
                                 <div role="tabpanel" class="tab-pane mod-pic" id="list-pn12">
-                                    <img class="lazy j-modProduct" src="./public/img/list65.jpg" width="220"
+                                    <img class="lazy j-modProduct" src="{% static 'web/public/img/list65.jpg' %}" width="220"
                                          height="220">
                                 </div>
                                 <div role="tabpanel" class="tab-pane mod-pic" id="list-pn13">
-                                    <img class="lazy j-modProduct" src="./public/img/list65.jpg" width="220"
+                                    <img class="lazy j-modProduct" src="{% static 'web/public/img/list65.jpg' %}" width="220"
                                          height="220">
                                 </div>
                             </div>
@@ -545,19 +549,19 @@
                                 <ul class="nav nav-tabs  " role="tablist">
                                     <li role="presentation" class="active">
                                         <a href="#list-pn11" aria-controls="list-pn11" role="tab" data-toggle="tab">
-                                            <img class="lazy" src="./public/img/list61.jpg" style="display: inline;"
+                                            <img class="lazy" src="{% static 'web/public/img/list61.jpg' %}" style="display: inline;"
                                                  width="40" height="40">
                                         </a>
                                     </li>
                                     <li role="presentation">
                                         <a href="#list-pn12" aria-controls="list-pn12" role="tab" data-toggle="tab">
-                                            <img class="lazy" src="./public/img/list63.jpg" style="display: inline;"
+                                            <img class="lazy" src="{% static 'web/public/img/list63.jpg' %}" style="display: inline;"
                                                  width="40" height="40">
                                         </a>
                                     </li>
                                     <li role="presentation">
                                         <a href="#list-pn13" aria-controls="list-pn13" role="tab" data-toggle="tab">
-                                            <img class="lazy" src="./public/img/list62.jpg" style="display: inline;"
+                                            <img class="lazy" src="{% static 'web/public/img/list62.jpg' %}" style="display: inline;"
                                                  width="40" height="40">
                                         </a>
                                     </li>
@@ -591,15 +595,15 @@
                             <!-- Tab panes -->
                             <div class="tab-content">
                                 <div role="tabpanel" class="tab-pane active mod-pic" id="list-pe1">
-                                    <img class="lazy j-modProduct" src="./public/img/list7.jpg" width="220"
+                                    <img class="lazy j-modProduct" src="{% static 'web/public/img/list7.jpg' %}" width="220"
                                          height="220">
                                 </div>
                                 <div role="tabpanel" class="tab-pane mod-pic" id="list-pe2">
-                                    <img class="lazy j-modProduct" src="./public/img/list74.jpg" width="220"
+                                    <img class="lazy j-modProduct" src="{% static 'web/public/img/list74.jpg' %}" width="220"
                                          height="220">
                                 </div>
                                 <div role="tabpanel" class="tab-pane mod-pic" id="list-pe3">
-                                    <img class="lazy j-modProduct" src="./public/img/list7.jpg" width="220"
+                                    <img class="lazy j-modProduct" src="{% static 'web/public/img/list7.jpg' %}" width="220"
                                          height="220">
                                 </div>
                             </div>
@@ -609,19 +613,19 @@
                                 <ul class="nav nav-tabs  " role="tablist">
                                     <li role="presentation" class="active">
                                         <a href="#list-pe1" aria-controls="list-pe1" role="tab" data-toggle="tab">
-                                            <img class="lazy" src="./public/img/list71.jpg" style="display: inline;"
+                                            <img class="lazy" src="{% static 'web/public/img/list71.jpg' %}" style="display: inline;"
                                                  width="40" height="40">
                                         </a>
                                     </li>
                                     <li role="presentation">
                                         <a href="#list-pe2" aria-controls="list-pe2" role="tab" data-toggle="tab">
-                                            <img class="lazy" src="./public/img/list73.jpg" style="display: inline;"
+                                            <img class="lazy" src="{% static 'web/public/img/list73.jpg' %}" style="display: inline;"
                                                  width="40" height="40">
                                         </a>
                                     </li>
                                     <li role="presentation">
                                         <a href="#list-pe3" aria-controls="list-p3" role="tab" data-toggle="tab">
-                                            <img class="lazy" src="./public/img/list72.jpg" style="display: inline;"
+                                            <img class="lazy" src="{% static 'web/public/img/list72.jpg' %}" style="display: inline;"
                                                  width="40" height="40">
                                         </a>
                                     </li>
@@ -660,7 +664,7 @@
                         <li class="rs-item" style="width: 245.6px; margin-right: 5px; float: left; display: block;">
                             <a class="rs-item-wrap" title="魅蓝 Note5" href="#" target="_blank">
                                 <div class="mod-pic">
-                                    <img src="./public/img/list81.jpg" style="display: inline;" width="180"
+                                    <img src="{% static 'web/public/img/list81.jpg' %}" style="display: inline;" width="180"
                                          height="180">
                                 </div>
                                 <div class="mod-desc">
@@ -676,7 +680,7 @@
                         <li class="rs-item" style="width: 245.6px; margin-right: 5px; float: left; display: block;">
                             <a class="rs-item-wrap" title="魅蓝 5s" href="#" target="_blank">
                                 <div class="mod-pic">
-                                    <img src="./public/img/list82.jpg" style="display: inline;" width="180"
+                                    <img src="{% static 'web/public/img/list82.jpg' %}" style="display: inline;" width="180"
                                          height="180">
                                 </div>
                                 <div class="mod-desc">
@@ -691,7 +695,7 @@
                         <li class="rs-item" style="width: 245.6px; margin-right: 5px; float: left; display: block;">
                             <a class="rs-item-wrap" title="魅族 MX6" href="#" target="_blank">
                                 <div class="mod-pic">
-                                    <img src="./public/img/list83.jpg" style="display: inline;" width="180"
+                                    <img src="{% static 'web/public/img/list83.jpg' %}" style="display: inline;" width="180"
                                          height="180">
                                 </div>
                                 <div class="mod-desc">
@@ -706,7 +710,7 @@
                         <li class="rs-item" style="width: 245.6px; margin-right: 5px; float: left; display: block;">
                             <a class="rs-item-wrap" title="魅蓝 Max" href="#" target="_blank">
                                 <div class="mod-pic">
-                                    <img src="./public/img/list84.jpg" style="display: inline;" width="180"
+                                    <img src="{% static 'web/public/img/list84.jpg' %}" style="display: inline;" width="180"
                                          height="180">
                                 </div>
                                 <div class="mod-desc">
@@ -721,7 +725,7 @@
                         <li class="rs-item" style="width: 245.6px; margin-right: 5px; float: left; display: block;">
                             <a class="rs-item-wrap" title="魅蓝 E2" href="#" target="_blank">
                                 <div class="mod-pic">
-                                    <img src="./public/img/list85.jpg" style="display: inline;" width="180"
+                                    <img src="{% static 'web/public/img/list85.jpg' %}" style="display: inline;" width="180"
                                          height="180">
                                 </div>
                                 <div class="mod-desc">
@@ -742,5 +746,12 @@
     </div>
 </div>
 
+{% endblock %}
+
+{% block myjs %}
+  //鼠标经过出现
+   comPro();
+  //移动端置顶
+   appTopNav();
 {% endblock %}
 
