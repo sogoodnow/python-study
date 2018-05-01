@@ -1,19 +1,64 @@
 from django.shortcuts import render,redirect,reverse
 from django.http import HttpResponse
 from common.models import Goods,Users,Types
+from django.db.models import Q
 from datetime import datetime
 import time,os
 from PIL import Image
 from django.core.paginator import Paginator
 
 
-def index(request,pIndex = 1):
-    ulist = Goods.objects.all()
-    for ob in ulist:
-        ty = Types.objects.get(id = ob.typeid)
-        ob.tyname = ty.name
-    context = {'plist': ulist}
-    return render(request, "myadmin/goods/index.html", context)
+def index(request, pIndex):
+        '''浏览信息'''
+        # 获取商品类别信息
+        tlist = Types.objects.extra(select={'_has': 'concat(path,id)'}).order_by('_has')
+        for ob in tlist:
+            ob.pname = '. . .' * (ob.path.count(',') - 1)
+
+        # 获取商品信息查询对象
+        mod = Goods.objects
+        mywhere = []  # 定义一个用于存放搜索条件列表
+
+        # 获取、判断并封装关keyword键搜索
+        kw = request.GET.get("keyword", None)
+        if kw:
+            # 查询商品名中只要含有关键字的都可以
+            plist = mod.filter(goods__contains=kw)
+            mywhere.append("keyword=" + kw)
+        else:
+            plist = mod.filter()
+        # 获取、判断并封装商品类别typeid搜索条件
+        typeid = request.GET.get('typeid', '0')
+        if typeid != '0':
+            tids = Types.objects.filter(Q(id=typeid) | Q(pid=typeid)).values_list('id', flat=True)
+            plist = plist.filter(typeid__in=tids)
+            mywhere.append("typeid=" + typeid)
+        # 获取、判断并封装商品状态state搜索条件
+        state = request.GET.get('state', '')
+        if state != '':
+            plist = plist.filter(state=state)
+            mywhere.append("state=" + state)
+
+        # 执行分页处理
+        pIndex = int(pIndex)
+        page = Paginator(plist, 5)  # 以5条每页创建分页对象
+        maxpages = page.num_pages  # 最大页数
+        # 判断页数是否越界
+        if pIndex > maxpages:
+            pIndex = maxpages
+        if pIndex < 1:
+            pIndex = 1
+        list2 = page.page(pIndex)  # 当前页数据
+        pagelist = page.page_range  # 页码数列表
+
+        # 遍历商品信息，并获取对应的商品类别名称，以typename名封装
+        for vo in list2:
+            ty = Types.objects.get(id=vo.typeid)
+            vo.typename = ty.name
+        # 封装信息加载模板输出
+        context = {'typelist': tlist, "goodslist": list2, 'plist': pagelist, 'pIndex': pIndex, 'maxpages': maxpages,
+                   'mywhere': mywhere, 'typeid': int(typeid)}
+        return render(request, "myadmin/goods/index.html", context)
 
 def add(request):
     tlist = Types.objects.extra(select={'_has': 'concat(path,id)'}).order_by('_has')
