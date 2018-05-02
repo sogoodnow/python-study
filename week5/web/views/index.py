@@ -110,4 +110,8 @@ def plists(request,pindex=1):
 
 def detail(request,gid):
     context = loadinfo(request)
+    ob = Goods.objects.get( id = gid)
+    ob.clicknum +=1
+    ob.save()
+    context['goods'] = ob
     return render(request, "web/detail.html",context)
