@@ -117,7 +117,7 @@
         <!-- 商品列表 -->
         <div class="goods-list">
             <div class="row">
-                {% for goods in goodslist %}
+                {% for goods in current_list %}
                     <div class="col-md-3 col-sm-6 col-xs-6">
                     <div class="gl-item">
                         <div class="compare-btn-list">
@@ -193,9 +193,25 @@
 
         </div>
         <!-- 商品列表 -->
-        <!-- 推荐商品 -->
-
-        <!-- 推荐商品 E -->
+        <nav aria-label="Page navigation" class="text-center">
+            <ul class="pagination">
+                <li>
+                    <a href="{% url 'list' pIndex|add:-1 %}?{{ mywhere|join:'&' }}" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                {% for p in page_list %}
+                <li {% if pIndex == p %}class="active" {% endif %}>
+                    <a href="{% url 'list' p %}?{{ mywhere|join:'&' }}">{{p}}</a>
+                </li>
+                {% endfor %}
+                <li>
+                    <a href="{% url 'list' pIndex|add:1 %}?{{ mywhere|join:'&' }}" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
 
     </div>
 </div>

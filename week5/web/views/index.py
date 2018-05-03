@@ -1,6 +1,7 @@
 from django.shortcuts import render,redirect,reverse
 from django.http import HttpResponse
 from common.models import Users,Types,Goods
+from django.core.paginator import Paginator
 
 # 公共信息加载
 def loadinfo(request):
@@ -93,10 +94,11 @@ def index(request):
     context = loadinfo(request)
     return render(request,"web/index.html",context)
 
-def plists(request,pindex=1):
+def plists(request,pIndex=1):
     # 获取商品
     goods = Goods.objects
     context = loadinfo(request)
+    mywhere = []  # 定义一个用于存放搜索条件列表
     # 获取页面传递的类别id，空则为0
     typeid = int(request.GET.get('typeid',0))
     if typeid >0:
@@ -106,6 +108,34 @@ def plists(request,pindex=1):
     else:
         plist = goods.filter()
     context['goodslist'] = plist
+
+    # 获取、判断并封装关keyword键搜索
+    kw = request.GET.get("keyword", None)
+    if kw:
+        # 查询商品名中只要含有关键字的都可以
+        plist = plist.filter(goods__contains=kw)
+        mywhere.append("keyword=" + kw)
+
+    # 执行分页处理
+    pIndex = int(pIndex)
+    page = Paginator(plist,1)
+    max_page = page.num_pages
+    # 越界判断
+    if pIndex > max_page:
+        pIndex = max_page
+    if pIndex<1:
+        pIndex = 1
+    # 当前页数据
+    current_list = page.page(pIndex)
+    # 页码列表
+    page_list = page.page_range
+    # 设置返回值
+    context["pIndex"] = pIndex
+    context["current_list"] = current_list
+    context["page_list"] = page_list
+    context["max_page"] = max_page
+    context["mywhere"] = mywhere
+    context["tid"] = int(typeid)
     return render(request, "web/list.html",context)
 
 def detail(request,gid):
