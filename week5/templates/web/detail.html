@@ -12,7 +12,7 @@
         <div class="ml-nav hidden-xs hidden-sm">
             <ol class="breadcrumb">
                 <li><a href="./index.html">首页</a></li>
-                <li><a href="#"> 魅蓝 X</a></li>
+                <li><a href="#"> {{ goods.goods }}</a></li>
             </ol>
         </div>
         <!-- 面包屑 导航 E-->
@@ -57,18 +57,18 @@
             <div class="col-md-7 col-sm-12 col-xs-12 pt10">
                 <div class="property hidden-xs hidden-sm" id="property">
                     <div class="property-hd">
-                        <h1>魅蓝 X</h1>
-                        <p class="mod-info active">32G直降200元 原价1699元 高清屏安全快充 </p>
+                        <h1>{{ goods.goods }}</h1>
+                        <p class="mod-info active">{{ goods.content }} </p>
                     </div>
                     <div class="property-sell">
                         <dl class="property-sell-price clearfix">
-                            <dt class="vm-metatit" id="J_discountTag">价<span class="s-space"></span><span
-                                    class="s-space"></span>格：
+                            <dt class="vm-metatit" id="J_discountTag">{{ goods.price }}<span class="s-space"></span><span
+                                    class="s-space"></span>
                             </dt>
                             <dd>
                                 <div class="mod-price">
                                     <small>¥</small>
-                                    <span id="J_price" class="vm-money">1499.00</span>
+                                    <span id="J_price" class="vm-money">{{ goods.price }}</span>
                                 </div>
                                 <div class="mod-original" id="J_originalPrice" style="display:none;"></div>
                                 <div class="mod-activity">

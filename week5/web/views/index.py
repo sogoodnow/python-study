@@ -98,27 +98,30 @@ def plists(request,pIndex=1):
     # 获取商品
     goods = Goods.objects
     context = loadinfo(request)
-    mywhere = []  # 定义一个用于存放搜索条件列表
+    # mywhere = []  # 定义一个用于存放搜索条件列表
     # 获取页面传递的类别id，空则为0
     typeid = int(request.GET.get('typeid',0))
+    context["tid"] = typeid
+    # print(typeid)
     if typeid >0:
         # 类别id不为空，则获取对应类别所有商品
         # select id from types where pid='参数id'  select * from goods where typeid in [query1]
         plist = goods.filter(typeid__in=Types.objects.only('id').filter(pid=typeid))
+
     else:
         plist = goods.filter()
     context['goodslist'] = plist
 
     # 获取、判断并封装关keyword键搜索
-    kw = request.GET.get("keyword", None)
-    if kw:
-        # 查询商品名中只要含有关键字的都可以
-        plist = plist.filter(goods__contains=kw)
-        mywhere.append("keyword=" + kw)
+    # kw = request.GET.get("typeid", None)
+    # if kw:
+    #     # 查询商品名中只要含有关键字的都可以
+    #     plist = plist.filter(typeid__contains=kw)
+    #     mywhere.append("typeid=" + kw)
 
     # 执行分页处理
     pIndex = int(pIndex)
-    page = Paginator(plist,1)
+    page = Paginator(plist,2)
     max_page = page.num_pages
     # 越界判断
     if pIndex > max_page:
@@ -134,8 +137,7 @@ def plists(request,pIndex=1):
     context["current_list"] = current_list
     context["page_list"] = page_list
     context["max_page"] = max_page
-    context["mywhere"] = mywhere
-    context["tid"] = int(typeid)
+    # context["mywhere"] = mywhere
     return render(request, "web/list.html",context)
 
 def detail(request,gid):
