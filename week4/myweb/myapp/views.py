@@ -7,7 +7,7 @@ from django.core.paginator import Paginator
 import os,time
 # Create your views here.
 def index(request):
-    return render(request, "index.html")
+    return render(request, "base.html")
 
 def picdel(request,pid):
     pic = Pics.objects.get(id=pid)
@@ -19,6 +19,7 @@ def picdel(request,pid):
         if os.path.exists(bname):
             os.remove(bname)
         pic.delete()
+
         return HttpResponse("图片删除成功！")
     except:
         return HttpResponse("图片删除失败！")
@@ -140,7 +141,7 @@ def usermain(request, pIndex=1):
         pIndex = int(pIndex)
         plist = p.page(pIndex)
         pnums = p.page_range
-        p.num_pages
+
         # context为字典类型
         context = {"info":userinfo}
         return render(request, "users/main.html", {'plist': plist, 'pnums': pnums, 'pIndex': pIndex})

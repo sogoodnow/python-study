@@ -215,12 +215,10 @@ def main():
         key_control(hero)
         # 在英雄对象按下SPACE键后，生成子弹对象，并添加至列表
         hero_bullet_list = hero.bullets
-
         # 随机生成放置敌机
         if random.choice(range(20)) == 10:   # 随机数等于某一数值后，产生敌机
             en = Enemy(screen_main)
             enemy_lis.append(en)             # 加入敌机列表
-
         # 已生成的敌机，每次while循环理解为每一帧，调用移动方法，进行移动
         for en in enemy_lis:
             en.move()               # 移动敌机
@@ -239,8 +237,6 @@ def main():
                     print("中弹了")
                     crs.display()
                     print("game over")
-
-
         # 对子弹队列进行位置判断，对已经出界的子弹，销毁对象
         for i in hero_bullet_list:
             if i.y < 0:  # 已经出界的子弹，销毁对象
@@ -249,7 +245,6 @@ def main():
             else:
                 i.display()  # 没有出界的则进行移动
                 i.y -= BULLET_SPEED
-
         # 遍历敌机与子弹，判断是否碰撞
         for bu in hero_bullet_list:
             for en in enemy_lis:
@@ -261,7 +256,6 @@ def main():
                     enemy_lis.remove(en)
                     hero_bullet_list.remove(bu)
                     continue
-
         # 遍历敌机与我及，判断是否碰撞,没有碰撞且出界的则销毁敌机对象
         for en in enemy_lis:
             # 进行碰撞检测
@@ -271,7 +265,6 @@ def main():
                 enemy_lis.remove(en)
             if en.y > 570 :      # 超出画布销毁对象
                 enemy_lis.remove(en)
-
         #  画布控制，每次向+Y反向移动2，当到达一定位置后，重置位置
         m += 2
         if m >= -100:

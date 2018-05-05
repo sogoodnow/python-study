@@ -185,64 +185,68 @@
                             什么是花呗分期
                         </a>
                     </div>
-                    <div class="property-buy">
-                        <p class="vm-message" id="J_message"></p>
-                        <dl class="property-buy-quantity">
-                            <dt class="vm-metatit">数<span class="s-space"></span><span class="s-space"></span>量：</dt>
-                            <dd class="clearfix">
-                                <div class="mod-control">
-                                    <a title="减少" href="javascript:;" class="vm-minus disabled">-</a>
-                                    <input value="1" id="J_quantity" data-max="5" type="text">
-                                    <a title="增加" href="javascript:;" class="vm-plus">+</a>
-                                </div>
-                            </dd>
-                        </dl>
-                        <div class="property-buy-action">
-                            <a data-mtype="store_de_buy" href="javascript:void(0);" id="J_btnBuy"
-                               class="btn btn-danger btn-lg mr20">立即购买</a>
-                            <a data-mtype="store_de_cart" href="javascript:void(0);" id="J_btnAddCart"
-                               class="btn btn-primary btn-lg hide" style="display:inline-block;"><i></i>加入购物车</a>
-                            <span class="vm-service" id="J_panicBuyingWrap"></span>
-                        </div>
-                    </div>
-                    <div class="prod-addition">
-                        <input id="servertime" value="1503304001935" type="hidden">
+                    <form action="{% url 'cart_add' goods.id %}" method="post">
+                        {% csrf_token %}
+                        <div class="property-buy">
+                            <p class="vm-message" id="J_message"></p>
+                            <dl class="property-buy-quantity">
+                                <dt class="vm-metatit">数<span class="s-space"></span><span class="s-space"></span>量：</dt>
+                                <dd class="clearfix">
+                                    <div class="mod-control">
+                                        <a title="减少" href="javascript:;" class="vm-minus disabled">-</a>
+                                        <input  name="m" value="1" id="J_quantity" data-max="5" type="text">
+                                        <a title="增加" href="javascript:;" class="vm-plus">+</a>
+                                    </div>
+                                </dd>
+                            </dl>
 
-                        <div class="layer-promo" id="layerPromo" style="display:none;">
-                            <div class="layer-promo-hd">
-                                领取优惠券
-                                <a class="vm-close" id="J_promoClose" href="#">
-                                    ╳
-                                </a>
-                            </div>
-                            <div class="layer-promo-bd">
-                                <dl class="discount-coupon" id="J_discountCoupon">
-                                    <dd class="discount-coupon-item clearfix multiple">
-                                        <div class="mod-btn">
-                                            <a class="vm-btn" data-key="658000850">立即领取</a>
-                                        </div>
-                                        <div class="mod-bd clearfix">
-                                            <p class="mod-bd-value">
-                                                <span class="vm-amount"><sup>¥</sup>10.00</span>
-                                                <em>(多品券)</em>
-                                            </p>
-                                            <p class="mod-bd-name">
-                                                <span class="vm-name">818专享优惠券</span>
-                                                <span class="vm-claim">满699可用</span>
-                                            </p>
-                                            <p class="mod-bd-info">
-                                                <span>2017.08.01 11:40 - 2017.08.22 00:00</span>
-                                                <span class="vm-range ellipsis">适用范围：魅族-魅蓝E、魅族-魅蓝MAX、魅族-魅蓝5礼盒版、魅族-魅蓝 X、魅族-魅蓝 note5</span>
-                                                <a class="vm-more" target="_blank"
-                                                   href="//lists.meizu.com/page/couponItems/850.html">查看适用&gt;
-                                                </a>
-                                            </p>
-                                        </div>
-                                    </dd>
-                                </dl>
+                            <div class="property-buy-action">
+                                <button type="submit" data-mtype="store_de_buy"  id="J_btnBuy"
+                                   class="btn btn-danger btn-lg mr20">立即购买</button>
+                                <a data-mtype="store_de_cart" href="javascript:void(0);" id="J_btnAddCart"
+                                   class="btn btn-primary btn-lg hide" style="display:inline-block;"><i></i>加入购物车</a>
+                                <span class="vm-service" id="J_panicBuyingWrap"></span>
                             </div>
                         </div>
-                    </div>
+                    </form>
+                        <div class="prod-addition">
+                            <input id="servertime" value="1503304001935" type="hidden">
+
+                            <div class="layer-promo" id="layerPromo" style="display:none;">
+                                <div class="layer-promo-hd">
+                                    领取优惠券
+                                    <a class="vm-close" id="J_promoClose" href="#">
+                                        ╳
+                                    </a>
+                                </div>
+                                <div class="layer-promo-bd">
+                                    <dl class="discount-coupon" id="J_discountCoupon">
+                                        <dd class="discount-coupon-item clearfix multiple">
+                                            <div class="mod-btn">
+                                                <a class="vm-btn" data-key="658000850">立即领取</a>
+                                            </div>
+                                            <div class="mod-bd clearfix">
+                                                <p class="mod-bd-value">
+                                                    <span class="vm-amount"><sup>¥</sup>10.00</span>
+                                                    <em>(多品券)</em>
+                                                </p>
+                                                <p class="mod-bd-name">
+                                                    <span class="vm-name">818专享优惠券</span>
+                                                    <span class="vm-claim">满699可用</span>
+                                                </p>
+                                                <p class="mod-bd-info">
+                                                    <span>2017.08.01 11:40 - 2017.08.22 00:00</span>
+                                                    <span class="vm-range ellipsis">适用范围：魅族-魅蓝E、魅族-魅蓝MAX、魅族-魅蓝5礼盒版、魅族-魅蓝 X、魅族-魅蓝 note5</span>
+                                                    <a class="vm-more" target="_blank"
+                                                       href="//lists.meizu.com/page/couponItems/850.html">查看适用&gt;
+                                                    </a>
+                                                </p>
+                                            </div>
+                                        </dd>
+                                    </dl>
+                                </div>
+                            </div>
+                        </div>
                 </div>
                 <div id="prod" class="prod">
                     <div class="prod-info">
