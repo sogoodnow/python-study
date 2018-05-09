@@ -1,5 +1,7 @@
 import requests,json
 
+
+
 def tanslate(keywords):
     '''requests有道文字翻译'''
     # 请求地址
@@ -21,14 +23,14 @@ def tanslate(keywords):
     # 发起请求
     try:
         res = requests.post(url,data=data)
-
-        print(res.content.decode('utf-8'))
+        res_data = res.content.decode('utf-8')
+        res_data = json.loads(res_data)
+        print('='*3+res_data['translateResult'][0][0]['tgt'])
     except Exception as e:
         if hasattr(e,'code'):
             print("访问地址出错")
         else:
             print("其他错误"+str(e))
-
 
 
 if __name__ == '__main__':

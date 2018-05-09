@@ -10,7 +10,7 @@ def tanslate(keywords):
         'client': 'fanyideskweb',
         'doctype': 'json',
         'from': 'AUTO',
-        'i': 'python',
+        'i': keywords,
         'keyfrom': 'fanyi.web',
         'salt': '1525781061437',
         'sign': '12b76773ee9320e0a11f6193ee99c871',
@@ -31,8 +31,7 @@ def tanslate(keywords):
         res = request.urlopen(req)
         res_json = res.read().decode('utf-8')
         dic = json.loads(res_json)
-
-        print(dic['smartResult']['entries'][1])
+        print('=' * 3 + dic['translateResult'][0][0]['tgt'])
     except Exception as e:
         if hasattr(e,'code'):
             print("访问地址出错")
