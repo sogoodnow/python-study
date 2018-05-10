@@ -12,8 +12,8 @@ def get_content(pindex):
     '''
     url = 'http://bj.58.com/dashanzi/chuzu/pn'+str(pindex)+'/?ClickID=1'
     res = s.get(url).content.decode('utf-8')
-
-    divlist = re.findall('<div class="des">.*|\n</div>',res,re.S)
+    pat = '<a href= \"(.*?)\" tongji_label=\"listclick\" onclick=\"clickLog(\'from=fcpc_zflist_gzcount\');\" target=\"_blank\" rel=\"nofollow\".*?>\n(.*)</ a>'
+    divlist = re.findall(pat,res,re.S)
     print(len(divlist))
     try:
         pass
