@@ -1,29 +1,12 @@
-import requests
-import re
 import os
+from urllib.request import urlparse,urlunparse
+from urllib import parse
 
-url = r'http://image.baidu.com/search/index?tn=baiduimage&ipn=r&ct=201326592&cl=2&lm=-1&st=-1&fm=result&fr=&sf=1&fmq=1526828856935_R&pv=&ic=0&nc=1&z=&se=1&showtab=0&fb=0&width=&height=&face=0&istype=2&ie=utf-8&hs=2&ctd=1526828856935%5E00_3423X198&word=%E7%BE%8E%E8%85%BF%E4%BC%98%E7%BE%8E%E6%97%97%E8%A2%8D%E7%BE%8E%E5%A5%B3'
-dirpath = r'F:\img'
-
-html = requests.get(url).text
-urls = re.findall(r'"objURL":"(.*?)"', html)
-
-if not os.path.isdir(dirpath):
-    os.mkdir(dirpath)
-
-index = 1
-for url in urls:
-    print("Downloading:", url)
-    try:
-        res = requests.get(url)
-        if str(res.status_code)[0] == "4":
-            print("未下载成功：", url)
-            continue
-    except Exception as e:
-        print("未下载成功：", url)
-    filename = os.path.join(dirpath, str(index) + ".jpg")
-    with open(filename, 'wb') as f:
-        f.write(res.content)
-        index += 1
-
-print("下载结束，一共 %s 张图片" % index)
+# path = os.path.join('./mypic/','aaa')
+# print(os.path.abspath(path))
+# if not os.path.exists(path):
+#     os.makedirs(path)
+# fromURL=ippr_z2C$qAzdH3FAzdH3Fooo_z&e3Bujtzs_z&e3Bv54AzdH3Fip4sAzdH3Flac9c_z&e3Bip4
+# print(parse.unquote('http%3A%2F%2Fimgfs.oppo.cn%2Fuploads%2Fthread%2Fattachment%2F2017%2F02%2F01%2F14859532789405.jpg'))
+print(parse.unquote('http:\/\/www.wflib.com\/zhaobu66\/yzcca88\/ou3q\/2fcs\/kg0\/'))
+# objURL=ippr_z2C$qAzdH3FAzdH3Frtv_z&e3Bujtzs_z&e3Bv54AzdH3F7rs5w1AzdH3Fwsst42AzdH3F80am89AzdH3FddnndQCa-a_z&e3B3r2
