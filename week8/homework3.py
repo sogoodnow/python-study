@@ -10,6 +10,8 @@ ls_img = []
 pra_time = str(time.time())[0:8] + str(random.randint(10000, 20000))
 # 用于存储所有的图片地址，用于添加时判断是否链接已存在
 img_url = []
+# 存放获取失败时，所创建的文件夹名称
+err_path = []
 
 # 模拟点击街拍分类
 def getpage(page,keyword):
@@ -98,16 +100,20 @@ def saveimg():
         file_url = img.get('filename')
         # print(file_url)
         # 处理每组图片的存储路径
-        cp = str(title).split()[0]
+        cp = str(title).strip().split()[0]
         cp = re.split('[\W]',cp)
-        path = os.path.join("./mypic/", cp[0])
+        # 没有文件标题的情况下，归类到【其他文件夹】
+        if cp[0]:
+            path = os.path.join("./mypic/", cp[0])
+        else:
+            path = os.path.join("./mypic/",'其他')
+        # 文件夹不存在则创建
         if not os.path.exists(path):
             os.makedirs(path)
         try:
             img_path = path+'/'+str(time.time())+'.jpg'
             print(img_path)
-            # urlretrieve(file_url,img_path)
-            # print(file_url)
+            # urlretrieve(file_url,path)
             # 设置超时参数0.1
             with s.get(file_url, stream=True,timeout=1) as ir:  # 使用with的好处不用考虑close关闭问题。
                 with open(img_path, 'wb') as f:
@@ -115,28 +121,65 @@ def saveimg():
                         f.write(chunk)
             img_count += 1
         except Exception as e:
+            # 清理无数据文件夹
+            if os.path.exists(path) and len(os.listdir(path)) == 0:
+                try:
+                    os.removedirs(path)
+                except IOError as ioe:
+                    print(str(ioe))
             print(str(e))
             pass
-        print("成功爬取图片总数：" + str(img_count))
+
 
 if __name__ == '__main__':
     # 图片爬取成功总数
     global img_count
     img_count = 0
-    # 图片搜索关键字
-    # keyword = '美腿优美旗袍美女'
-    keyword = '奔驰'
-    # 进入百度街拍
-    headers = {
-        'User-Agent': 'User-Agent:Mozilla/5.0(WindowsNT6.1;rv:2.0.1)Gecko/20100101Firefox/4.0.1',
+    while True:
+        keyword = input("输入图片关键字：")
+        page = input('请输入抓取页数：')
+        if re.match('\W',keyword):
+            print('请输入有效文字！')
+            continue
+        if re.match('[^\d]',page):
+            print('请输入有效文字！')
+            continue
+        # 请求头信息
+        headers = {
+            'User-Agent': 'User-Agent:Mozilla/5.0(WindowsNT6.1;rv:2.0.1)Gecko/20100101Firefox/4.0.1',
+        }
+        params = {
+            'tn': 'baiduimage',
+            'ipn': 'r',
+            'ct': '201326592',
+            'cl': '2',
+            'lm': '-1',
+            'st': '-1',
+            'fm': 'result',
+            'sf': '1',
+            'fmq': '1526877991010_R',
+            'ic': '0',
+            'nc': '1',
+            'se': '1',
+            'showtab': '0',
+            'fb': '0',
+            'face': '0',
+            'istype': '2',
+            'ie': 'utf - 8',
+            'ctd': '1526877991010 ^ 00_1903X577',
+            'word': keyword
     }
-    url1 = "https://image.baidu.com/user/logininfo?src=pc&page=searchresult&time=" + pra_time
-    s.get(url1,headers=headers)
-    # 每隔0.5秒爬30张图片，添加至列表，保存至本地
-    for i in range(0,60,30):
-        res_json = getpage(i,keyword)
-        getimage(res_json)
-        saveimg()
-        time.sleep(0.5)
-    # print(img_url)
+        # 地址
+        url1 = "https://image.baidu.com/search/index?" + urlencode(params)
+        s.get(url1,headers=headers)
+        # 每隔0.5秒爬30张图片，添加至列表，保存至本地
+        for i in range(0,int(page)*30,30):
+            res_json = getpage(i,keyword)
+            getimage(res_json)
+            saveimg()
+            time.sleep(0.5)
+        # 信息打印
+        print('*' * 50)
+        print("成功爬取图片总数：" + str(img_count))
+        print('*'*50)
 
