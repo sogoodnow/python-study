@@ -144,6 +144,7 @@ if __name__ == '__main__':
         if re.match('[^\d]',page):
             print('请输入有效文字！')
             continue
+        start_time = time.time()
         # 请求头信息
         headers = {
             'User-Agent': 'User-Agent:Mozilla/5.0(WindowsNT6.1;rv:2.0.1)Gecko/20100101Firefox/4.0.1',
@@ -178,8 +179,9 @@ if __name__ == '__main__':
             getimage(res_json)
             saveimg()
             time.sleep(0.5)
+        end_time = time.time()
         # 信息打印
         print('*' * 50)
-        print("成功爬取图片总数：" + str(img_count))
+        print("成功爬取图片总数：" + str(img_count)+',抓取耗时：'+str(round(end_time-start_time,2))+'秒')
         print('*'*50)
 
