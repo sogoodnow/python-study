@@ -8,7 +8,13 @@
 import scrapy
 
 
-class Week9Item(scrapy.Item):
-    # define the fields for your item here like:
-    # name = scrapy.Field()
-    pass
+class SinaItem(scrapy.Item):
+    # 大分类标题
+    title_first = scrapy.Field()
+    # 二级分类标题、链接
+    title_second = scrapy.Field()
+    link_second = scrapy.Field()
+    # 三级分类标题、链接地址
+    title_third = scrapy.Field()
+    link_third = scrapy.Field()
+
