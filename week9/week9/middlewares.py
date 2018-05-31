@@ -69,10 +69,12 @@ class Week9DownloaderMiddleware(object):
         return s
 
     def process_request(self, request, spider):
+
         # Called for each request that goes through the downloader
         # middleware.
-
-        # Must either:
+        # print('here')
+        # request.headers.setdefault('User-Agent','Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.181 Safari/537.36')
+        # # Must either:
         # - return None: continue processing this request
         # - or return a Response object
         # - or return a Request object

@@ -14,7 +14,7 @@ class SinaSpider(scrapy.Spider):
         for di in dlist:
             # 遍历大分类,第一层
             item['title_first'] = ' '.join(di.css('h2::text').extract())
-            print(item['title_first'])
+            print('*'*10+item['title_first']+'*'*10)
 
             # 第二层标题及链接
             lev2_list = di.css('.clearfix')
@@ -31,17 +31,12 @@ class SinaSpider(scrapy.Spider):
                     item['link_second'] = l2.xpath('./h3/a/@href').extract_first()
                 else:
                     item['link_second'] = ''
-                print(item['title_second']+':'+item['link_second'])
-                # print(item['link_second'])
-                # print(item['link_second'])
-            # print('-'*50)
+                print(' |'*2+item['title_second']+':'+item['link_second'])
+                # -----------第三层-----------
+                l3_list = l2.css('li')
+                for l3 in l3_list:
+                    item['title_third'] = l3.css('a::text').extract_first()
+                    item['link_third'] = l3.css('a::attr(href)').extract_first()
+                    print(' |'*6+item['title_third'] + ':' + item['link_third'])
 
-            # # 第三层标题及链接
-            # li_list = di.css('.clearfix ul[class*="list"] li')
-            # for li in li_list:
-            #     item['title_third'] = li.css('a::text').extract_first()
-            #     item['link_third'] = li.css('a::attr(href)').extract_first()
-            #     print(item['title_third']+':'+item['link_third'])
-            # print('*'*150)
-        # print(response)
 
