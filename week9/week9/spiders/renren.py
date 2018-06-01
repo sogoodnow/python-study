@@ -2,7 +2,7 @@
 import scrapy
 from scrapy.http import Request
 from urllib.parse import urlencode
-
+import json
 
 class RenrenSpider(scrapy.Spider):
     name = 'renren'
@@ -10,21 +10,26 @@ class RenrenSpider(scrapy.Spider):
     start_urls = ['http://www.renren.com']
 
     def start_requests(self):
-
-        # http://www.renren.com/ajaxLogin/login?1=1&uniqueTimestamp=201844168865
-        # email = 13951502395 & icode = & origURL = http % 3
-        # A % 2
-        # F % 2
-        # Fwww.renren.com % 2
-        # Fhome & domain = renren.com & key_id = 1 & captcha_type = web_login & password = 482
-        # c9b45ab50f5659babb10f8203b4f950984db6b007c27275c3c0a51cea86f2 & rkey = 534
-        # ea44d0764829b5c7418a7bfa43e5b & f = http % 253
-        # A % 252
-        # F % 252
-        # Fzhibo.renren.com % 252
-        # Ftop
-        pass
+        # 设置登录参数，发起post请求，第一次请求，在所有请求之前
+        url = 'http://www.renren.com/ajaxLogin/login?'
+        pramas = {'email':'13951502395','password':'qiuguochang2018',
+                  'captcha_type':'web_login',
+                  'uniqueTimestamp':'201844168865'}
+        url = url + urlencode(pramas)
+        # 第一次请求完成后调用
+        return [Request(url,method='POST',callback=self.parse)]
 
 
     def parse(self, response):
-        pass
+        homeUrl = json.loads(response.text)
+        homeUrl = homeUrl['homeUrl']
+        # 登录成功后，获取页面信息，防止域过滤，dont_filter=True
+        return [Request(homeUrl,callback=self.home,dont_filter=True)]
+
+    def home(self,response):
+        # 获取登录后，登录用户的名字并打印
+        print('in==============')
+        # print(response.css('.hd-name a::text').extract_first())
+        print(response.css('.hd-name::text').extract_first())
+
+
