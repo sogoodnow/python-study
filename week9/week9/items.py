@@ -18,3 +18,22 @@ class SinaItem(scrapy.Item):
     title_third = scrapy.Field()
     link_third = scrapy.Field()
 
+class DangItem(scrapy.Item):
+    # 图片
+    img = scrapy.Field()
+    # 名称
+    name = scrapy.Field()
+    # 详细
+    detail = scrapy.Field()
+    # 价格
+    price = scrapy.Field()
+    # 评论数
+    comment_num = scrapy.Field()
+    # 作者
+    author = scrapy.Field()
+    # 出版社
+    publish = scrapy.Field()
+    # 出版时间
+    p_time = scrapy.Field()
+
+

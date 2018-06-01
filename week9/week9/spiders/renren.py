@@ -2,6 +2,7 @@
 import scrapy
 from scrapy.http import Request
 from urllib.parse import urlencode
+
 import json
 
 class RenrenSpider(scrapy.Spider):
