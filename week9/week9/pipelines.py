@@ -46,11 +46,14 @@ class Mysql_pipeline(object):
         self.cursor = self.db.cursor()
 
     def process_item(self, item, spider):
-        sql = "insert into dangdang(img,name,detail,price," \
+        # print(item)
+        sql = "insert into dangdang(title,detail,price," \
               "comment_num,author,publish,p_time) " \
-              "values ('%s','%s','%s','%s','%d','%s','%s','%s')"%\
-              (item['img'],item['name'],item['detail'],item['price'],int(item['comment_num']),item['author'],item['publish'],item['p_time'])
+              "values ('%s','%s','%s','%s','%s','%s','%s')"%\
+              (item['title'],item['detail'],item['price'],item['comment_num'],item['author'],item['publish'],item['p_time'])
+        # print(sql)
         self.cursor.execute(sql)
+        self.cursor.commite()
 
     def close_spider(self,spider):
         self.cursor.close()

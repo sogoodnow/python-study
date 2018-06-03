@@ -2,7 +2,7 @@ CREATE TABLE `test`.`dangdang` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `img` VARCHAR(45) NULL,
   `name` VARCHAR(45) NULL,
-  `detail` VARCHAR(45) NULL,
+  `detail` VARCHAR(245) NULL,
   `price` VARCHAR(6) NULL,
   `comment_num` INT UNSIGNED NULL,
   `author` VARCHAR(45) NULL,
