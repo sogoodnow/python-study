@@ -20,9 +20,10 @@ class SinaItem(scrapy.Item):
 
 class DangItem(scrapy.Item):
     # 图片
-    img = scrapy.Field()
+    img_url = scrapy.Field()
+    img_path = scrapy.Field()
     # 名称
-    name = scrapy.Field()
+    title = scrapy.Field()
     # 详细
     detail = scrapy.Field()
     # 价格
