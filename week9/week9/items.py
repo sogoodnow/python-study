@@ -7,6 +7,9 @@
 
 import scrapy
 
+# def clean(value):
+#     print(value)
+#     return str(value).split('/')[1]
 
 class SinaItem(scrapy.Item):
     # 大分类标题

@@ -3,6 +3,7 @@ import pymysql
 from scrapy.pipelines.images import ImagesPipeline
 from scrapy import Request
 from scrapy.exceptions import DropItem
+import json
 # Define your item pipelines here
 #
 # Don't forget to add your pipeline to the ITEM_PIPELINES setting
@@ -42,18 +43,25 @@ class Mysql_pipeline(object):
         )
 
     def open_spider(self,spider):
-        self.db = pymysql.connect(self.host, self.user, self.password, self.database, charset='utf8', port=self.port)
-        self.cursor = self.db.cursor()
+        try:
+            self.db = pymysql.connect(self.host, self.user, self.password, self.database, charset='utf8', port=self.port)
+            self.cursor = self.db.cursor()
+        except Exception as e:
+            print(str(e))
 
     def process_item(self, item, spider):
-        # print(item)
-        sql = "insert into dangdang(title,detail,price," \
-              "comment_num,author,publish,p_time) " \
-              "values ('%s','%s','%s','%s','%s','%s','%s')"%\
-              (item['title'],item['detail'],item['price'],item['comment_num'],item['author'],item['publish'],item['p_time'])
-        # print(sql)
-        self.cursor.execute(sql)
-        self.cursor.commite()
+        # 出版日期简单处理
+        if str(item['p_time']).split('/')[1]:
+            item['p_time'] = str(item['p_time']).split('/')[1]
+        sql = "insert into dangdang(title,detail,price,comment_num,author,publish,p_time)values('%s','%s','%s','%s','%s','%s','%s')"%(item['title'],item['detail'],item['price'],item['comment_num'],item['author'],item['publish'],item['p_time'])
+        try:
+            print(item)
+            print(sql)
+            self.cursor.execute(sql)
+            self.db.commit()
+            return item
+        except Exception as e:
+            print(str(e))
 
     def close_spider(self,spider):
         self.cursor.close()

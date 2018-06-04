@@ -1,11 +1,13 @@
+use test;
+drop table dangdang;
 CREATE TABLE `test`.`dangdang` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `img` VARCHAR(45) NULL,
-  `name` VARCHAR(45) NULL,
-  `detail` VARCHAR(245) NULL,
-  `price` VARCHAR(6) NULL,
-  `comment_num` INT UNSIGNED NULL,
-  `author` VARCHAR(45) NULL,
-  `publish` VARCHAR(45) NULL,
-  `p_time` VARCHAR(45) NULL,
+  `title` VARCHAR(245) NULL,
+  `detail` VARCHAR(500) NULL,
+  `price` VARCHAR(20) NULL,
+  `comment_num` VARCHAR(50) NULL,
+  `author` VARCHAR(80) NULL,
+  `publish` VARCHAR(80) NULL,
+  `p_time` VARCHAR(80) NULL,
   PRIMARY KEY (`id`));
