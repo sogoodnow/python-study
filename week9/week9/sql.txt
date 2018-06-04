@@ -2,7 +2,7 @@ use test;
 drop table dangdang;
 CREATE TABLE `test`.`dangdang` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `img` VARCHAR(45) NULL,
+  `img` VARCHAR(500) NULL,
   `title` VARCHAR(245) NULL,
   `detail` VARCHAR(500) NULL,
   `price` VARCHAR(20) NULL,

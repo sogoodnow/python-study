@@ -1,3 +1,5 @@
 from scrapy import cmdline
 
-cmdline.execute("scrapy crawl dangdang".split())
+com = "scrapy crawl dangdang"
+log = "scrpay crawl dangdang  -s LOG_FILE=all.log "
+cmdline.execute(com.split())

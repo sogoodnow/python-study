@@ -23,8 +23,9 @@ class SinaItem(scrapy.Item):
 
 class DangItem(scrapy.Item):
     # 图片
-    img_url = scrapy.Field()
+    img_urls = scrapy.Field()
     img_path = scrapy.Field()
+    # images = scrapy.Field()
     # 名称
     title = scrapy.Field()
     # 详细

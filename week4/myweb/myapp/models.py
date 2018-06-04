@@ -2,11 +2,11 @@ from django.db import models,connection
 import PIL
 # Create your models here.
 
-
 class Userinfo(models.Model):
     """
     学员表
     """
+
     name = models.CharField(max_length=30,name="name")  #姓名
     age = models.IntegerField(name="age")   #年龄
     phone = models.CharField(max_length=13,name="phone")    #电话

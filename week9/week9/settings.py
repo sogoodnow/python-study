@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+import os
 # Scrapy settings for week9 project
 #
 # For simplicity, this file contains only settings considered important or
@@ -66,9 +66,8 @@ DEFAULT_REQUEST_HEADERS = {
 # Configure item pipelines
 # See https://doc.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
-   # 'week9.pipelines.Dangdang_pipeline': 200,
-   'week9.pipelines.Image_pipeline': 300,
-   'week9.pipelines.Mysql_pipeline': 400,
+   'week9.pipelines.Image_pipeline': 100,
+   'week9.pipelines.Mysql_pipeline': 200,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)
@@ -97,6 +96,8 @@ MYSQL_DATABASE = "test"
 MYSQL_USER = "root"
 MYSQL_PASS = "root"
 MYSQL_PORT = 3306
-IMG_STORE = './img'
-IMAGES_URLS_FIELD = 'img_url'
-IMAGES_RESULT_FIELD = 'img_s'
+
+#工程根目录
+project_dir = os.path.dirname(__file__)
+#下载图片存储位置
+IMAGES_STORE = os.path.join(project_dir, 'img')

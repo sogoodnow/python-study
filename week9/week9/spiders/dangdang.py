@@ -34,6 +34,11 @@ class DangdangSpider(scrapy.Spider):
         # =======单item实现============
         for li in response.css('ul li[class*="line"]'):
             item = DangItem()
+            # 图片
+            if li.css('.pic img::attr(data-original)').extract_first():
+                item['img_urls'] = li.css('.pic img::attr(data-original)').extract_first()
+            else:
+                item['img_urls'] = li.css('.pic img::attr(src)').extract_first()
             # 标题
             item['title'] = li.css('p[class="name"] a::attr(title)').extract_first()
             # 详细
