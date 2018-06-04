@@ -97,7 +97,7 @@ MYSQL_USER = "root"
 MYSQL_PASS = "root"
 MYSQL_PORT = 3306
 
-#工程根目录
+#工程根目录 设置
 project_dir = os.path.dirname(__file__)
 #下载图片存储位置
 IMAGES_STORE = os.path.join(project_dir, 'img')

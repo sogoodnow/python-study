@@ -25,7 +25,7 @@ class RenrenSpider(scrapy.Spider):
     def parse(self, response):
         homeUrl = json.loads(response.text)
         homeUrl = homeUrl['homeUrl']
-        # 登录成功后，获取页面信息，防止域过滤，dont_filter=True
+        # 登录成功后，获取页面信息，防止域过滤，dont_filter=True  
         return [Request(homeUrl,callback=self.home,dont_filter=True)]
 
     def home(self,response):

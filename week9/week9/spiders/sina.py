@@ -12,7 +12,7 @@ class SinaSpider(scrapy.Spider):
         dlist = response.css('.article div.section')
         item = SinaItem()
         for di in dlist:
-            # 遍历大分类,第一层
+            # 遍历大分类,第一层注释
             item['title_first'] = ' '.join(di.css('h2::text').extract())
             print('*'*10+item['title_first']+'*'*10)
 

@@ -11,8 +11,7 @@ from scrapy.exceptions import DropItem
 class Image_pipeline(ImagesPipeline):
     def get_media_requests(self, item, info):
         '''通过抓取的item对象获取图片信息，并创建Request请求对象添加调度队列，等待调度执行下载'''
-        # for imgurl in item['img_urls']:
-        #     print('*'*100+imgurl)
+
         yield Request(item['img_urls'])
 
     def file_path(self,request,response=None,info=None):
