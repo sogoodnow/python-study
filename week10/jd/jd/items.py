@@ -8,11 +8,11 @@
 import scrapy
 
 
-class JdItem(scrapy.Item):
+class Product(scrapy.Item):
     # define the fields for your item here like:
     img = scrapy.Field()
     price = scrapy.Field()
     name = scrapy.Field()
-    commit = scrapy.Field()
+    comment_cnt = scrapy.Field()
 
     pass

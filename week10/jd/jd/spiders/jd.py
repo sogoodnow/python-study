@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 import scrapy
 from scrapy.http.request import Request
+from week10.jd.jd.items import Product
 from urllib.parse import quote
+
 
 class JdSpider(scrapy.Spider):
     name = 'jd'
@@ -15,4 +17,12 @@ class JdSpider(scrapy.Spider):
             yield Request(url=url,callback=self.parse, meta={'page': page}, dont_filter=True)
 
     def parse(self, response):
-        pass
+        products = response.css('#plist ul li.gl-item')
+        print(products)
+        for p in products:
+            item = Product()
+            item['img'] = p
+            item['price'] = p
+            item['name'] = p
+            item['comment_cnt'] = p
+            yield item
