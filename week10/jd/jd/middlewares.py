@@ -3,6 +3,8 @@ from scrapy import signals
 from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
 from logging import getLogger
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as EC
 
 class JdSpiderMiddleware(object):
     # Not all methods need to be defined. If a method is not defined,
@@ -74,6 +76,15 @@ class JdDownloaderMiddleware(object):
 
     def process_request(self, request, spider):
         self.logger.debug('begin-----------')
+        page = request.meta.get('page',1)
+        try:
+            self.browser.get(request.url)
+            if page>1:
+                input = self.wait.until(EC.presence_of_element_located(By.ID,'page_jump_num'))
+                submit = self.wait.until(EC.element_to_be_clickable(By.CSS_SELECTOR,'#J_bottomPage .p-skip .btn'))
+
+
+
 
         return None
 
