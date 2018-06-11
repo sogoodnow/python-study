@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import scrapy
 from scrapy.http.request import Request
-from week10.jd.jd.items import JdItem
+from ..items import JdItem
 
 class JdSpider(scrapy.Spider):
     name = 'jd'
