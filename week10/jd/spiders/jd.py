@@ -19,9 +19,11 @@ class JdSpider(scrapy.Spider):
         for pd in products:
             item = JdItem()
             item['img'] = pd.css(".p-img a img::attr(src)").extract_first()
-            item['price'] = pd.css(".p-price .J_price i::text()").extract_first()
-            item['name'] = pd.css(".p-name a em::text()").extract_first()
-            item['comment_cnt'] = pd.css(".p-commit a::text()").extract_first()
+            item['price'] = pd.css(".p-price strong[class='J_price'] i").extract_first()
+            item['name'] = pd.css(".p-name a em::text").extract_first()
+            # pd.xpath('//div[@class="p-commit p-commit-n"]/strong/a/text()')
+            item['comment_cnt'] = pd.css(".p-commit .comment::text").extract_first()
+            print(item)
             yield item
 
 

@@ -7,6 +7,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from scrapy.http import HtmlResponse
 from logging import getLogger
+from selenium.webdriver.chrome.options import Options
 
 class JdSpiderMiddleware(object):
     # Not all methods need to be defined. If a method is not defined,
@@ -57,62 +58,47 @@ class JdSpiderMiddleware(object):
 
 
 class JdDownloaderMiddleware(object):
-    def __init__(self,timeout=None,service_args=[]):
+    def __init__(self,timeout=None):
+        # chrome_options = Options()
+        # chrome_options.add_argument('--headless')
+        # self.driver = webdriver.Chrome(chrome_options=chrome_options)
+        self.driver = webdriver.Chrome()
         self.logger = getLogger(__name__)
-        self.browser = webdriver.PhantomJS(service_args=service_args)
         self.timeout = timeout
-        self.browser.set_page_load_timeout(self.timeout)
-        self.browser.set_window_size(1400,700)
-        self.wait =WebDriverWait(self.browser,self.timeout)
+        self.driver.set_page_load_timeout(self.timeout)
+        self.driver.set_window_size(1400,700)
+        self.wait =WebDriverWait(self.driver,self.timeout)
 
     def __del__(self):
-        self.browser.close()
+        self.driver.close()
 
 
     @classmethod
     def from_crawler(cls, crawler):
         # This method is used by Scrapy to create your spiders.
-        s = cls()
-        crawler.signals.connect(s.spider_opened, signal=signals.spider_opened)
-        return cls(timeout=crawler.settings.get('DRIVER_TIME_OUT'),service_args=crawler.settings.get('PHANTOMJS_SERVICE_ARGS'))
+        # s = cls()
+        # crawler.signals.connect(s.spider_opened, signal=signals.spider_opened)
+        return cls(timeout=crawler.settings.get('DRIVER_TIME_OUT'))
 
     def process_request(self, request, spider):
         self.logger.debug('begin-----------')
         page = request.meta.get('page',1)
+
         try:
-            self.browser.get(request.url)
+            self.driver.get(request.url)
             if page>1:
-                input = self.wait.until(EC.presence_of_element_located(By.ID,'page_jump_num'))
-                submit = self.wait.until(EC.element_to_be_clickable(By.CSS_SELECTOR,'#J_bottomPage .p-skip .btn'))
-                input.clear()
-                input.send_keys(page)
+                # self.driver.implicitly_wait(5)
+                cinput = self.wait.until(EC.presence_of_element_located((By.CSS_SELECTOR,".J_bottomPage")))
+                submit = self.wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR,"#J_bottomPage .p-skip .btn")))
+                cinput.clear()
+                cinput.send_keys(page)
                 submit.click()
-                self.wait.until(EC.presence_of_element_located(By.CLASS_NAME,'page'))
+                self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+                self.driver.implicitly_wait(2)
+                self.wait.until(EC.presence_of_element_located((By.CLASS_NAME,'page')))
                 self.wait.until(EC.text_to_be_present_in_element((By.ID,'page_jump_num'),str(page)))
-                return HtmlResponse(url=request.url,body=self.browser.page_source,request=request,encoding='utf-8',status=200)
+                return HtmlResponse(url=request.url,body=self.driver.page_source,request=request,encoding='utf-8',status=200)
         except TimeoutException:
             return HtmlResponse(url=request.url,request=request,status=500)
 
 
-
-    def process_response(self, request, response, spider):
-        # Called with the response returned from the downloader.
-
-        # Must either;
-        # - return a Response object
-        # - return a Request object
-        # - or raise IgnoreRequest
-        return response
-
-    def process_exception(self, request, exception, spider):
-        # Called when a download handler or a process_request()
-        # (from other downloader middleware) raises an exception.
-
-        # Must either:
-        # - return None: continue processing this exception
-        # - return a Response object: stops process_exception() chain
-        # - return a Request object: stops process_exception() chain
-        pass
-
-    def spider_opened(self, spider):
-        spider.logger.info('Spider opened: %s' % spider.name)

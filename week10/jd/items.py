@@ -8,7 +8,7 @@
 import scrapy
 
 
-class Product(scrapy.Item):
+class JdItem(scrapy.Item):
     # define the fields for your item here like:
     img = scrapy.Field()
     price = scrapy.Field()
