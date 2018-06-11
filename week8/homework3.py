@@ -1,6 +1,6 @@
 import time,random,requests,json,os,re,gzip
 from urllib.request import urlretrieve
-from urllib.parse import urlencode
+from urllib.parse import urlencode,unquote
 
 # 状态维持
 s = requests.session()

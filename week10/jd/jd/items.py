@@ -13,6 +13,5 @@ class JdItem(scrapy.Item):
     img = scrapy.Field()
     price = scrapy.Field()
     name = scrapy.Field()
-    commit = scrapy.Field()
+    comment_cnt = scrapy.Field()
 
-    pass
