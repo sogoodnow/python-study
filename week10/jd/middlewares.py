@@ -88,7 +88,7 @@ class JdDownloaderMiddleware(object):
             self.driver.get(request.url)
             if page>1:
                 # self.driver.implicitly_wait(5)
-                cinput = self.wait.until(EC.presence_of_element_located((By.CSS_SELECTOR,".J_bottomPage")))
+                cinput = self.wait.until(EC.presence_of_element_located((By.ID,"page_jump_num")))
                 submit = self.wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR,"#J_bottomPage .p-skip .btn")))
                 cinput.clear()
                 cinput.send_keys(page)
