@@ -24,8 +24,8 @@ class Image_pipeline(ImagesPipeline):
         file_paths = [x['path'] for ok, x in results if ok]
         if not file_paths:
             raise DropItem("Item contains no files")
-        # item['img_path'] = file_paths
-        # print(item)
+        item['img_path'] = file_paths
+        # print(item['img_path'])
         return item
 
 
@@ -66,7 +66,9 @@ class Mysql_pipeline(object):
             self.db.commit()
             return item
         except Exception as e:
+            print(item['img_urls'])
             print(str(e))
 
     def close_spider(self,spider):
         self.cursor.close()
+

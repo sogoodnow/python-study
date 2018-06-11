@@ -65,7 +65,7 @@ DOWNLOADER_MIDDLEWARES = {
 # Configure item pipelines
 # See https://doc.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
-   'jd.pipelines.JdPipeline': 300,
+   'jd.pipelines.MongoPileline': 300,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)
@@ -91,3 +91,5 @@ ITEM_PIPELINES = {
 PAGE_COUNT = 10
 DRIVER_TIME_OUT=10
 PHANTOMJS_SERVICE_ARGS = ['--load-images=false', '--disk-cache=true']
+MONGO_URI = "127.0.0.1"
+MONGO_DB = "jd"

@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 from scrapy import signals
 from selenium import webdriver
-from selenium.webdriver.support.ui import WebDriverWait
-from logging import getLogger
+from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from scrapy.http import HtmlResponse
-from selenium.common.exceptions import TimeoutException
+from logging import getLogger
 
 class JdSpiderMiddleware(object):
     # Not all methods need to be defined. If a method is not defined,
@@ -87,11 +87,12 @@ class JdDownloaderMiddleware(object):
                 input.clear()
                 input.send_keys(page)
                 submit.click()
+                self.wait.until(EC.presence_of_element_located(By.CLASS_NAME,'page'))
                 self.wait.until(EC.text_to_be_present_in_element((By.ID,'page_jump_num'),str(page)))
-                return HtmlResponse(url=request.url, body=self.browser.page_source, request=request, encoding='utf-8',
-                                    status=200)
+                return HtmlResponse(url=request.url,body=self.browser.page_source,request=request,encoding='utf-8',status=200)
         except TimeoutException:
-            return HtmlResponse(url=request.url, status=500, request=request)
+            return HtmlResponse(url=request.url,request=request,status=500)
+
 
 
     def process_response(self, request, response, spider):

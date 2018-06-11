@@ -25,7 +25,6 @@ class DangItem(scrapy.Item):
     # 图片
     img_urls = scrapy.Field()
     img_path = scrapy.Field()
-
     # 名称
     title = scrapy.Field()
     # 详细

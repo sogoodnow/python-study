@@ -15,4 +15,3 @@ class Product(scrapy.Item):
     name = scrapy.Field()
     comment_cnt = scrapy.Field()
 
-    pass
