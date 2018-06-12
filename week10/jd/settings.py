@@ -89,7 +89,7 @@ ITEM_PIPELINES = {
 #HTTPCACHE_IGNORE_HTTP_CODES = []
 #HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
 PAGE_COUNT = 2
-DRIVER_TIME_OUT=10
+DRIVER_TIME_OUT=20
 PHANTOMJS_SERVICE_ARGS = ['--load-images=false', '--disk-cache=true']
 MONGO_URI = "127.0.0.1"
 MONGO_DB = "jd"
