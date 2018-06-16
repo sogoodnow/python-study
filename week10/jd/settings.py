@@ -93,3 +93,5 @@ DRIVER_TIME_OUT=20
 PHANTOMJS_SERVICE_ARGS = ['--load-images=false', '--disk-cache=true']
 MONGO_URI = "127.0.0.1"
 MONGO_DB = "jd"
+LOG_LEVEL = 'DEBUG'
+LOG_FILE = './log.txt'
