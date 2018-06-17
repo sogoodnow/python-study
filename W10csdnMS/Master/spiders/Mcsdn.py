@@ -14,11 +14,13 @@ class CsdnSpider(CrawlSpider):
       restrict_css=(), tags=('a', 'area'), attrs=('href', ), 
       canonicalize=False, unique=True, process_value=None, strip=True)
     """
+    links = LxmlLinkExtractor(allow="/(p[0-9])*$",allow_domains='csdn.net',restrict_css=('.btn.btn-xs.btn-default.btn-next',))
     rules = [
-        Rule(LxmlLinkExtractor(restrict_css=('.course_dl_list a', )), callback='parse_directory', follow=True),
-        # Rule(LxmlLinkExtractor(restrict_css=('.page-nav .btn.btn-xs.btn-default', )), callback='parse_directory', follow=True),
-        # Rule(LxmlLinkExtractor(allow=('p[0-9]+'), allow_domains=('csdn.net')),callback='parse_directory', follow=True),
-        Rule(LxmlLinkExtractor(allow=('p[0-9]$'), allow_domains=('csdn.net')),callback='parse_directory', follow=True),
+        # 设定爬去规则的‘组’，很重要！
+        # 第一组规则：在点击下一页后，爬尾数0-9的页，控制范围
+        # 第二组规则：在符合第一组规则的页面上，爬去信息区域链接
+        Rule(links,callback='parse_directory', follow=True),
+        Rule(LxmlLinkExtractor(restrict_css=('.course_dl_list a',)), callback='parse_directory', follow=True),
     ]
 
     def parse_directory(self, response):
