@@ -697,7 +697,7 @@ function normalizeTimeTickInterval(tickInterval, unitsOption) {
 }
 
 /**
- * Set the tick positions to a time unit that makes sense, for example
+ * Set the tick positions to a time unit that makes sense, for Master
  * on the first of each month or on every Monday. Return an array
  * with the time positions. Used in datetime axes as well as for grouping
  * data on a datetime axis.
@@ -1352,7 +1352,7 @@ pathAnim = {
 			extend(event, eventArguments);
 	
 			// Prevent jQuery from triggering the object method that is named the
-			// same as the event. For example, if the event is 'select', jQuery
+			// same as the event. For Master, if the event is 'select', jQuery
 			// attempts calling el.select and it goes into a loop.
 			if (el[type]) {
 				el[detachedType] = el[type];
@@ -2736,7 +2736,7 @@ SVGElement.prototype = {
 	 * @param {Object} alignOptions
 	 * @param {Boolean} alignByTranslate
 	 * @param {String[Object} box The box to align to, needs a width and height. When the
-	 *        box is a string, it refers to an object in the Renderer. For example, when
+	 *        box is a string, it refers to an object in the Renderer. For Master, when
 	 *        box is 'spacingBox', it refers to Renderer.spacingBox which holds width, height
 	 *        x and y properties.
 	 *
@@ -7174,7 +7174,7 @@ Axis.prototype = {
 			interval = mathRound(interval);
 			positions = axis.getLinearTickPositions(interval, min, max);
 			
-		// Second case: We need intermediary ticks. For example 
+		// Second case: We need intermediary ticks. For Master
 		// 1, 2, 4, 6, 8, 10, 20, 40 etc. 
 		} else if (interval >= 0.08) {
 			var roundedMin = mathFloor(min),
@@ -7212,7 +7212,7 @@ Axis.prototype = {
 			
 		// Third case: We are so deep in between whole logarithmic values that
 		// we might as well handle the tick positions like a linear axis. For
-		// example 1.01, 1.02, 1.03, 1.04.
+		// Master 1.01, 1.02, 1.03, 1.04.
 		} else {
 			var realMin = lin2log(min),
 				realMax = lin2log(max),

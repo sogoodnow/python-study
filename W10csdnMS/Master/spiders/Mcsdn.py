@@ -1,8 +1,8 @@
-from scrapy.linkextractors import LinkExtractor
+from scrapy.linkextractors.lxmlhtml import LxmlLinkExtractor
 from scrapy.spiders import CrawlSpider, Rule
+from Master.items import CsdnItem
 
-
-class DmozSpider(CrawlSpider):
+class CsdnSpider(CrawlSpider):
     """Follow categories and extract links."""
     name = 'csdn'
     allowed_domains = ['edu.csdn.net']
@@ -15,7 +15,10 @@ class DmozSpider(CrawlSpider):
       canonicalize=False, unique=True, process_value=None, strip=True)
     """
     rules = [
-        Rule(LinkExtractor(restrict_css=('.course_dl_list a', )), callback='parse_directory', follow=True),
+        Rule(LxmlLinkExtractor(restrict_css=('.course_dl_list a', )), callback='parse_directory', follow=True),
+        # Rule(LxmlLinkExtractor(restrict_css=('.page-nav .btn.btn-xs.btn-default', )), callback='parse_directory', follow=True),
+        # Rule(LxmlLinkExtractor(allow=('p[0-9]+'), allow_domains=('csdn.net')),callback='parse_directory', follow=True),
+        Rule(LxmlLinkExtractor(allow=('p[0-9]$'), allow_domains=('csdn.net')),callback='parse_directory', follow=True),
     ]
 
     def parse_directory(self, response):
@@ -25,7 +28,8 @@ class DmozSpider(CrawlSpider):
         #         'description': div.css('.site-descr::text').extract_first().strip(),
         #         'link': div.css('a::attr(href)').extract_first(),
         #     }
-        item = self.item
+        self.logger.info('in------------------')
+        item = CsdnItem()
         item['url'] = response.url
         print(item['url'])
         return item

@@ -1,12 +1,12 @@
-# Scrapy settings for example project
+# Scrapy settings for Master project
 #
 # For simplicity, this file contains only the most important settings by
 # default. All the other settings are documented here:
 #
 #     http://doc.scrapy.org/topics/settings.html
 #
-SPIDER_MODULES = ['example.spiders']
-NEWSPIDER_MODULE = 'example.spiders'
+SPIDER_MODULES = ['Master.spiders']
+NEWSPIDER_MODULE = 'Master.spiders'
 
 USER_AGENT = 'scrapy-redis (+https://github.com/rolando/scrapy-redis)'
 
@@ -29,16 +29,17 @@ SCHEDULER_QUEUE_CLASS = 'scrapy_redis.queue.SpiderPriorityQueue'
 #SCHEDULER_QUEUE_CLASS = "scrapy_redis.queue.SpiderStack"
 
 ITEM_PIPELINES = {
-    'example.pipelines.MasterPipeline': 300,
+    'Master.pipelines.MasterPipeline': 300,
     # 'scrapy_redis.pipelines.RedisPipeline': 400,
 }
 
 LOG_LEVEL = 'DEBUG'
+# LOG_FILE = './log.txt'
 
 # Introduce an artifical delay to make use of parallelism. to speed up the
 # crawl.
-DOWNLOAD_DELAY = 1
+# DOWNLOAD_DELAY = 1
 
-REDIS_URL = None  # 一般情况可以省去
+# REDIS_URL = None  # 一般情况可以省去
 REDIS_HOST = '127.0.0.1'  # 也可以根据情况改成 localhost
 REDIS_PORT = 6379

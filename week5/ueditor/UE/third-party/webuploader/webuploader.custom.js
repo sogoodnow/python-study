@@ -304,7 +304,7 @@
              * @param  {Function} [protos.constructor] 子类构造器，不指定的话将创建个临时的直接执行父类构造器的方法。
              * @param  {Object} [statics] 静态属性或方法。
              * @return {Class} 返回子类。
-             * @example
+             * @Master
              * function Person() {
              *     console.log( 'Super' );
              * }
@@ -368,7 +368,7 @@
              * 返回一个新的方法，此方法将已指定的`context`来执行。
              * @grammar Base.bindFn( fn, context ) => Function
              * @method bindFn
-             * @example
+             * @Master
              * var doSomething = function() {
              *         console.log( this.name );
              *     },
@@ -417,7 +417,7 @@
              * 将用来将非数组对象转化成数组对象。
              * @grammar Base.slice( target, start[, end] ) => Array
              * @method slice
-             * @example
+             * @Master
              * function doSomthing() {
              *     var args = Base.slice( arguments, 1 );
              *     console.log( args );
@@ -457,7 +457,7 @@
              * @param {Number} size 文件大小
              * @param {Number} [pointLength=2] 精确到的小数点数。
              * @param {Array} [units=[ 'B', 'K', 'M', 'G', 'TB' ]] 单位数组。从字节，到千字节，一直往上指定。如果单位数组里面只指定了到了K(千字节)，同时文件大小大于M, 此方法的输出将还是显示成多少K.
-             * @example
+             * @Master
              * console.log( Base.formatSize( 100 ) );    // => 100B
              * console.log( Base.formatSize( 1024 ) );    // => 1.00K
              * console.log( Base.formatSize( 1024, 0 ) );    // => 1K
@@ -710,7 +710,7 @@
          * @class Uploader
          * @constructor
          * @grammar new Uploader( opts ) => Uploader
-         * @example
+         * @Master
          * var uploader = WebUploader.Uploader({
          *     swf: 'path_of_swf/Uploader.swf',
          *
@@ -772,7 +772,7 @@
              * @method option
              * @grammar option( key ) => *
              * @grammar option( key, val ) => self
-             * @example
+             * @Master
              *
              * // 初始状态图片上传前不会压缩
              * var uploader = new WebUploader.Uploader({
@@ -1482,7 +1482,7 @@
          * 添加组件
          * @param  {object} widgetProto 组件原型，构造函数通过constructor属性定义
          * @param  {object} responseMap API名称与函数实现的映射
-         * @example
+         * @Master
          *     Uploader.register( {
          *         init: function( options ) {},
          *         makeThumb: function() {}
@@ -1586,7 +1586,7 @@
              * @grammar addButton( pick ) => Promise
              * @description
              * 添加文件选择按钮，如果一个按钮不够，需要调用此方法来添加。参数跟[options.pick](#WebUploader:Uploader:options)一致。
-             * @example
+             * @Master
              * uploader.addButton({
              *     id: '#btnContainer',
              *     innerHTML: '选择文件'
@@ -1876,7 +1876,7 @@
              * @grammar makeThumb( file, callback ) => undefined
              * @grammar makeThumb( file, callback, width, height ) => undefined
              * @for Uploader
-             * @example
+             * @Master
              *
              * uploader.on( 'fileQueued', function( file ) {
              *     var $li = ...;
@@ -2125,7 +2125,7 @@
             /**
              * 获取文件状态
              * @return {File.Status}
-             * @example
+             * @Master
                      文件状态具体包括以下几种类型：
                      {
                          // 初始化
@@ -2603,7 +2603,7 @@
              * @param {File|id} file File对象或这File对象的id
              * @description 移除某一文件。
              * @for  Uploader
-             * @example
+             * @Master
              *
              * $li.on('click', '.remove-this', function() {
              *     uploader.removeFile( file );
@@ -2624,7 +2624,7 @@
              * @grammar getFiles( status1, status2, status... ) => Array
              * @description 返回指定状态的文件集合，不传参数将返回所有状态的文件。
              * @for  Uploader
-             * @example
+             * @Master
              * console.log( uploader.getFiles() );    // => all files
              * console.log( uploader.getFiles('error') )    // => all error files.
              */
@@ -2642,7 +2642,7 @@
              * @grammar retry( file ) => undefined
              * @description 重试上传，重试指定文件，或者从出错的文件开始重新上传。
              * @for  Uploader
-             * @example
+             * @Master
              * function retry() {
              *     uploader.retry();
              * }
@@ -2685,7 +2685,7 @@
              * @grammar reset() => undefined
              * @description 重置uploader。目前只重置了队列。
              * @for  Uploader
-             * @example
+             * @Master
              * uploader.reset();
              */
             reset: function() {

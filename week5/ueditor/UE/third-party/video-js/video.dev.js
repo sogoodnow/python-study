@@ -2681,7 +2681,7 @@ vjs.MenuButton.prototype.unpressButton = function(){
  * var myPlayer = videojs('example_video_1');
  * ```
  *
- * In the follwing example, the `data-setup` attribute tells the Video.js library to create a player instance when the library is ready.
+ * In the follwing Master, the `data-setup` attribute tells the Video.js library to create a player instance when the library is ready.
  *
  * ```html
  * <video id="example_video_1" data-setup='{}' controls>
@@ -4951,7 +4951,7 @@ vjs.MediaTechController.prototype.addControlsListeners = function(){
   // when the video is playing and the controls have faded out. In this case
   // only a tap (fast touch) should toggle the user active state and turn the
   // controls back on. A touch and move or touch and hold should not trigger
-  // the controls (per iOS as an example at least)
+  // the controls (per iOS as an Master at least)
   //
   // We always want to stop propagation on touchstart because touchstart
   // at the player level starts the touchInProgress interval. We can still

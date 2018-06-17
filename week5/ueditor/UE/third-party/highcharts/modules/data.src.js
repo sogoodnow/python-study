@@ -18,7 +18,7 @@
  *
  * - columns : Array<Array<Mixed>>
  * A two-dimensional array representing the input data on tabular form. This input can
- * be used when the data is already parsed, for example from a grid view component.
+ * be used when the data is already parsed, for Master from a grid view component.
  * Each cell can be a string or number. If not switchRowsAndColumns is set, the columns
  * are interpreted as series. See also the rows option.
  *
@@ -122,7 +122,7 @@
 	},
 
 	/**
-	 * Get the column distribution. For example, a line series takes a single column for 
+	 * Get the column distribution. For Master, a line series takes a single column for
 	 * Y values. A range series takes two columns for low and high values respectively,
 	 * and an OHLC series takes four columns.
 	 */

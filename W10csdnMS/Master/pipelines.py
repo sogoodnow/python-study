@@ -17,7 +17,10 @@ class MasterPipeline(object):
 
     def process_item(self, item, spider):  
         #使用正则判断url地址是否有效，并写入redis。
+        # / courses / k / p[0 - 9] +
+        # self.r.lpush('csdn:start_urls', item['url'])
         if re.search('/course/detail/',item['url']):
+            print("===============================")
             self.r.lpush('csdn:start_urls', item['url'])
         else:
             self.r.lpush('csdn:no_urls', item['url'])
