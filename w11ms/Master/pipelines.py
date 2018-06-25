@@ -4,6 +4,8 @@ class MasterPipeline(object):
     def __init__(self,host,port):
         #连接redis数据库
         self.r = redis.Redis(host=host, port=port, decode_responses=True)
+        # 计数器
+        self.count = 0
         #self.redis_url = 'redis://password:@localhost:6379/'  
         #self.r = redis.Redis.from_url(self.redis_url,decode_responses=True)  
 
@@ -17,8 +19,10 @@ class MasterPipeline(object):
 
     def process_item(self, item, spider):  
         #使用正则判断url地址是否有效，并写入redis。
-        if re.search('/subject/[0-9]+',item['url']):
+        if re.search('/subject/',item['url']):
             print("===============================")
             self.r.lpush('master:start_urls', item['url'])
+            self.count += 1
+            print(self.count)
         else:
             self.r.lpush('master:no_urls', item['url'])
