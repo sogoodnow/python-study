@@ -14,8 +14,8 @@ DEFAULT_REQUEST_HEADERS = {
   'Accept-Language': 'zh-CN,zh;q=0.9',
   'User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.181 Safari/537.36'
 }
-SPIDER_MIDDLEWARES = {
-   'w11ms.middlewares.MasterMiddleware': 543,
+DOWNLOADER_MIDDLEWARES = {
+   'w11ms.Master.middlewares.MasterMiddleware': 543,
 }
 # 指定使用scrapy-redis的去重
 DUPEFILTER_CLASS = 'scrapy_redis.dupefilter.RFPDupeFilter'

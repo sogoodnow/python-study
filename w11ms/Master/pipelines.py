@@ -17,7 +17,7 @@ class MasterPipeline(object):
 
     def process_item(self, item, spider):  
         #使用正则判断url地址是否有效，并写入redis。
-        if re.search('/subject/',item['url']):
+        if re.search('/subject/[0-9]+',item['url']):
             print("===============================")
             self.r.lpush('master:start_urls', item['url'])
         else:
