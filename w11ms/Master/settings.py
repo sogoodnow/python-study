@@ -50,4 +50,5 @@ LOG_LEVEL = 'DEBUG'
 # REDIS_URL = None  # 一般情况可以省去
 REDIS_HOST = '127.0.0.1'  # 也可以根据情况改成 localhost
 REDIS_PORT = 6379
+# 代理API地址
 PROXY_URL = 'http://api.xdaili.cn/xdaili-api//privateProxy/applyStaticProxy?spiderId=2646d627908f47f2b0c9a6f55246163e&returnType=2&count=1'

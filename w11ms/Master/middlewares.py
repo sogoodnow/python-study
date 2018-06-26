@@ -42,40 +42,19 @@ class MasterMiddleware(object):
 
     def process_request(self, request, spider):
         request.meta['proxy'] = self.proxy_url
-        # request.meta['max_retry_times'] = 2
-        # time.sleep(3)
-        # return request
-
-        # request['Cookie'] = cookies
-        # request.cookies = cookies
-
-        # Called for each request that goes through the downloader
-        # middleware.
-        # print('here')
-        # request.headers.setdefault('User-Agent','Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.181 Safari/537.36')
-        # # Must either:
-        # - return None: continue processing this request
-        # - or return a Response object
-        # - or return a Request object
-        # - or raise IgnoreRequest: process_exception() methods of
-        #   installed downloader middleware will be called
         return None
 
     def process_response(self, request, response, spider):
-        # Called with the response returned from the downloader.
         # 服务器禁止时，排除链接，设置新的代理并重新爬取
         if "sorry" in str(response.url) :
             raise IgnoreRequest
-        # Must either;
-        # - return a Response object
-        # - return a Request object
-        # - or raise IgnoreRequest
         return response
 
     def process_exception(self, request, exception, spider):
         # 错误处理，判断代理池有无代理，没有则重新生成
         if len(self.proxy_list)==0:
             proxy_url = spider.settings.get('PROXY_URL')
+            # 防止获取代理超时，间隔10秒后重新获取
             time.sleep(10)
             self.proxy_list = requests.get(proxy_url).json()['RESULT']
         new_proxy = self.proxy_list.pop()
