@@ -19,7 +19,9 @@ SCHEDULER_PERSIST = True
 
 ITEM_PIPELINES = {
     # 'S1.pipelines.ExamplePipeline': 300,
-    'scrapy_redis.pipelines.RedisPipeline': 400,
+    'S1.pipelines.Mysql_pipeline': 300,
+    # 'scrapy_redis.pipelines.RedisPipeline': 400,
+
 }
 
 LOG_LEVEL = 'DEBUG'
@@ -29,3 +31,10 @@ LOG_LEVEL = 'DEBUG'
 # DOWNLOAD_DELAY = 1
 REDIS_HOST = '127.0.0.1'  # 也可以根据情况改成 localhost
 REDIS_PORT = 6379
+
+# Mysql
+MYSQL_HOST = "localhost"
+MYSQL_DATABASE = "test"
+MYSQL_USER = "root"
+MYSQL_PASS = "root"
+MYSQL_PORT = 3306

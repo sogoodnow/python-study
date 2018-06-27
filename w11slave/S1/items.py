@@ -35,6 +35,12 @@ class DoubanItem(Item):
     starts = Field()
     # 评论人数
     commentcnt = Field()
+    # 网址
+    weburl = Field()
+    # 书籍简介
+    bookintro = Field()
+    # 作者简介
+    authorintro = Field()
 
 
 
