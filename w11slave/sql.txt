@@ -1,0 +1,16 @@
+CREATE TABLE `test`.`douban` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `bookname` VARCHAR(45) NULL,
+  `author` VARCHAR(45) NULL,
+  `publish` VARCHAR(45) NULL,
+  `originame` VARCHAR(45) NULL,
+  `translater` VARCHAR(45) NULL,
+  `ptime` VARCHAR(45) NULL,
+  `pages` VARCHAR(45) NULL,
+  `price` VARCHAR(45) NULL,
+  `zhuangzheng` VARCHAR(45) NULL,
+  `books` VARCHAR(45) NULL,
+  `isbn` VARCHAR(45) NULL,
+  `starts` VARCHAR(45) NULL,
+  `commentcnt` VARCHAR(45) NULL,
+  PRIMARY KEY (`id`));

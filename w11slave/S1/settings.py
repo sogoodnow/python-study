@@ -8,7 +8,7 @@
 SPIDER_MODULES = ['S1.spiders']
 NEWSPIDER_MODULE = 'S1.spiders'
 
-# USER_AGENT = 'scrapy-redis (+https://github.com/rolando/scrapy-redis)'
+USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36'
 
 DUPEFILTER_CLASS = "scrapy_redis.dupefilter.RFPDupeFilter"
 SCHEDULER = "scrapy_redis.scheduler.Scheduler"
