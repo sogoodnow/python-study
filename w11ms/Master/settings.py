@@ -45,10 +45,20 @@ LOG_LEVEL = 'DEBUG'
 
 # Introduce an artifical delay to make use of parallelism. to speed up the
 # crawl.
+# 下载延迟
 # DOWNLOAD_DELAY = 1
 
+# ===============redis 设置=============
 # REDIS_URL = None  # 一般情况可以省去
 REDIS_HOST = '127.0.0.1'  # 也可以根据情况改成 localhost
 REDIS_PORT = 6379
+
+# ===============代理 设置=============
 # 代理API地址
-PROXY_URL = 'http://api.xdaili.cn/xdaili-api//privateProxy/applyStaticProxy?spiderId=2646d627908f47f2b0c9a6f55246163e&returnType=2&count=1'
+# 快代理-代理池提取代理数量
+PROXY_CNT = 1
+# 快代理-代理取代API链接
+PROXY_URL = 'http://svip.kdlapi.com/api/getproxy/?orderid=933015464233988&num='+str(PROXY_CNT)+'&b_pcchrome=1&b_pcie=1&b_pcff=1&protocol=2&method=2&an_an=1&an_ha=1' \
+            '&sp2=1&quality=2&sort=1&format=json&sep=1'
+# 讯代理
+# PROXY_URL = 'http://api.xdaili.cn/xdaili-api//privateProxy/applyStaticProxy?spiderId=2646d627908f47f2b0c9a6f55246163e&returnType=2&count=1'

@@ -38,3 +38,11 @@ MYSQL_DATABASE = "test"
 MYSQL_USER = "root"
 MYSQL_PASS = "root"
 MYSQL_PORT = 3306
+
+# ===============代理 设置=============
+# 代理API地址
+# 快代理-代理池提取代理数量
+PROXY_CNT = 1
+# 快代理-代理取代API链接
+PROXY_URL = 'http://svip.kdlapi.com/api/getproxy/?orderid=933015464233988&num='+str(PROXY_CNT)+'&b_pcchrome=1&b_pcie=1&b_pcff=1&protocol=2&method=2&an_an=1&an_ha=1' \
+            '&sp2=1&quality=2&sort=1&format=json&sep=1'

@@ -29,9 +29,9 @@ class Mysql_pipeline(object):
             print(str(e))
 
     def process_item(self, item, spider):
-        sql = "insert into douban(bookname,author,publish,originame,translater,ptime,pages,price,zhuangzheng,books,isbn,starts,commentcnt)" \
-              "values('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s')"\
-              %(item['bookname'],item['author'],item['publish'],item['originame'],item['translater'],item['ptime'],item['pages'],item['price'],item['zhuangzheng'],item['books'],item['isbn'],item['starts'],item['commentcnt'])
+        sql = "insert into douban(bookname,author,publish,originame,translater,ptime,pages,price,zhuangzheng,books,isbn,starts,commentcnt,weburl,bookintro,authorintro)" \
+              "values('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s')"\
+              %(item['bookname'],item['author'],item['publish'],item['originame'],item['translater'],item['ptime'],item['pages'],item['price'],item['zhuangzheng'],item['books'],item['isbn'],item['starts'],item['commentcnt'],item['weburl'],item['bookintro'],item['authorintro'])
         try:
             self.cursor.execute(sql)
             self.db.commit()

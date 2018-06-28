@@ -53,8 +53,8 @@ class SlaveSpider(RedisSpider):
         item['weburl'] = str(response.url)
         # # 书籍简介
         item['bookintro'] = ''.join(response.css('.related_info #link-report .intro p::text').extract())
-        # # 作者简介
-        # item['authorintro'] = str(response.css('.rating_sum span a span::text').extract_first()).strip()
+        # 作者简介
+        item['authorintro'] = ''.join(response.css('.related_info .indent:not(#link-report) .intro p::text').extract())
 
         print(item)
         return item

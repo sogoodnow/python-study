@@ -13,4 +13,7 @@ CREATE TABLE `test`.`douban` (
   `isbn` VARCHAR(45) NULL,
   `starts` VARCHAR(45) NULL,
   `commentcnt` VARCHAR(45) NULL,
+  `weburl` VARCHAR(60) NULL,
+  `bookintro` VARCHAR(500) NULL,
+  `authorintro` VARCHAR(500) NULL,
   PRIMARY KEY (`id`));
