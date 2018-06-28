@@ -56,5 +56,5 @@ class SlaveSpider(RedisSpider):
         # 作者简介
         item['authorintro'] = ''.join(response.css('.related_info .indent:not(#link-report) .intro p::text').extract())
 
-        print(item)
+        # print(item)
         return item
