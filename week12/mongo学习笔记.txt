@@ -1,0 +1,23 @@
+$inc 更新时增加减少值
+db.user.update({条件文档},{$inc:{更新文档})
+db.user.update({"name":"qiuguochang"},{$inc:{"age":1})
+只能为数值类型
+-----------------
+$set  
+设定字段，如果不存在则创建，存在则更新
+db.user.update({条件文档},{$set:{key:value})
+$unset 
+db.user.update({条件文档},{$unset:{key:value})
+取消设定或改变键类型
+------------------------
+$push 数组修改器
+向已有的数组末尾添加元素，如果没有数组则创建数组
+db.user.update({条件文档},{$push:{key,{key,value,key value,...}})
+> db.user.update({"_id":ObjectId("5a76ce23fdc58727847e2849")},{$push:{"comment":{"size":209,"xm":"aaaaaaa"}}})
+{ "_id" : ObjectId("5a76ce23fdc58727847e2849"), "age" : 1, "comment" : [ { "size" : 209, "xm" : "aaaaaaa" } ] }
+注意：追加的是数组！
+
+$each $slice
+db.user.update({"_id":ObjectId("5a76ce23fdc58727847e2849")},{$push:{"date":{$each:[10,18,125,256]}}})
+注意，each和slice，$sort 配合使用
+------------------------

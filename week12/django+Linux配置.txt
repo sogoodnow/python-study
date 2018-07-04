@@ -1,0 +1,60 @@
+1.安装Python3环境
+	python3 -v  确认python版本
+	pip3 -v	    确认pip版本
+	apt install python3-pip
+	pip3 isntall --upgrade pip
+	
+
+2.安装Django
+	pip3 install dijango==1.11
+	django-admin startproject demo
+	
+	修改settings，修改ALLOWED_HOSTS = ['*']
+
+3.安装uwsgi
+	pip3 install uwsgi
+	uwsgi --http :80 --chdir /root/demo --module demo.wsgi --daemonize /var/log/uwsgi.log
+	--chdir 指定项目根目录  --module 指定目录下的wsgi文件 --daemonizez  后台运行  指定log文件
+	
+	uwsgi --http :80 --chdir /webapp/ --module Mywebapp.wsgi --daemonize /var/log/uwsgi.log
+
+
+4.查看管理进程
+	ps -ef|grep uwsgi
+	kill -9 进程ID
+
+5.开机脚本
+	vi /etc/rc.local
+
+6.压力测试
+	apt install apache2-utils
+	ab -c 20 -n 10000 https://193.112.183.148/gas-project/
+	http://192.168.119.147/
+	20个用户同时请求10000次,最后加/表示请求首页
+	https://193.112.183.148/gas-project/
+
+Concurrency Level:      20
+Time taken for tests:   36.115 seconds
+Complete requests:      1000
+Failed requests:        0
+Non-2xx responses:      1000
+Total transferred:      165000 bytes
+HTML transferred:       0 bytes
+Requests per second:    27.69 [#/sec] (mean)
+Time per request:       722.306 [ms] (mean)
+Time per request:       36.115 [ms] (mean, across all concurrent requests)
+Transfer rate:          4.46 [Kbytes/sec] received
+Percentage of the requests served within a certain time (ms)
+  50%    706
+  66%    725
+  75%    733
+  80%    737
+  90%    748
+  95%    758
+  98%   1217
+  99%   1260
+ 100%   1314 (longest request)
+
+
+
+
