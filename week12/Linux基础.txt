@@ -94,6 +94,7 @@ id 用户名 查看该用户的组信息
 userdel  删除用户
 passwd 用户名 密码     设置用户密码
 chown  用户名 文件夹   转让文件夹
+chown [-cfhvR] [--help] [--version] user[:group] file...
 
 
 指令名称 : chmod 
