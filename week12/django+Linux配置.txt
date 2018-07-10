@@ -13,6 +13,7 @@
 
 3.安装uwsgi
 	pip3 install uwsgi
+	uwsgi -http : 80 --chdir /root/demo --module xxx.wsgi --daemonize /var/log/uwsgi.log
 	uwsgi --http :80 --chdir /root/demo --module demo.wsgi --daemonize /var/log/uwsgi.log
 	--chdir 指定项目根目录(manage.py所在目录）  --module 指定目录下的wsgi文件 --daemonizez  后台运行  指定log文件
 	
