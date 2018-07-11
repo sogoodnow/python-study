@@ -1,0 +1,3 @@
+1.git安装 apt install git
+2.创建git用户 useradd -m git
+3.初始化服务器仓库，git用户目录 git init --bare 仓库名字
