@@ -1,3 +1,12 @@
 1.git安装 apt install git
 2.创建git用户 useradd -m git
-3.初始化服务器仓库，git用户目录 git init --bare 仓库名字
+3.初始化服务器仓库，git用户目录 git init --bare myprj.git
+4.从服务器复制仓库，git clone git@120.77.242.173:myprj.git   输入git的密码
+5.查看仓库状态 git status
+6. git add .  git commit .    git commot -m "版本说明"
+7. git config --global user.email@exmple.com
+   git config --global user.name "your name"
+
+此时只是本地仓库生效，并未推送发到远程仓库
+git push origin master  推送至服务器仓库
+git pull origin master
