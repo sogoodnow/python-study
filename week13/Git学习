@@ -10,3 +10,5 @@
 此时只是本地仓库生效，并未推送发到远程仓库
 git push origin master  推送至服务器仓库
 git pull origin master
+
+pkill uwsgi  进程名称

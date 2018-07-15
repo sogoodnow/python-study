@@ -1,0 +1,6 @@
+1.通过配置及上传python文件及模板，直接在服务器上来执行，可以做一些简单的模板化配置工作，如nginx配置
+2.scp 命令将打包的文件传送到另外的服务器上
+3.Fabric  pip3 install fabric3  安装fabric3
+编辑fabfile.py文件名不要改变，否则要设置很麻烦
+vi fabfile
+

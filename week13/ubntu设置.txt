@@ -1,0 +1,28 @@
+允许以root用户名登录
+1.sudo passwd 修改设置root用户密码
+2.vi /etc/ssh/sshd_config
+3.PermitRootLogin yes
+4.service ssh restart
+
+ubuntu apt镜像
+/etc/apt sources.list
+#deb包
+deb http://mirrors.aliyun.com/ubuntu/ xenial main restricted universe multiverse
+deb http://mirrors.aliyun.com/ubuntu/ xenial-security main restricted universe multiverse
+deb http://mirrors.aliyun.com/ubuntu/ xenial-updates main restricted universe multiverse
+deb http://mirrors.aliyun.com/ubuntu/ xenial-backports main restricted universe multiverse
+##测试版源
+deb http://mirrors.aliyun.com/ubuntu/ xenial-proposed main restricted universe multiverse
+# 源码
+deb-src http://mirrors.aliyun.com/ubuntu/ xenial main restricted universe multiverse
+deb-src http://mirrors.aliyun.com/ubuntu/ xenial-security main restricted universe multiverse
+deb-src http://mirrors.aliyun.com/ubuntu/ xenial-updates main restricted universe multiverse
+deb-src http://mirrors.aliyun.com/ubuntu/ xenial-backports main restricted universe multiverse
+##测试版源
+deb-src http://mirrors.aliyun.com/ubuntu/ xenial-proposed main restricted universe multiverse
+
+
+pip3 镜像：
+~/.pip/pip.conf   隐藏目录,没有则手工创建
+[global] index-url = https://mirrors.aliyun.com/pypi/simple/
+[install] trusted-host = mirrors.aliyun.com
