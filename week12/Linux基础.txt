@@ -62,7 +62,7 @@ vi 文件名  编辑或新建文件  vi index.php
 	dd	  删除一行、剪切
 	5dd	  删除5行、剪切
 	yy	  复制
-	5yy       复制5行
+	5yy   复制5行
 	p	  黏贴
 	u	  撤销
 	ctrl+r    恢复上一步

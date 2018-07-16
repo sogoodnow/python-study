@@ -13,6 +13,7 @@ ver = input("请输入需要的版本号：(默认版本：{})".format(def_ver))
 ver = ver or def_ver
 
 # 安装目录配置 /usr/local/nginx
+
 def_path = ' /usr/local/nginx '
 path = input("请输入安装目录：(默认目录：{})".format(def_path))
 path = path or path
@@ -50,3 +51,5 @@ cmd = " make && make install"
 if os.system(cmd) != 0:
     print('编译失败！')
     sys.exit(1)
+
+
