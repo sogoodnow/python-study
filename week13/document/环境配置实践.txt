@@ -1,0 +1,5 @@
+1.修改阿里镜像
+2.安装python3
+3.修改pip镜像
+4.其他开发包fabric ansible paramiko等工具安装
+4.docker安装
