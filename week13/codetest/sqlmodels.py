@@ -5,7 +5,7 @@ from flask import Flask
 app = Flask(__name__)
 
 #这里登陆的是root用户，要填上自己的密码，MySQL的默认端口是3306，填上之前创建的数据库名test
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root@localhost:3306/webmonitor'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root@localhost:3306/homework'
 #设置这一项是每次请求结束后都会自动提交数据库中的变动
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS']=True
 
@@ -36,7 +36,7 @@ class Hosts(db.Model):
 """
 用户表
 """
-class Hosts(db.Model):
+class User(db.Model):
     __tablename__ = 'hosts'
     # id
     id = db.Column(db.Integer, primary_key=True,autoincrement=True)

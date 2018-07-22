@@ -1,6 +1,6 @@
 from flask import Flask
 
-from helper import models_to_dict
+from week13.samples.backend.helper  import models_to_dict
 
 app = Flask(__name__)
 
@@ -8,7 +8,7 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:root@172.16.91.1:3306/testdb'
 
 
-from model import db
+from week13.samples.backend.model import db
 
 db.init_app(app)
 
@@ -23,7 +23,7 @@ def machine():
     # from flask.json import jsonify
     # return jsonify(data)
 
-    from model import Machine
+    from week13.samples.backend.modelel import Machine
     data = Machine.query.all()
     from flask import jsonify
     return jsonify(models_to_dict(data))
