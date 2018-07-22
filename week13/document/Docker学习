@@ -109,6 +109,10 @@ docker diff
 docker stats alp 容器名
 --volumes-from
 
+docker run -itd --net host alpine
+docker network ls
+docker network rm
+
 
 
 
