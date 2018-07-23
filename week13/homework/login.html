@@ -17,7 +17,7 @@
 </div>
 
 <script>
-
+const url = "http://localhost:5000";
     var app = new Vue({
         el:"#login",
         data:function(){
@@ -32,7 +32,7 @@
             login:function () {
                 console.log(this.model)
                 // alert('helo')
-                $.post("http://localhost:5000/login",this.model,function (data) {
+                $.post(url+"/login",this.model,function (data) {
                     alert(data.status)
                 })
             }
