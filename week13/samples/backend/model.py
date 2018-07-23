@@ -2,7 +2,7 @@
 from sqlalchemy import Column, DateTime, Integer, String
 from sqlalchemy.schema import FetchedValue
 from flask_sqlalchemy import SQLAlchemy
-
+from flask import Flask
 
 db = SQLAlchemy()
 
