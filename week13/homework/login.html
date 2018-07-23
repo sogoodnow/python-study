@@ -10,12 +10,37 @@
 <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
 
 <div id="login">
-    <input type="text" value="" placeholder="用户名">
-    <input type="password" value="" placeholder="密码">
+    <input id="user" type="text" v-model.trim="model.user" placeholder="用户名">
+    <input id="passwd" type="password" v-model.trim="model.passwd" placeholder="密码">
+    <button @click="login">登录</button>
 
 </div>
 
+<script>
 
+    var app = new Vue({
+        el:"#login",
+        data:function(){
+            return {
+              model:{
+                user:'',
+                passwd:'',
+              }
+            }
+          },
+        methods:{
+            login:function () {
+                console.log(this.model)
+                // alert('helo')
+                $.post("http://localhost:5000/login",this.model,function (data) {
+                    alert(data.status)
+                })
+            }
+        }
+    })
+
+
+</script>
 
 </body>
 </html>

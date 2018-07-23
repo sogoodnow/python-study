@@ -37,7 +37,7 @@ class Hosts(db.Model):
 用户表
 """
 class Users(db.Model):
-    __tablename__ = 'hosts'
+    __tablename__ = 'users'
     # id
     id = db.Column(db.Integer, primary_key=True,autoincrement=True)
     # 用户名
@@ -48,6 +48,6 @@ class Users(db.Model):
     lastlogin = db.Column(db.String(45))
 
     def __repr__(self):
-        return '<Hosts %r>' % self.username
+        return '<Users %r>' % self.username
 
 

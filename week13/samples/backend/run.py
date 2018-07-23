@@ -35,7 +35,7 @@ def machine_create():
     from flask import request
     print(request.form)
 
-    from model import Machine
+    from week13.samples.backend.model import Machine
     model = Machine()
     model.name = request.form['name']
     model.ip = request.form['ip']
