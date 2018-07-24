@@ -39,14 +39,25 @@
     <script src="https://cdn.bootcss.com/echarts/4.1.0/echarts.common.min.js"></script>
     <!--===============================VUE==========================================-->
     <script>
+        //组件
+        const Deploy={
+            template:""
+
+        }
+        const Monitor={}
+        const MachineList={}
+        const MachineCreate={}
+        // 路由配置==========
         const routers = [
-            {path:"/create",copoment:}
-
-
+            {path:"/machine",component:"MachineList"},
+            {path:"/machine/create",component:"MachineCreate"},
+            {path:"/monitor",component:"Monitor"},
+            {path:"/deploy",component:"Deploy"},
         ]
-
-
-        const router = new VueRouter({})
+        const router = new VueRouter({
+            routers
+        })
+        // ================
         const app =new Vue({
             router
         }).mount("#app")
