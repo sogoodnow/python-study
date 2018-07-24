@@ -5,7 +5,7 @@ from week13.samples.backend.helper  import models_to_dict
 app = Flask(__name__)
 
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:root@127.0.0.1:3306/testdb'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:root@127.0.0.1:3306/webmonitor'
 
 
 from week13.samples.backend.model import db
@@ -23,7 +23,7 @@ def machine():
     # from flask.json import jsonify
     # return jsonify(data)
 
-    from week13.samples.backend.modelel import Machine
+    from week13.samples.backend.model import Machine
     data = Machine.query.all()
     from flask import jsonify
     return jsonify(models_to_dict(data))
@@ -55,7 +55,7 @@ def machine_create():
 def machine_delete():
     from flask.json import jsonify
     from flask import request
-    from model import Machine
+    from week13.samples.backend.model import Machine
 
     model = Machine.query.get(request.args['id'])
 
@@ -68,7 +68,7 @@ def machine_delete():
 @app.route('/monitor')
 def monitor():
     from flask import request
-    from model import Machine
+    from week13.samples.backend.model import Machine
 
     machine = Machine.query.get(request.args['id'])
 

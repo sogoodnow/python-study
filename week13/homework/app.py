@@ -1,4 +1,4 @@
-from flask import Flask,request,session
+from flask import Flask,request,render_template
 from flask.json import jsonify
 from week13.homework.sqlmodels import  db,Hosts,User
 from sqlalchemy import and_
@@ -19,13 +19,17 @@ db.init_app(app)
 def hello_world():
     # 获取表单提交数据
     username = request.form['user']
+    print(username)
     passwd = request.form['passwd']
+    # model = User()
     # 判断是否匹配用户名密码
-    count = User.query.filter(and_(username=username,passwd=passwd)).count()
+    count = User.query.filter(and_(User.username== username ,User.passwd == passwd)).count()
+    print(count)
     # 如果匹配，添加用户至session
     if count>0:
-        session['user'] = username
-
+        print('ok')
+    #     session['user'] = username
+        return render_template('detail.html')
     # return  jsonify(models_to_dict(data))
     return  jsonify({"data":count})
 
