@@ -27,11 +27,7 @@ def hello_world():
     print(count)
     # 如果匹配，添加用户至session
     if count>0:
-        print('ok')
-    #     session['user'] = username
-        return render_template('detail.html')
-    # return  jsonify(models_to_dict(data))
-    return  jsonify({"data":count})
+        return  jsonify({"count":count})
 
 @app.after_request
 def after_filter(response):

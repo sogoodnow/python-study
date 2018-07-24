@@ -13,13 +13,21 @@
     <input id="user" type="text" v-model.trim="model.user" placeholder="用户名">
     <input id="passwd" type="password" v-model.trim="model.passwd" placeholder="密码">
     <button @click="login">登录</button>
+    <h3>用户名admin  密码123456</h3>
 
 </div>
 
 <script>
-const routers=[{path:'/detail'}]
+
+// const routers=[{path:'/detail',copoment:require('template/home/home.html')}]
+//
+// const router = new VueRouter({
+//     routers
+// })
+
 const url = "http://127.0.0.1:5000";
     var app = new Vue({
+
         el:"#login",
         data:function(){
             return {
@@ -34,7 +42,13 @@ const url = "http://127.0.0.1:5000";
                 console.log(this.model)
                 // alert('helo')
                 $.post(url+"/login",this.model,function (data) {
-                    window.location.href='templates/detail.html';
+                    if(data.count>0){
+                        window.location.href='templates/detail.html';
+                    }else {
+                        alert('登录失败，请确认用户名密码!')
+                    }
+
+
                 })
             }
         }
