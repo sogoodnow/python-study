@@ -17,6 +17,7 @@
 </div>
 
 <script>
+const routers=[{path:'/detail'}]
 const url = "http://127.0.0.1:5000";
     var app = new Vue({
         el:"#login",
@@ -33,7 +34,7 @@ const url = "http://127.0.0.1:5000";
                 console.log(this.model)
                 // alert('helo')
                 $.post(url+"/login",this.model,function (data) {
-                    alert(data.data)
+                    window.location.href='templates/detail.html';
                 })
             }
         }
