@@ -5,7 +5,7 @@ from week13.samples.backend.helper  import models_to_dict
 app = Flask(__name__)
 
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:root@172.16.91.1:3306/testdb'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:root@127.0.0.1:3306/testdb'
 
 
 from week13.samples.backend.model import db

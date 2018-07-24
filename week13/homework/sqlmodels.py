@@ -1,16 +1,7 @@
-import pymysql
-from flask_sqlalchemy import SQLAlchemy as sqlmy
-from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
 
-app = Flask(__name__)
 
-#这里登陆的是root用户，要填上自己的密码，MySQL的默认端口是3306，填上之前创建的数据库名test
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root@localhost:3306/webmonitor'
-#设置这一项是每次请求结束后都会自动提交数据库中的变动
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS']=True
-
-db = sqlmy(app)
-
+db = SQLAlchemy()
 """
 主机表
 """
@@ -36,8 +27,8 @@ class Hosts(db.Model):
 """
 用户表
 """
-class Users(db.Model):
-    __tablename__ = 'users'
+class User(db.Model):
+    __tablename__ = 'user'
     # id
     id = db.Column(db.Integer, primary_key=True,autoincrement=True)
     # 用户名
@@ -48,6 +39,6 @@ class Users(db.Model):
     lastlogin = db.Column(db.String(45))
 
     def __repr__(self):
-        return '<Users %r>' % self.username
+        return '<User %r>' % self.username
 
 

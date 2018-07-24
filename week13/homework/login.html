@@ -33,7 +33,7 @@ const url = "http://localhost:5000";
                 console.log(this.model)
                 // alert('helo')
                 $.post(url+"/login",this.model,function (data) {
-                    alert(data.status)
+                    alert(data.data)
                 })
             }
         }

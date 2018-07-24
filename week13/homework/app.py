@@ -1,15 +1,33 @@
-from flask import Flask
+from flask import Flask,request,session
 from flask.json import jsonify
-from flask_sqlalchemy import SQLAlchemy
-from week13.homework.sqlmodels import Hosts,Users
+from week13.homework.sqlmodels import  db,Hosts,User
+from sqlalchemy import and_
+from week13.homework.sqlhelper import models_to_dict
+
 
 app = Flask(__name__)
 
+#这里登陆的是root用户，要填上自己的密码，MySQL的默认端口是3306，填上之前创建的数据库名test
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:root@localhost:3306/webmonitor'
+#设置这一项是每次请求结束后都会自动提交数据库中的变动
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS']=True
 
+db.init_app(app)
+# db = sqlmy(app)
 
-@app.route('/login',methods=['POST'])
+@app.route('/login',methods=['POST','GET'])
 def hello_world():
-    return  jsonify({'status': "ok"})
+    # 获取表单提交数据
+    username = request.form['user']
+    passwd = request.form['passwd']
+    # 判断是否匹配用户名密码
+    count = User.query.filter(and_(username=username,passwd=passwd)).count()
+    # 如果匹配，添加用户至session
+    if count>0:
+        session['user'] = username
+
+    # return  jsonify(models_to_dict(data))
+    return  jsonify({"data":count})
 
 @app.after_request
 def after_filter(response):
