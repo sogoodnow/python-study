@@ -16,6 +16,10 @@
       <script src="https://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
       <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+    <style>
+      td{margin: 2px;border: solid 1px red;width: 150px}
+
+    </style>
   </head>
   <body>
     <script src="https://unpkg.com/vue/dist/vue.js"></script>
@@ -25,17 +29,18 @@
       <h1>运维平台</h1>
       <p>
         <router-link to="/machine">机器</router-link>
-        <router-link to="/deploy">部署</router-link>
+        <!--<router-link to="/deploy">部署</router-link>-->
       </p>
+        <router-view></router-view>
     </div>
     <!--定义模板==================================================-->
     <!--机器列表-->
     <script type="text/template" id="tpl-machine">
         <div>
           <router-link to="/machine/create">添加</router-link>
-          <table>
+          <table style="border: 1px red;margin: 1px" class="table-bordered">
             <tr>
-              <td>ID</td>
+              <td >ID</td>
               <td>名称</td>
               <td>IP</td>
               <td>操作</td>
@@ -45,8 +50,8 @@
               <td>{{item.name}}</td>
               <td>{{item.ip}}</td>
               <td>
-                <router-link :to="{path:'/monitor',query:{id:{item.id}}">查看</router-link>
-                <a @click="del({item.id})" href="javascript:;">删除</a>
+                <router-link :to="{path:'/monitor',query:{id:item.id}">查看</router-link>
+                <a @click="del(item.id)" href="javascript:;">删除</a>
               </td>
             </tr>
 
@@ -84,11 +89,45 @@
 
         }
         // 监控组件
-        const Monitor={}
+        const Monitor={
+            //模板
+            template:"#monitor",
+            //绑定数据
+            data:function () {
+                return{
+                    // 机器信息
+                    info:{
+                        cpu_count:"",
+                        memory_total:"",
+                        cpu_percent:"",
+                        memory_percent:"",
+                    },
+                    // 图表
+                    myChart:null,
+                    // 时间段
+                    history:{
+                          time:[],
+                          cpu:[],
+                    },
+                }
+            },
+            //方法
+            methods:{
+                get_info:function () {
+                    
+                }
+
+            },
+            //挂载后
+            mounted:function () {
+
+            }
+
+        }
         // 机器列表组件
         const MachineList={
             //模板名称
-            template:"tpl-machine",
+            template:"#tpl-machine",
             //绑定数据为机器列表
             data:function () {
                 return {
@@ -106,12 +145,7 @@
                 init:function () {
                     // 获取机器列表
                     $.get("http://127.0.0.1:5000/machine",(data)=>{
-                        if(data.count==null ){
-                            this.machineList = data;
-                        }else {
-                            alert('没有相关数据')
-                        }
-
+                          this.machineList = data;
                     });
                 },
                 //删除记录
@@ -135,7 +169,7 @@
         // 创建机器组件
         const MachineCreate={
             //模板名称
-            template:"tpl-machine-create",
+            template:"#tpl-machine-create",
             //绑定数据
             data:function () {
                 return{
@@ -151,6 +185,10 @@
             methods:{
                 // 添加
                 save:function () {
+                    if(this.ip==""){
+                        alert("请输入ip地址")
+                        return
+                    }
                     $.post("http://127.0.0.1:5000/machine/create",this.model,(res)=>{
                         if(res.status){
                             //添加成功后，返回机器列表
@@ -164,19 +202,19 @@
             },
         }
         // 路由配置==========
-        const routers = [
-            {path:"/machine",component:"MachineList"},
-            {path:"/machine/create",component:"MachineCreate"},
-            {path:"/monitor",component:"Monitor"},
-            {path:"/deploy",component:"Deploy"},
+        const routes = [
+            {path:"/machine",component:MachineList},
+            {path:"/machine/create",component:MachineCreate},
+            {path:"/monitor",component:Monitor},
+            {path:"/deploy",component:Deploy},
         ]
         const router = new VueRouter({
-            routers
+            routes
         })
         // ================
         const app =new Vue({
             router
-        }).mount("#app")
+        }).$mount("#app")
 
     </script>
   </body>

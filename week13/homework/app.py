@@ -1,6 +1,6 @@
-from flask import Flask,request,render_template
+from flask import Flask,request
 from flask.json import jsonify
-from week13.homework.sqlmodels import  db,Hosts,User
+from week13.homework.sqlmodels import  db,Machine,Monitor
 from sqlalchemy import and_
 from week13.homework.sqlhelper import models_to_dict
 
@@ -13,6 +13,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:root@localhost:330
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS']=True
 
 db.init_app(app)
+
 # db = sqlmy(app)
 
 # 登录方法
@@ -24,7 +25,7 @@ def hello_world():
     passwd = request.form['passwd']
     # model = User()
     # 判断是否匹配用户名密码
-    count = User.query.filter(and_(User.username== username ,User.passwd == passwd)).count()
+    count = Machine.query.filter(and_(Machine.username== username ,Machine.passwd == passwd)).count()
     print(count)
     # 如果匹配，添加用户至session
     if count>0:
@@ -34,27 +35,27 @@ def hello_world():
 # 获取机器列表
 @app.route('/machine',methods=['GET'])
 def mahcine():
-    data = Hosts.query.all()
-    if len(data)==0:
-        return jsonify({"count":0})
-    else:
-        return jsonify(models_to_dict(data))
+    data = Machine.query.all()
+    return jsonify(models_to_dict(data))
 
 # 删除机器
 @app.route('/machine/delete',methods=['GET'])
 def mahcine_delete():
-    model = Hosts.queyr.get(request.args['id'])
+    model = Machine.query.get(request.args['id'])
     db.session.delete(model)
+    db.session.commit()
     return jsonify({"status":True})
 
 # 添加机器
 @app.route('/machine/create',methods=['POST'])
 def mahcine_create():
-    model = Hosts()
-    model.tag = request.form['name']
+    model = Machine()
+    model.name = request.form['name']
     model.ip = request.form['ip']
-    model.tag = request.form['name']
-    model.tag = request.form['name']
+    model.user = request.form['user']
+    model.password = request.form['password']
+    db.session.add(model)
+    db.session.commit()
     return jsonify({"status":True})
 
 
