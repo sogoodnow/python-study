@@ -15,6 +15,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS']=True
 db.init_app(app)
 # db = sqlmy(app)
 
+# 登录方法
 @app.route('/login',methods=['POST','GET'])
 def hello_world():
     # 获取表单提交数据
@@ -29,6 +30,37 @@ def hello_world():
     if count>0:
         return  jsonify({"count":count})
 
+
+# 获取机器列表
+@app.route('/machine',methods=['GET'])
+def mahcine():
+    data = Hosts.query.all()
+    if len(data)==0:
+        return jsonify({"count":0})
+    else:
+        return jsonify(models_to_dict(data))
+
+# 删除机器
+@app.route('/machine/delete',methods=['GET'])
+def mahcine_delete():
+    model = Hosts.queyr.get(request.args['id'])
+    db.session.delete(model)
+    return jsonify({"status":True})
+
+# 添加机器
+@app.route('/machine/create',methods=['POST'])
+def mahcine_create():
+    model = Hosts()
+    model.tag = request.form['name']
+    model.ip = request.form['ip']
+    model.tag = request.form['name']
+    model.tag = request.form['name']
+    return jsonify({"status":True})
+
+
+
+
+# 跨域处理
 @app.after_request
 def after_filter(response):
     response.headers['Access-Control-Allow-Origin'] = '*'

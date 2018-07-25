@@ -22,10 +22,48 @@
     <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
     <!--=================================================================-->
     <div id="app">
-
-
+      <h1>运维平台</h1>
+      <p>
+        <router-link to="/machine">机器</router-link>
+        <router-link to="/deploy">部署</router-link>
+      </p>
     </div>
+    <!--定义模板==================================================-->
+    <!--机器列表-->
+    <script type="text/template" id="tpl-machine">
+        <div>
+          <router-link to="/machine/create">添加</router-link>
+          <table>
+            <tr>
+              <td>ID</td>
+              <td>名称</td>
+              <td>IP</td>
+              <td>操作</td>
+            </tr>
+            <tr v-for="item in machineList">
+              <td>{{item.id}}</td>
+              <td>{{item.name}}</td>
+              <td>{{item.ip}}</td>
+              <td>
+                <router-link :to="{path:'/monitor',query:{id:{item.id}}">查看</router-link>
+                <a @click="del({item.id})" href="javascript:;">删除</a>
+              </td>
+            </tr>
 
+          </table>
+        </div>
+    </script>
+    <!--添加机器-->
+    <script type="text/template" id="tpl-machine-create">
+      <div>
+        <h3>添加机器</h3>
+        <div>名称 <input v-model.trim="model.name" /></div>
+        <div>IP <input v-model.trim="model.ip" /></div>
+        <div>用户<input v-model.trim="model.user" /></div>
+        <div>密码<input v-model.trim="model.password" type="password" /></div>
+        <button @click="save">确定</button>
+      </div>
+    </script>
 
 
 
@@ -39,14 +77,92 @@
     <script src="https://cdn.bootcss.com/echarts/4.1.0/echarts.common.min.js"></script>
     <!--===============================VUE==========================================-->
     <script>
-        //组件
+        // 组件
+        // 部署组件
         const Deploy={
             template:""
 
         }
+        // 监控组件
         const Monitor={}
-        const MachineList={}
-        const MachineCreate={}
+        // 机器列表组件
+        const MachineList={
+            //模板名称
+            template:"tpl-machine",
+            //绑定数据为机器列表
+            data:function () {
+                return {
+                    machineList:[]
+                }
+            },
+            //
+            mounted:function () {
+                //挂载后调用初始化方法
+                this.init()
+            },
+            //
+            methods:{
+                //初始化
+                init:function () {
+                    // 获取机器列表
+                    $.get("http://127.0.0.1:5000/machine",(data)=>{
+                        if(data.count==null ){
+                            this.machineList = data;
+                        }else {
+                            alert('没有相关数据')
+                        }
+
+                    });
+                },
+                //删除记录
+                del:function (id) {
+                    if(!confirm("确定要删除吗")){
+                        return
+                    }
+                    $.get("http://127.0.0.1:5000/machine/delete",{id:id},(res)=>{
+                        if(res.status){
+                            this.init();
+                        }else{
+                            alert("删除出错");
+                        }
+                    });
+                },
+                //
+                
+            },
+            //
+        }
+        // 创建机器组件
+        const MachineCreate={
+            //模板名称
+            template:"tpl-machine-create",
+            //绑定数据
+            data:function () {
+                return{
+                    model:{
+                        "name":"",
+                        "ip":"",
+                        "user":"",
+                        "password":""
+                    }
+                }
+            },
+            //方法
+            methods:{
+                // 添加
+                save:function () {
+                    $.post("http://127.0.0.1:5000/machine/create",this.model,(res)=>{
+                        if(res.status){
+                            //添加成功后，返回机器列表
+                            this.$router.push("/machine")
+                        }else {
+                            alert("添加失败")
+                        }
+                    });
+
+                },
+            },
+        }
         // 路由配置==========
         const routers = [
             {path:"/machine",component:"MachineList"},
