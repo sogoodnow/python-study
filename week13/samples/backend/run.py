@@ -92,8 +92,9 @@ def monitor():
     command = "python3 /tmp/monitor.py && rm -f /tmp/monitor.py"
     stdin, stdout, stderr = ssh.exec_command(command)
     res = stdout.read().decode()
+    if res is None:
+        print("null")
     print(res)
-
     ssh.close()
 
     return res

@@ -50,7 +50,7 @@
               <td>{{item.name}}</td>
               <td>{{item.ip}}</td>
               <td>
-                <router-link :to="{path:'/monitor',query:{id:item.id}">查看</router-link>
+                <router-link :to="{path:'/monitor',query:{id:item.id}}">查看</router-link>
                 <a @click="del(item.id)" href="javascript:;">删除</a>
               </td>
             </tr>
@@ -67,6 +67,21 @@
         <div>用户<input v-model.trim="model.user" /></div>
         <div>密码<input v-model.trim="model.password" type="password" /></div>
         <button @click="save">确定</button>
+      </div>
+    </script>
+    <!--监控模板-->
+    <script type="text/html" id="tpl-monitor">
+      <div>
+        <div>监控</div>
+        <div>CPU: {{info.cpu_count}}核</div>
+        <div>内存: {{info.memory_total}}M</div>
+        <div>
+          CPU {{info.cpu_percent}}%
+          内存 {{info.memory_percent}}%
+
+          <div id="echarts" style="width: 600px;height:400px;"></div>
+
+        </div>
       </div>
     </script>
 
@@ -91,7 +106,7 @@
         // 监控组件
         const Monitor={
             //模板
-            template:"#monitor",
+            template:"#tpl-monitor",
             //绑定数据
             data:function () {
                 return{
@@ -108,19 +123,90 @@
                     history:{
                           time:[],
                           cpu:[],
+                        memory:[],
                     },
                 }
             },
             //方法
             methods:{
                 get_info:function () {
-                    
-                }
+                    machine_id = this.$route.query.id;
+                    $.getJSON("http://localhost:5000/monitor", {id: machine_id},(data)=>{
+                          console.log(data)
+                          this.info = data;
+                          // 设置定时任务
+                          setTimeout(()=>{this.get_info()},1000);
+                          // 获取当前时间
+                          now = new Date();
+                          this.history.time.push(now.getHours() + ":" + now.getMinutes()+":"+now.getSeconds())
+                          this.history.cpu.push(data.cpu_percent);
+                          this.history.memory.push(data.memory_percent);
+                          //只保留最近n次数据
+                          n = 30
+                          this.history.time = this.history.time.slice(-n);
+                          this.history.cpu = this.history.cpu.slice(-n);
+                          this.history.memory = this.history.memory.slice(-n);
+                          this.chart_update();
+                    });
+                },
+                chart_init:function(){
 
+                        // 基于准备好的dom，初始化echarts实例
+                        var myChart = echarts.init(document.getElementById('echarts'));
+
+                        // 指定图表的配置项和数据
+                        var option = {
+                            title: {
+                                text: 'CPU/Memory占比'
+                            },
+                            xAxis: {
+                                type: 'category',
+                                data: []
+                            },
+                            yAxis: {
+                                type: 'category',
+                                 data: [10, 20, 30, 40, 50, 60,70,80,90,100],
+                                // type: 'value'
+                            },
+                            series: [{
+                                data: [820, 932, 901, 934, 1290, 1330, 1320],
+                                type: 'line'
+                            }]
+                        };
+
+                        myChart.setOption(option);
+
+                        this.myChart = myChart
+                    },
+                chart_update:function(){
+                        // 指定图表的配置项和数据
+                        var option = {
+                            xAxis: {
+                                type: 'category',
+                                data: this.history.time
+                            },
+                            yAxis: {
+                                type: 'value'
+                            },
+                            series: [
+                                  {
+                                  data: this.history.cpu,
+                                  type: 'line'
+                                  },
+                                  // {
+                                  // data: this.history.memory,
+                                  // type: 'line'
+                                  // }
+                             ]
+                        };
+
+                        this.myChart.setOption(option);
+    },
             },
             //挂载后
             mounted:function () {
-
+                  this.get_info()
+                  this.chart_init()
             }
 
         }

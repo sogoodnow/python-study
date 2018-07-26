@@ -3,6 +3,7 @@ from flask.json import jsonify
 from week13.homework.sqlmodels import  db,Machine,Monitor
 from sqlalchemy import and_
 from week13.homework.sqlhelper import models_to_dict
+import paramiko
 
 
 app = Flask(__name__)
@@ -58,6 +59,36 @@ def mahcine_create():
     db.session.commit()
     return jsonify({"status":True})
 
+# 机器详情
+@app.route('/monitor')
+def monitor():
+    # 通过id获取机器ip地址
+    machine = Machine.query.get(request.args['id'])
+    # 通过paramiko连接远程主机并获取信息
+    transport = paramiko.Transport(machine.ip,22)
+    transport.connect(username=machine.user,password=machine.password)
+    sftp = paramiko.SFTPClient.from_transport(transport)
+    # 上传文件
+    sftp.put("./monitor.py","/root/monitor.py")
+    # 列出目录
+    print(sftp.listdir(path='/root'))
+    sftp.close()
+    transport.close()
+    # 执行远程文件
+    ssh = paramiko.SSHClient()
+    ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy)
+    ssh.connect(hostname=machine.ip, username=machine.user, password=machine.password, port=22)
+    command = "python3 /root/monitor.py "
+    stdin,stdout,stderror = ssh.exec_command(command)
+    err = stderror.read().decode()
+    if err:
+        print(err)
+        ssh.close()
+        return jsonify({'data':"error"})
+    else:
+        res = stdout.read().decode()
+        ssh.close()
+        return res
 
 
 
