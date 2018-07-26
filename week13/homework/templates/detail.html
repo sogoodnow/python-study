@@ -132,8 +132,11 @@
             //方法
             methods:{
                 get_info:function () {
-                    machine_id = this.$route.query.id;
-                    $.getJSON("http://localhost:5000/monitor", {id: machine_id},(data)=>{
+                    // 判断路由中是否有id，在监控页返回列表页时，没有id，会报错
+                    if(this.$route.query.id!=""&&this.$route.query.id != null)
+                    {
+                        machine_id = this.$route.query.id;
+                        $.getJSON("http://localhost:5000/monitor", {id: machine_id},(data)=>{
                           console.log(data)
                           this.info = data;
                           // 设置定时任务
@@ -151,6 +154,9 @@
                           this.history.memory = this.history.memory.slice(-n);
                           this.chart_update();
                     });
+                    }else{
+                        return
+                    }
                 },
                 chart_init:function(){
 
