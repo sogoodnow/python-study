@@ -79,7 +79,8 @@
           CPU {{info.cpu_percent}}%
           内存 {{info.memory_percent}}%
 
-          <div id="echarts" style="width: 600px;height:400px;"></div>
+          <div id="cpuchart" style="width: 600px;height:400px;"></div>
+          <div id="memchart" style="width: 600px;height:400px;float: left"></div>
 
         </div>
       </div>
@@ -118,11 +119,12 @@
                         memory_percent:"",
                     },
                     // 图表
-                    myChart:null,
+                    cpuchart:null,
+                    memchart:null,
                     // 时间段
                     history:{
                           time:[],
-                          cpu:[],
+                           cpu:[],
                         memory:[],
                     },
                 }
@@ -138,11 +140,12 @@
                           setTimeout(()=>{this.get_info()},1000);
                           // 获取当前时间
                           now = new Date();
+
                           this.history.time.push(now.getHours() + ":" + now.getMinutes()+":"+now.getSeconds())
                           this.history.cpu.push(data.cpu_percent);
                           this.history.memory.push(data.memory_percent);
                           //只保留最近n次数据
-                          n = 30
+                          n = 60
                           this.history.time = this.history.time.slice(-n);
                           this.history.cpu = this.history.cpu.slice(-n);
                           this.history.memory = this.history.memory.slice(-n);
@@ -152,12 +155,13 @@
                 chart_init:function(){
 
                         // 基于准备好的dom，初始化echarts实例
-                        var myChart = echarts.init(document.getElementById('echarts'));
+                        var cpuchart = echarts.init(document.getElementById('cpuchart'));
+                        var memchart = echarts.init(document.getElementById('memchart'));
 
                         // 指定图表的配置项和数据
-                        var option = {
+                        var optionCpu = {
                             title: {
-                                text: 'CPU/Memory占比'
+                                text: 'CPU运行情况'
                             },
                             xAxis: {
                                 type: 'category',
@@ -174,13 +178,35 @@
                             }]
                         };
 
-                        myChart.setOption(option);
+                        var optionMem = {
+                            title: {
+                                text: '内存占用情况'
+                            },
+                            xAxis: {
+                                type: 'category',
+                                data: []
+                            },
+                            yAxis: {
+                                type: 'category',
+                                 data: [10, 20, 30, 40, 50, 60,70,80,90,100],
+                                // type: 'value'
+                            },
+                            series: [{
+                                data: [820, 932, 901, 934, 1290, 1330, 1320],
+                                type: 'line'
+                            }]
+                        };
 
-                        this.myChart = myChart
+                        cpuchart.setOption(optionCpu);
+
+                        memchart.setOption(optionMem);
+
+                        this.cpuchart = cpuchart;
+                        this.memchart = memchart;
                     },
                 chart_update:function(){
                         // 指定图表的配置项和数据
-                        var option = {
+                        var cpuoption = {
                             xAxis: {
                                 type: 'category',
                                 data: this.history.time
@@ -200,7 +226,28 @@
                              ]
                         };
 
-                        this.myChart.setOption(option);
+                        var memoption = {
+                            xAxis: {
+                                type: 'category',
+                                data: this.history.time
+                            },
+                            yAxis: {
+                                type: 'value'
+                            },
+                            series: [
+                                  {
+                                  data: this.history.memory,
+                                  type: 'line'
+                                  },
+                                  // {
+                                  // data: this.history.memory,
+                                  // type: 'line'
+                                  // }
+                             ]
+                        };
+
+                        this.cpuchart.setOption(cpuoption);
+                        this.memchart.setOption(memoption);
     },
             },
             //挂载后
