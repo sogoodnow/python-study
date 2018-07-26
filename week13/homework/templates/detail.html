@@ -98,6 +98,7 @@
     <script src="https://cdn.bootcss.com/echarts/4.1.0/echarts.common.min.js"></script>
     <!--===============================VUE==========================================-->
     <script>
+        const URL = "http://127.0.0.1:5000";
         // 组件
         // 部署组件
         const Deploy={
@@ -136,7 +137,7 @@
                     if(this.$route.query.id!=""&&this.$route.query.id != null)
                     {
                         machine_id = this.$route.query.id;
-                        $.getJSON("http://localhost:5000/monitor", {id: machine_id},(data)=>{
+                        $.getJSON(URL+"/monitor", {id: machine_id},(data)=>{
                           console.log(data)
                           this.info = data;
                           // 设置定时任务
@@ -283,7 +284,7 @@
                 //初始化
                 init:function () {
                     // 获取机器列表
-                    $.get("http://127.0.0.1:5000/machine",(data)=>{
+                    $.get(URL+"/machine",(data)=>{
                           this.machineList = data;
                     });
                 },
@@ -292,7 +293,7 @@
                     if(!confirm("确定要删除吗")){
                         return
                     }
-                    $.get("http://127.0.0.1:5000/machine/delete",{id:id},(res)=>{
+                    $.get(URL+"/machine/delete",{id:id},(res)=>{
                         if(res.status){
                             this.init();
                         }else{
@@ -328,7 +329,7 @@
                         alert("请输入ip地址")
                         return
                     }
-                    $.post("http://127.0.0.1:5000/machine/create",this.model,(res)=>{
+                    $.post(URL+"/machine/create",this.model,(res)=>{
                         if(res.status){
                             //添加成功后，返回机器列表
                             this.$router.push("/machine")
