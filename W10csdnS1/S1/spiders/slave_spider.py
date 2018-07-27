@@ -1,5 +1,6 @@
 from scrapy_redis.spiders import RedisSpider
-from W10csdnS1.S1.items import CsdnItem
+from S1.items import CsdnItem
+
 
 class SlaveSpider(RedisSpider):
     """Spider that reads urls from redis queue (myspider:start_urls)."""
