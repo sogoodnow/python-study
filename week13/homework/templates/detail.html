@@ -25,11 +25,12 @@
     <script src="https://unpkg.com/vue/dist/vue.js"></script>
     <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
     <!--=================================================================-->
+
     <div id="app">
       <h1>运维平台</h1>
       <p>
         <router-link to="/machine">机器</router-link>
-        <!--<router-link to="/deploy">部署</router-link>-->
+        <router-link to="/deploy">部署</router-link>
       </p>
         <router-view></router-view>
     </div>
@@ -85,9 +86,30 @@
         </div>
       </div>
     </script>
-
-
-
+    <!--部署页面-->
+    <script type="text/template" id="tpl-deploy">
+      <div>
+        <h2>说明：
+        <p>
+          请确保主机上已安装相关环境：<br>
+              ==================<br>
+              ZIP<br>
+              Psutil<br>
+              Scrapy : apt-get install build-essential libssl-dev libffi-dev python3-dev<br>
+                          pip3 install scrapy<br>
+              Docker<br>
+              Redis  应用pip命令安装<br>
+              Scrapy_redis<br>
+             ====================<br>
+          部署后将自动上传CSDN数据爬取分布式爬虫，并保存至redis容器，挂载目录为/root/redis/data<br>
+          映射端口为6379<br>
+          </p></h2>
+          <div>IP <input v-model.trim="model.ip" /></div>
+          <div>用户<input v-model.trim="model.username" /></div>
+          <div>密码<input v-model.trim="model.password" type="password" /></div>
+          <button @click="deploy">确定</button>
+        </div>
+    </script>
 
 
     <!--=========================================================================-->
@@ -102,7 +124,28 @@
         // 组件
         // 部署组件
         const Deploy={
-            template:""
+            template:"#tpl-deploy",
+            data:function () {
+              return{
+                  model: {
+                      ip: "",
+                      username: "",
+                      password: "",
+                  }
+              }
+            },
+            methods:{
+                deploy:function () {
+                    $.post(URL+"/deploy",this.model,(res)=>{
+                        alert(res)
+                        if(res.status){
+                            alert("爬取完成")
+                        }else {
+                            alert("爬取失败")
+                        }
+                    });
+                },
+            }
 
         }
         // 监控组件

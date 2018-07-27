@@ -4,6 +4,7 @@ from week13.homework.sqlmodels import  db,Machine,Monitor
 from sqlalchemy import and_
 from week13.homework.sqlhelper import models_to_dict
 import paramiko
+from week13.homework.deploy import  Deploy
 
 
 app = Flask(__name__)
@@ -89,6 +90,17 @@ def monitor():
         res = stdout.read().decode()
         ssh.close()
         return res
+
+@app.route('/deploy',methods=['POST'])
+def deploy():
+    ip = request.form['ip']
+    username = request.form['username']
+    password = request.form['password']
+    clinet = Deploy(ip,username,password,22)
+    # clinet = Deploy.host()
+    res = clinet.do_deploy()
+    print(res)
+    return jsonify({"status":True})
 
 
 
