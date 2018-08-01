@@ -1,0 +1,23 @@
+
+docker pull jenkins:alpine
+
+docker run -d --name my-jenkings -p 8080:8080 -p 50000:50000 -u root -v /root/jenkins-data:/var/jenkins_home jenkins:alpine
+
+登录密码查看
+/var/jenkins_home/secrets/initialAdminPassword
+
+目录权限问题
+加上-u选项，把默认的jenkins用户改为root
+docker run -ti --rm --entrypoint="/bin/bash" jenkins:alpine -c "whoami && id" jenkins
+docker run -ti --rm --entrypoint="/bin/bash" jenkins:alpine -c "ls -la /var/jenkins_home/secrets/initialAdminPassword"
+chown -R 1000 /root/jenkins-data
+
+2、Jenkins 更新插件出现 java.net.UnknownHostException: updates.jenkins-ci.org 解决方法：
+
+修改dns
+
+在终端输入：vim /etc/resolv.conf,打开后添加以下内容：
+
+search updates.jenkins-ci.org
+nameserver 114.114.114.114
+
