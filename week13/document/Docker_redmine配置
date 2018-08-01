@@ -1,0 +1,15 @@
+docker pull mysql:5.7
+docker pull redmine:3.2
+
+
+docker run -d -p 3306:3306 --name server-mysql -v /root/mysql-data:/var/lib/mysql -e MYSQL_ROOT_PASSWORD="admin"  -e MYSQL_DATABASE=redmine mysql:5.7
+docker run -d -p 80:3000 --name server-redmine -e MYSQL_ROOT_PASSWORD="admin" --link server-mysql -v /root/redmine-dir:/usr/src/redmine/files redmine
+chcon -Rt svirt_sandbox_file_t /my/own/datadi
+数据库备份
+$ docker exec server-mysql sh -c 'exec mysqldump --databases redmine -uroot -p"$MYSQL_ROOT_PASSWORD"' > /your/host/path/bak.sql
+
+虚拟机交互
+docker exec -it $id /bin/bash
+
+虚拟机的文件复制出来
+docker cp server-mysql:/var/lib/mysql/redmine ./
