@@ -76,7 +76,7 @@ class Deploy:
         # Master
         command = "cd /root/W10csdnMS/Master/spiders && scrapy runspider Mcsnd.py"
         ssh.exec_command(command)
-        # stdin3,stdout3,stderr3 =ssh.exec_command(command)
+        stdin3,stdout3,stderr3 =ssh.exec_command(command)
         # print(stdout3.read().decode())
         # print(stderr3.read().decode())
         # if stderr3.read().decode()=="":
