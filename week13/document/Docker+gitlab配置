@@ -1,0 +1,28 @@
+docker pull gitlab/gitlab-ce
+
+GITLAB_HOME=`pwd`/data/gitlab
+docker run -d \
+    --hostname gitlab \
+    -p 8443:443 -p 8999:80 \
+    --name gitlab \
+    --restart always \
+    --volume $GITLAB_HOME/config:/etc/gitlab \
+    --volume $GITLAB_HOME/logs:/var/log/gitlab \
+    --volume $GITLAB_HOME/data:/var/opt/gitlab \
+    twang2218/gitlab-ce-zh
+
+gitLab本身内置了nginx，使用内置nginx进行设置。配置文件是/etc/gitlab/gitlab.rb
+     `# vi gitlab.rb`
+    对应修改参数：
+
+    external_url "http://193.112.183.122"
+    unicorn["port"]=8999
+    nginx["redirect_http_to _https"]=true
+    nginx["http2_enable"]=false
+
+netstat -anp
+netstat -ntlp
+iptables -A INPUT -p tcp --dport 8999 -j ACCEPT
+
+
+第一次登陆会要求设置root用户密码
