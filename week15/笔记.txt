@@ -1,0 +1,90 @@
+sort
+df.rank()  平均排名
+df.rank(method='first') 默认是average
+
+df.sort_values(by=['',''])
+
+merge
+pd.merge(df1,df2,on='')  inner join 数据交集
+
+pd.merge(df1,df2,on=''，how='left') left join
+
+concat
+df,concat([df1,df2],axis=) 行拼接，列拼接
+
+df.head(2)
+df.tail(3)  默认为5行
+df.info()  数据情况/数据类型
+
+df.describe() none值会被跳过
+df.mean()  df.count
+df.sum()
+
+grouped = df.groupby('类别')
+grouped = df.groupby(['类别','名称'])
+grouped.sum()
+grouped[['aa','bb']].sum()
+
+
+
+
+plt.scatter(3,5)
+plt.scatter(3,5,s=200,color='#ff0000',alpha=0.3,marker='+')
+r-red
+g-green
+b-blue
+k-black
+y-yellow
+
+
+折线图
+plt.plot(x,y)
+plt.plot(x ,y,color='r',linesytle=':')
+plt.plot(x ,y,color='r',linesytle=':',marker='o')
+
+plt.xlabel("x zhou")
+plt.ylabel("x zhou")
+plt.title("my demo")
+
+柱状图
+x=['Q1','Q2','Q3','Q4']
+y=[10,30,20,60]
+plt.bar(x,y)
+
+plt.bar(x,y,color='r',width=0.3)
+plt.grid(True)
+
+rect=plt.bar(x,y,color='r',width=0.3)
+plt.grid(True)
+plt.ylim(0,70)
+#plt.text(0.2,50,'test')
+for ind, item in enumerate(rect):
+    _x = item.get_x()
+    _y = item.get_height()
+    plt.text(_x,_y,y[ind])
+
+并状图
+plt.pie(y,labels=x)
+plt.axes(aspect=1)
+plt.pie(y,labels=x,autopct='%.2f%%',explode=[0.2,0,0,0],shadow=True)
+plt.show()
+直方图
+plt.hist(data,bins=20,color='g',rwidth=0.8,alpha=0.6)
+箱线图
+plt.boxplot(data,whis=3)
+plt.boxplot(data,whis=3,showmeans=True,meanline=True)
+plt.boxplot(data,whis=3,showmeans=True,meanline=True,showbox=False,widths=1)
+子图
+plt.subplot(2,1,1)
+plt.subplot(2,1,2)
+plt.show()
+
+
+df.duplicated(subset=['salary'])
+
+df.corr()
+df.dropna(subset=['age'])
+df.fillna(0)
+df.fillna(method='ffill')
+df.fillna(method='bfill')
+df.interpolate()
