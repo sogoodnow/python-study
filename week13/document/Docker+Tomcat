@@ -1,0 +1,30 @@
+docker pull tomcat:alpine
+
+
+默认ipv6
+docker run -itd --name tomcat-jsxt -p 0.0.0.0:8999:8080 \
+    -v /root/webs/jsxt/conf:/tomcat/conf \
+    -v /root/webs/jsxt/webapps:/tomcat/webapps  \
+    -v /root/webs/jsxt/webapps:/tomcat/logs  \
+    tomcat:7-alpine /bin/bash
+
+ipv4
+docker run -itd --name tomcat-test2 -p 30000:8080 \
+    tomcat:7-alpine /bin/bash
+iptables -A INPUT -p tcp --dport 8999 -j DROP
+
+sysctl -w net.ipv4.ip_forward=1
+解决办法：
+# vi /etc/sysctl.conf
+或者
+# vi /usr/lib/sysctl.d/00-system.conf
+添加如下代码：
+net.ipv4.ip_forward=1
+
+重启network服务
+# systemctl restart network
+sudo /etc/init.d/networking restart
+查看是否修改成功
+# sysctl net.ipv4.ip_forward
+
+如果返回为“net.ipv4.ip_forward = 1”则表示成功了
