@@ -3,14 +3,16 @@ docker pull tomcat:alpine
 
 默认ipv6
 docker run -itd --name tomcat-jsxt -p 0.0.0.0:8999:8080 \
-    -v /root/webs/jsxt/conf:/tomcat/conf \
-    -v /root/webs/jsxt/webapps:/tomcat/webapps  \
-    -v /root/webs/jsxt/webapps:/tomcat/logs  \
+    -v /root/webs/jsxt/conf:/usr/local/tomcat/conf \
+    -v /root/webs/jsxt/webapps:/usr/local/tomcat/webapps  \
+    -v /root/webs/jsxt/webapps:/usr/local/tomcat/logs  \
     tomcat:7-alpine /bin/bash
 
 ipv4
-docker run -itd --name tomcat-test2 -p 30000:8080 \
-    tomcat:7-alpine /bin/bash
+docker run -itd --name tomcat-test2 -p 9000:8080 -v /root/webs/jsxt/webapps/JSXT:/usr/local/tomcat/webapps/JSXT tomcat:7-alpine
+
+
+
 iptables -A INPUT -p tcp --dport 8999 -j DROP
 
 sysctl -w net.ipv4.ip_forward=1
