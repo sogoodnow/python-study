@@ -1,0 +1,8 @@
+docker pull redis:alpine
+docker run -itd --name redis-master -p 6379:6379 redis:alpine
+docker run -itd --name redis-master -p 6379:6379 redis /bin/bash
+
+
+docker run -itd --name redis-master -p 6379:6379 \
+    -v /root/myredis/conf/redis.conf:/usr/local/etc/redis/redis.conf redis \
+    redis-server /usr/local/etc/redis/redis.conf
