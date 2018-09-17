@@ -114,9 +114,23 @@ docker network ls
 docker network rm
 
 
+容器导入导出
+docker export aaa >aaa.tar
+导出后为镜像
+cat aaa.tar|docker import - name:tags
+通过url导入
+import url name:tag
+删除所有容器-q表示id
+docker rm $(docker ps -a -q)
 
 
+DOCKER HUB登录
+docker login
 
+共享容器卷
+
+docker run -v /data --name data alpine:last
+docker run --volumes-from=data
 
 
 
