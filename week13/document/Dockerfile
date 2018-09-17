@@ -56,3 +56,9 @@ VOLUME ["/data"]
 # 作用于子镜像，基于现有镜像构筑新镜像时会执行，类型于继承,指令可能不会触发FROM或MAINTAINER指令
 ONBUILD ADD . /app/src
 ONBUILD RUN /usr/local/bin/python-build --dir /app/src
+
+#==================================================
+FORM python:3.6
+COPY . /code
+WORKDIR /code
+RUN pip install -r requirements.txt
