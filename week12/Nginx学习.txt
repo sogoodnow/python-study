@@ -1,0 +1,16 @@
+linux为网卡取别名
+
+ifconfig ens33:0 192.168.204.124 netmask 255.255.255.0 up
+echo "ifconfig ens33:0 192.168.204.124 netmask 255.255.255.0 up">>/etc/rc.local
+
+1  同一个域名只能对应一个IP，同一个IP可以对应多个域名
+2  当访问网站是系统会先去你本地的hosts（C:\windows\system32\drivers\etc）文件中查找，
+如果存在该域名就会访问该域名对应的IP，如果不存在才会去互联网寻找。
+
+主机名通常在局域网内使用，通过hosts文件，主机名就被解析到对应的ip。
+域名通常在internet上使用，但是优先级低于hosts文件中内容，
+因此如果你不想使用internet上的域名解析，可以更改自己的hosts文件，加入自己的域名解析。
+
+hosts文件格式
+cat /etc/hosts
+ip地址   主机名/域名   （主机别名）
