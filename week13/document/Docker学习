@@ -114,11 +114,52 @@ docker network ls
 docker network rm
 
 
+容器导入导出
+docker export aaa >aaa.tar
+导出后为镜像
+cat aaa.tar|docker import - name:tags
+通过url导入
+import url name:tag
+删除所有容器-q表示id
+docker rm $(docker ps -a -q)
 
 
+DOCKER HUB登录
+docker login
+
+共享容器卷
+
+docker run -v /data --name data alpine:last
+docker run --volumes-from=data
+
+--link alise
+
+apt install openssh-server
+mkdir -p /var/run/sshd
+netstat -natp
+
+ssh-kegen -t sa
+ssh-keygen   /root/.ssh
+ssh-copy-id root@192.168.119.148
 
 
+阿里oss存储创建镜像仓库
+docker run -e OSS_BUCKET=<your ali oss bucket> -e STORAGE_PATH=/docker/ -e OSS_KEY=<ali oss key>
+-e OSS_SECRET=<ali secret> -p 5000:5000 -d chrisjin/registry:ali_oss
 
+
+docker compose
+pip install docker-compose
+mkdir compose-test && cd compose-test
+python后台运行
+nohup python -u xx.py > log.out 2>&1 &
+
+
+docker-machine create -d virtualbox dev
+安装docker-machine
+base=https://github.com/docker/machine/releases/download/v0.14.0 &&
+  curl -L $base/docker-machine-$(uname -s)-$(uname -m) >/tmp/docker-machine &&
+  sudo install /tmp/docker-machine /usr/local/bin/docker-machine
 
 
 

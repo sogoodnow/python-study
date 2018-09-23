@@ -1,7 +1,7 @@
 """
 ssh免密码登录
 RSA非对称
-ssh-keygen   /root/.ssh
+ssh-keygen -t rsa  /root/.ssh
 ssh-copy-id root@192.168.119.148
 
 apt install ansible
