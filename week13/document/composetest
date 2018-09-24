@@ -1,1 +1,18 @@
-version: '3'
+version: "3"
+services:
+  nginx:
+    image: nginx:1.14-alpine
+    volumes:
+     - /root/compose-webs/compose-nginx/conf:/etc/nginx/sites-enabled/
+    links:
+     - tomcat
+    ports:
+     - "8080:80"
+    command: [nginx, '-g', 'daemon off;']
+  tomcat:
+    image: tomcat:8-alpine
+    volumes:
+     - /root/compose-webs/compose-tomcat/conf/:/usr/local/tomcat/conf/
+     - /root/compose-webs/compose-tomcat/webapps/:/usr/local/tomcat/webapps/
+    ports:
+     - "9001:8080"
