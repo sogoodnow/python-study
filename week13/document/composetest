@@ -1,18 +1,44 @@
-version: "3"
+version: "2"
 services:
   nginx:
-    image: nginx:1.14-alpine
+    image: nginx:stable-alpine
     volumes:
-     - /root/compose-webs/compose-nginx/conf:/etc/nginx/sites-enabled/
-    links:
-     - tomcat
+     - /root/compose-tomcat/nginx/conf.d:/etc/nginx/conf.d/
+     - /root/compose-tomcat/nginx/nginx.conf:/etc/nginx/nginx.conf
+    networks:
+     - web
     ports:
-     - "8080:80"
+     - "80:80"
     command: [nginx, '-g', 'daemon off;']
-  tomcat:
-    image: tomcat:8-alpine
+  tomcat1:
+    build:
+      context: ./tomcats
+    networks:
+     - web
     volumes:
-     - /root/compose-webs/compose-tomcat/conf/:/usr/local/tomcat/conf/
-     - /root/compose-webs/compose-tomcat/webapps/:/usr/local/tomcat/webapps/
+     - /root/compose-tomcat/tomcats/conf/:/usr/local/apache-tomcat-8.5.34/conf/
+     - /root/compose-tomcat/tomcats/webapps:/usr/local/apache-tomcat-8.5.34/webapps/
     ports:
      - "9001:8080"
+  tomcat2:
+    build:
+      context: ./tomcats
+    networks:
+     - web
+    volumes:
+     - /root/compose-tomcat/tomcats/conf/:/usr/local/apache-tomcat-8.5.34/conf/
+     - /root/compose-tomcat/tomcats/webapps:/usr/local/apache-tomcat-8.5.34/webapps/
+    ports:
+     - "9002:8080"
+  tomcat3:
+    build:
+      context: ./tomcats
+    networks:
+     - web
+    volumes:
+     - /root/compose-tomcat/tomcats/conf/:/usr/local/apache-tomcat-8.5.34/conf/
+     - /root/compose-tomcat/tomcats/webapps:/usr/local/apache-tomcat-8.5.34/webapps/
+    ports:
+     - "9003:8080"
+networks:
+  web:

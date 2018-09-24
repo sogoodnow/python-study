@@ -4,6 +4,8 @@ RSA非对称
 ssh-keygen -t rsa  /root/.ssh
 ssh-copy-id root@192.168.119.148
 
+scp local_file remote_username@remote_ip:remote_folder
+
 apt install ansible
 /etc/ansible/ansible.cfg 配置文件
 /etc/ansible/hosts      机器列表

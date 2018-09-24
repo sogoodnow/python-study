@@ -1,7 +1,8 @@
 FROM java:jdk-alpine
+LABEL ver = "1.0"
 MAINTAINER "qiuguochang"
 ADD ./apache-tomcat-8.5.34.tar.gz /usr/local/
-WORKDIR /usr/local/tomcat
+WORKDIR /usr/local/apache-tomcat-8.5.34/
 COPY ./server.xml /usr/local/apache-tomcat-8.5.34/conf/
 EXPOSE 8080
 ENTRYPOINT ["/usr/local/apache-tomcat-8.5.34/bin/catalina.sh","run"]
