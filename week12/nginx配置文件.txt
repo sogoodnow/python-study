@@ -164,7 +164,7 @@ server {
         # linxu可设置ip别名，可通过设置别名，配置虚拟主机
         # ifconfig eth1:0 192.168.1.xx  netmask 255.255.255.0 up
 
-#
+#       alias /ect/aaa 路径别名，匹配后转向别名路径
 #       root /var/www/example.com;
         # index指令 ：index file 设置默认首页，作用请求时可不写首页名称，直接跳转至此页面，或根据请求内容设置不同首页
 #       index index.html;

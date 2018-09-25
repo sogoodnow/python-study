@@ -135,3 +135,5 @@ service nginx stop  停止服务
 ps -ef|grep uwsgi
 kill -9 进程ID
 
+systemctl 服务管理
+sysctl -p 网络
