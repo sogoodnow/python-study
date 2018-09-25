@@ -1,0 +1,147 @@
+1.文件：
+  
+
+pwd 打印当前目录print work dic
+cd
+ls ll  
+ls -a  显示隐藏文件
+ls -F  文件夹带反斜杠
+ls -lh 显示带文件大小
+
+
+mkdir 创建目录 -p 递归创建目录
+touch 创建文件
+rm    删除文件
+rm -r 删除目录递归删除，rm -rf  centos中用rf  -i删除提示
+
+mv    移动、改名  mv 路径/文件  新路径/文件    mv  路径/原名  路径/新名
+cp    拷贝  cp -r 递归拷贝
+
+find  查找   find 路径 -name 文件名（模糊查询,*?支持正则？）
+	-size 根据尺寸查找
+
+which 查找文件路径  which python3
+
+
+cat   查看文件内容，适合于小文件
+more  查看文件内容，大文件 回车==》一行   空格==》一页  q退出
+
+head  看文件头几行 head -n 5 /etc/services   默认10行
+tail  看文件最后几行 tail -n 5 /etc/services    -f 查看文件变化
+
+ln    创建链接  -s创建软链接  ln -s readme.txt hello.txt
+      不加参数则为硬链接,硬链接相当于创建副本，大小内容都会同时变化
+ 
+echo "字符串">> readme.txt   输出重定向
+
+=======文件解压、压缩
+tar -zcf 文件  -z gzip  -c  create   -f 文件 -v显示内容  压缩
+tar -zxf 文件  -z gzip  -x  xtarct   -f 文件 -v显示内容  解压缩	
+
+bz2格式 将z换成j
+
+zip apt install zip
+zip xx.zip 文件   unzip xx.zip
+
+file 命令查看文件格式
+
+===========vi使用==================
+命令模式:可以使用上下左右键调节位置,或者用 H J K L
+a键  编辑模式
+esc  退出
+vi 文件名  编辑或新建文件  vi index.php
+
+编辑操作：
+1.定位操作
+	:set nu   显示行号
+	:20	  跳至20行
+	G	  最后一行 
+	gg	  第一行 
+	/str	  检索字符串 n键下一个
+2.编辑操作
+	dd	  删除一行、剪切
+	5dd	  删除5行、剪切
+	yy	  复制
+	5yy   复制5行
+	p	  黏贴
+	u	  撤销
+	ctrl+r    恢复上一步
+3.存盘
+:wq	保存并退出
+:w	保存
+:q      退出
+:q!     不保存强制退出
+:wq!	保存强制退出
+
+
+==========用户与权限========
+r  4 读	
+w  2 写
+x  1 执行
+
+u  拥有者
+g  小组
+o  其他人
+
+groupadd 创建组    groupadd python
+useradd  创建用户  useradd qiuguochang
+	 -m 同时创建用户目录
+	 -g 添加到对应组
+	 useradd -m -g python qiuguochang
+	 不加参数，默认加入用户同名组
+
+id 用户名 查看该用户的组信息
+userdel  删除用户
+passwd 用户名 密码     设置用户密码
+chown  用户名 文件夹   转让文件夹
+chown [-cfhvR] [--help] [--version] user[:group] file...
+
+
+指令名称 : chmod 
+使用权限 : 所有使用者 
+使用方式 : chmod [-cfvR] [--help] [--version] mode file... 
+说明 : Linux/Unix 的档案调用权限分为三级 : 档案拥有者、群组、其他。利用 chmod 可以藉以控制档案如何被他人所调用。 
+参数 : 
+mode : 权限设定字串，格式如下 : [ugoa...][[+-=][rwxX]...][,...]，其中 
+u 表示该档案的拥有者，g 表示与该档案的拥有者属于同一个群体(group)者，o 表示其他以外的人，a 表示这三者皆是。 
++ 表示增加权限、- 表示取消权限、= 表示唯一设定权限。 
+r 表示可读取，w 表示可写入，x 表示可执行，X 表示只有当该档案是个子目录或者该档案已经被设定过为可执行。 
+-c : 若该档案权限确实已经更改，才显示其更改动作 
+-f : 若该档案权限无法被更改也不要显示错误讯息 
+-v : 显示权限变更的详细资料 
+-R : 对目前目录下的所有档案与子目录进行相同的权限变更(即以递回的方式逐个变更) 
+--help : 显示辅助说明 
+--version : 显示版本 
+
+
+===========软件操作============
+
+apt remove xxx
+apt install -y xxx
+
+yum install -y xxx
+yum remove xxx
+
+编译时先确定编译工具
+
+wget 链接地址
+
+./congfig --perfix 安装路径
+
+
+service nginx stop  停止服务
+
+
+ps -ef|grep uwsgi
+kill -9 进程ID
+
+systemctl 服务管理
+sysctl -p 网络
+
+==scp 拷贝及远程登录===
+ssh-keygen -t rsa  /root/.ssh
+ssh-copy-id root@192.168.119.148
+
+scp local_file remote_username@remote_ip:remote_folder
+
+iptables -A INPUT -p tcp --dport 8999 -j DROP

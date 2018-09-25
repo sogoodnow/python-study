@@ -1,0 +1,169 @@
+$ sudo apt-get update
+
+
+$apt install \
+    apt-transport-https \
+    ca-certificates \
+    curl \
+    software-properties-common
+
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+apt-key fingerprint 0EBFCD88
+
+apt-get update
+apt-get install docker-ce
+
+service docker start stop
+docker info
+
+=====镜像管理===========
+dev.aliyun.com 镜像加速器
+------------------------------------------------------
+sudo mkdir -p /etc/docker
+sudo tee /etc/docker/daemon.json <<-'EOF'
+{
+  "registry-mirrors": ["https://o54x08ux.mirror.aliyuncs.com"]
+}
+EOF
+sudo systemctl daemon-reload
+sudo systemctl restart docker
+-------------------------------------------------------
+docker pull alpine:tag  tag版本号
+docker image
+docker image ls  或者 docker images
+docker rmi  删除镜像
+
+========容器=============
+docker container
+ls run start stop kill  ls -a
+运行容器 ：docker container run alpine echo "hello"    简写  docker run alpine
+不存在镜像的时候回自动尝试下载镜像
+docker run 指的是运行容器
+docker container rm id
+docker ps 显示容器简写
+docker run -d alpine ping www.sina.com  后台方式运行
+docker stop id  等待10秒
+docker run --rm alpine echo "hello"  完成后删除，注意容器中的数据也会被删除
+=============容器数据卷============
+docker run --rm -v /root:/data alpine touch /data/test.txt
+-v 物理机目录：镜像目录
+docker run --rm -v "$(pwd):/data" alpine touch /data/a.txt
+只读映射，无法对挂在目录进行写操作 :ro
+docker run --rm -v "$(pwd):/data:ro" alpine touch /data/a.txt
+=============容器服务==============
+docker pull nginx:alpine
+docker run -d --rm nginx:alpine
+端口映射-P 自动端口映射
+-d 服务方式
+-p指定端口  物理机端口：镜像端口
+docker run -d --rm -P nginx:alpine
+docker run -d --rm -p 8080:80 nginx:alpine
+docker ps -q 显示容器id
+docker kill $(docker ps -q) 结束所有容器
+==============镜像制作==============
+编写Dockerfile文件,用这个名字，否则很麻烦
+docker build
+--------------------------
+# 指定原始镜像
+FROM alpine
+# 标签1.0
+LABEL version="1.0"
+# 描述
+LABEL description="fist image"
+# 镜像生成后运行
+RUN apk update && apk add python3
+# 将当前主机目录内容拷贝至镜像文件夹
+COPY . /code
+# 指定镜像工作目录
+WORKDIR /code
+# 运行命令，但会被外部执行命令覆盖
+CMD ["python3","app.py"]
+--------
+docker bulid -t myapp .   # 点代表Dockerfile所在目录 -t tag
+docker inspect myapp      # 查看镜像详细信息
+一个容器只做一件事情
+
+==========redis=============
+mkdir /redis/data
+# 目录挂载
+docker run -d --name redis -v /reids-data:/data redis:alpine
+
+redis 安装是pip，不是pip3
+EXPOSE 暴露容器端口
+docker run --rm --link redis -p 80:5000 myweb
+redis 不要用kill 内存数据库
+
+-----------------------------
+docker search mysql
+docker attach
+docker export
+docker save mysql >mysql.tar 导出镜像
+docker load -i mysql.tar
+docker create
+
+docker run -i  可以进行命令交互
+-t 伪终端  -d 后台运行
+docker  exec -it alp ls # 交互模式执行shell
+docker cp  拷贝容器内外文件
+docker diff
+docker stats alp 容器名
+--volumes-from
+
+docker run -itd --net host alpine
+docker network ls
+docker network rm
+
+
+容器导入导出
+docker export aaa >aaa.tar
+导出后为镜像
+cat aaa.tar|docker import - name:tags
+通过url导入
+import url name:tag
+删除所有容器-q表示id
+docker rm $(docker ps -a -q)
+
+
+DOCKER HUB登录
+docker login
+
+共享容器卷
+
+docker run -v /data --name data alpine:last
+docker run --volumes-from=data
+
+--link alise
+
+apt install openssh-server
+mkdir -p /var/run/sshd
+netstat -natp
+
+ssh-kegen -t sa
+ssh-keygen   /root/.ssh
+ssh-copy-id root@192.168.119.148
+
+
+阿里oss存储创建镜像仓库
+docker run -e OSS_BUCKET=<your ali oss bucket> -e STORAGE_PATH=/docker/ -e OSS_KEY=<ali oss key>
+-e OSS_SECRET=<ali secret> -p 5000:5000 -d chrisjin/registry:ali_oss
+
+
+docker compose
+pip install docker-compose
+mkdir compose-test && cd compose-test
+python后台运行
+nohup python -u xx.py > log.out 2>&1 &
+
+
+docker-machine create -d virtualbox dev
+安装docker-machine
+base=https://github.com/docker/machine/releases/download/v0.14.0 &&
+  curl -L $base/docker-machine-$(uname -s)-$(uname -m) >/tmp/docker-machine &&
+  sudo install /tmp/docker-machine /usr/local/bin/docker-machine
+
+
+
+
+
+
+
