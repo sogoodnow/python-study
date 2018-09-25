@@ -1,0 +1,14 @@
+https://blog.csdn.net/fg_411/article/details/54928159
+apt-get --purge remove nginx
+
+apt-get autoremove
+
+dpkg --get-selections|grep nginx
+sudo apt-get --purge remove nginx
+sudo apt-get --purge remove nginx-common
+sudo apt-get --purge remove nginx-core
+
+sudo  find  /  -name  nginx*
+sudo rm -rf file
+
+sudo nginx -t
