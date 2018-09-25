@@ -1,0 +1,19 @@
+server {
+    # 这个server标识我要配置了
+    listen 80; # 我要监听那个端口
+    server_name 192.168.2.108 ; # 你访问的路径前面的url名称
+
+    # 指定项目路径uwsgi
+    location / { # 这个location就和咱们Django的url(r'^admin/', admin.site.urls),
+            include uwsgi_params; # 导入一个Nginx模块他是用来和uWSGI进行通讯的
+            uwsgi_connect_timeout 30; # 设置连接uWSGI超时时间
+            uwsgi_pass unix:/opt/proj/script/uwsgi.sock; # 指定uwsgi的sock文件所有动态请求就会直接丢给他
+    }
+
+    # 指定静态文件路径
+    location /static/ {
+            alias /opt/proj/teacher/static/;
+            index index.html index.htm;
+    }
+
+}

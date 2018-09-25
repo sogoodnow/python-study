@@ -137,3 +137,11 @@ kill -9 进程ID
 
 systemctl 服务管理
 sysctl -p 网络
+
+==scp 拷贝及远程登录===
+ssh-keygen -t rsa  /root/.ssh
+ssh-copy-id root@192.168.119.148
+
+scp local_file remote_username@remote_ip:remote_folder
+
+iptables -A INPUT -p tcp --dport 8999 -j DROP
