@@ -1,0 +1,40 @@
+version: "2"
+services:
+  nginx:
+    image: nginx:stable-alpine
+    volumes:
+    - /root/workdir/nginx/conf/conf.d:/etc/nginx/conf.d/
+    - /root/workdir/nginx/nginx.conf:/etc/nginx/nginx.conf
+    - /root/workdir/nginx/logs:/var/log/nginx
+    ports:
+    - "80:80"
+    command: [nginx, '-g', 'daemon off;']
+    networks:
+    - web
+  tomcat1:
+    image: tomcat:7-alpine
+    volumes:
+    - /root/workdir/tomcats/conf:/usr/local/tomcat/conf
+    - /root/workdir/tomcats/logs1:/usr/local/tomcat/logs
+    - /root/workdir/tomcats/webapps:/usr/local/tomcat/webapps
+    networks:
+    - web
+  tomcat2:
+    image: tomcat:7-alpine
+    volumes:
+    - /root/workdir/tomcats/conf:/usr/local/tomcat/conf
+    - /root/workdir/tomcats/webapps:/usr/local/tomcat/webapps
+    - /root/workdir/tomcats/logs2:/usr/local/tomcat/logs
+    networks:
+    - web
+  tomcat3:
+    image: tomcat:7-alpine
+    volumes:
+    - /root/workdir/tomcats/conf:/usr/local/tomcat/conf
+    - /root/workdir/tomcats/webapps:/usr/local/tomcat/webapps
+    - /root/workdir/tomcats/logs3:/usr/local/tomcat/logs
+    CMD ["catalina.sh", "run"]
+    networks:
+    - web
+networks:
+  web:
