@@ -23,7 +23,6 @@ services:
     command: ["catalina.sh", "run"]
     networks:
     - web
-
   tomcat8:
     image: tomcat:8-alpine
     hostname: tomcat8
