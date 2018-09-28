@@ -1,6 +1,5 @@
-version: '3'
+version: "2"
 services:
-  # nginx
   nginx:
     image: nginx:stable-alpine
     volumes:
@@ -8,12 +7,12 @@ services:
     - /root/web-clusters/nginx/nginx.conf:/etc/nginx/nginx.conf
     - /root/web-clusters/nginx/nginx.conf.default:/etc/nginx/nginx.conf.default
     - /root/web-clusters/nginx/logs:/var/log/nginx
+#    - /root/web-clusters/nginx/html:/usr/share/nginx/html
     ports:
     - "80:80"
     command: [nginx, '-g', 'daemon off;']
     networks:
     - web
-  # tomcat7
   tomcat7:
     image: tomcat:7-alpine
     hostname: tomcat7
@@ -22,24 +21,19 @@ services:
     - /root/web-clusters/7tomcats/logs:/usr/local/tomcat/logs
     - /root/web-clusters/7tomcats/webapps:/usr/local/tomcat/webapps
     command: ["catalina.sh", "run"]
-    deploy:
-      mode: replicated
-      replicas: 5
     networks:
     - web
-  # tomcat8
+
   tomcat8:
     image: tomcat:8-alpine
     hostname: tomcat8
     volumes:
     - /root/web-clusters/8tomcats/conf:/usr/local/tomcat/conf
-    - /root/web-clusters/8tomcats/webapps:/usr/local/tomcat/webapps
     - /root/web-clusters/8tomcats/logs:/usr/local/tomcat/logs
+    - /root/web-clusters/8tomcats/webapps:/usr/local/tomcat/webapps
     command: ["catalina.sh", "run"]
-    deploy:
-      mode: replicated
-      replicas: 5
     networks:
-      - web
+    - web
 networks:
   web:
+
