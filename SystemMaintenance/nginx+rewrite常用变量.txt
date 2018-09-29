@@ -1,0 +1,116 @@
+首先匹配 =，其次匹配^~, 其次是按文件中顺序的正则匹配，最后是交给 / 通用匹配。当有匹配成功时候，停止匹配
+location = / {
+ # 只匹配 / 查询。
+}
+location / {
+ # 匹配任何查询，因为所有请求都已 / 开头。但是正则表达式规则和长的块规则将被优先和查询匹配。
+}
+location ^~ /images/ {
+ # 匹配任何已 /images/ 开头的任何查询并且停止搜索。任何正则表达式将不会被测试。
+}
+location ~*.(gif|jpg|jpeg)$ {
+ # 匹配任何已 gif、jpg 或 jpeg 结尾的请求。
+}
+location ~*.(gif|jpg|swf)$ {
+  valid_referers none blocked start.igrow.cn sta.igrow.cn;
+  if ($invalid_referer) {
+  #防盗链
+  rewrite ^/ http://$host/logo.png;
+  }
+}
+
+
+
+rewite
+
+在server块下，会优先执行rewrite部分，然后才会去匹配location块
+server中的rewrite break和last没什么区别，都会去匹配location，所以没必要用last再发起新的请求，可以留空
+
+location中的rewirte：
+
+不写last和break -    那么流程就是依次执行这些rewrite
+1. rewrite break -        url重写后，直接使用当前资源，不再执行location里余下的语句，完成本次请求，地址栏url不变
+2. rewrite last -        url重写后，马上发起一个新的请求，再次进入server块，重试location匹配，超过10次匹配不到报500错误，地址栏url不变
+3. rewrite redirect –    返回302临时重定向，地址栏显示重定向后的url，爬虫不会更新url（因为是临时）
+4. rewrite permanent –    返回301永久重定向, 地址栏显示重定向后的url，爬虫更新url
+
+使用last会对server标签重新发起请求
+
+如果location中rewrite后是对静态资源的请求，不需要再进行其他匹配，一般要使用break或不写，直接使用当前location中的数据源，完成本次请求
+如果location中rewrite后，还需要进行其他处理，如动态fastcgi请求(.php,.jsp)等，要用last继续发起新的请求
+(根的location使用last比较好, 因为如果有.php等fastcgi请求还要继续处理)
+
+
+  $args
+  存放了请求url中的请求指令。
+  比如http://www.myweb.name/server/source?arg1=value1&arg2=value2中的arg1=value1&arg2=value2
+
+  $content_length
+  存放请求头中的Content-length字段
+
+  $content_type
+  存放了请求头中的Content-type字段
+
+  $document_root
+  存放了针对当前请求的根路径
+
+  $document_uri
+  请求中的uri,不包含请求指令 ，
+  比如比如http://www.myweb.name/server/source?arg1=value1&arg2=value2中的/server/source
+
+  $host
+  存放了请求url中的主机字段，
+  比如比如http://www.myweb.name/server/source?arg1=value1&arg2=value2中的www.myweb.name。
+  如果请求中的主机部分字段不可用或者为空，则存放nginx配置中该server块中server_name指令的配置值
+
+  $http_user_agent
+  存放客户端的代理
+
+  $http_cookie
+  cookie
+
+  $limit_rate
+  nginx配置中limit_rate指令的配置值
+
+  $remote_addr
+  客户端的地址
+
+  $remote_port
+  客户端与服务器端建立连接的端口号
+
+  $remote_user
+  变量中存放了客户端的用户名
+
+  $request_body_file
+  存放了发给后端服务器的本地文件资源的名称
+
+  $request_method
+  存放了客户端的请求方式，如get,post等
+
+  $request_filename
+  存放当前请求的资源文件的路径名
+
+  $requset_uri
+  当前请求的uri,并且带有指令
+
+  $query_string
+  $args含义相同
+
+  $scheme
+  客户端请求使用的协议，如http,https,ftp等
+
+  $server_protocol
+  客户端请求协议的版本，如”HTTP/1.0”,”HTTP/1.1”
+
+  $server_addr
+  服务器的地址
+
+  $server_name
+  客户端请求到达的服务器的名称
+
+  $server_port
+  客户端请求到达的服务器的端口号
+
+  $uri
+  同  $document_uri
+
