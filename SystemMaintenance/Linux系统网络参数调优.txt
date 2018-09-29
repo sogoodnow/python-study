@@ -1,0 +1,44 @@
+路径
+/proc/sys/net/core
+
+1、net.core.netdev_max_backlog  #每个网络接口的处理速率比内核处理包的速度快的时候，允许发送队列的最大数目。
+[root@Server1 nginx]# sysctl -a | grep max_backlog
+net.core.netdev_max_backlog = 1000  这里默认是1000，可以设置的大一些，比如：
+net.core.netdev_max_backlog = 102400
+
+2、net.core.somaxconn: #用于调节系统同时发起的TCP连接数，默认值一般为128，
+在客户端存在高并发请求的时候，128就变得比较小了，可能会导致链接超时或者重传问题。
+net.core.somaxconn = 128  #默认为128，高并发的情况时候要设置大一些，比如：
+net.core.somaxconn = 102400
+
+3、net.ipv4.tcp_max_orphans:设置系统中做多允许多少TCP套接字不被关联到任何一个用户文件句柄上，
+如果超出这个值，没有与用户文件句柄关联的TCP套接字将立即被复位，同时给出警告信息，
+这个值是简单防止DDOS（Denial of service）的攻击，在内存比较充足的时候可以设置大一些：
+net.ipv4.tcp_max_orphans = 32768 #默认为32768，可以改该打一些：
+net.ipv4.tcp_max_orphans = 102400
+
+4、net.ipv4.tcp_max_syn_backlog #用于记录尚未收到客户度确认消息的连接请求的最大值，一般要设置大一些：
+net.ipv4.tcp_max_syn_backlog = 256  #默认为256，设置大一些如下：
+net.ipv4.tcp_max_syn_backlog =  102400
+
+5、net.ipv4.tcp_timestamps #用于设置时间戳，可以避免序列号的卷绕，
+有时候会出现数据包用之前的序列号的情况，此值默认为1表示不允许序列号的数据包，
+对于Nginx服务器来说，要改为0禁用对于TCP时间戳的支持，这样TCP协议会让内核接受这种数据包，从而避免网络异常，如下：
+net.ipv4.tcp_timestamps = 1 #默认为1，改为0，如下：
+net.ipv4.tcp_timestamps = 0
+
+6、net.ipv4.tcp_synack_retries #用于设置内核放弃TCP连接之前向客户端发生SYN+ACK包的数量，
+网络连接建立需要三次握手，客户端首先向服务器发生一个连接请求，
+服务器收到后由内核回复一个SYN+ACK的报文，这个值不能设置过多，会影响服务器的性能，还会引起syn攻击：
+net.ipv4.tcp_synack_retries = 5 #默认为5，可以改为1避免syn攻击
+net.ipv4.tcp_synack_retries = 1
+
+7、net.ipv4.tcp_syn_retries  #与上一个功能类似，设置为1即可：
+net.ipv4.tcp_syn_retries = 5 #默认为5，可以改为1
+net.ipv4.tcp_syn_retries = 1
+
+在/etc/sysctl.conf中添加如下
+net.core.somaxconn = 102400
+然后在终端中执行
+sysctl -p
+使用命令“/sbin/sysctl –p”使之立即生效

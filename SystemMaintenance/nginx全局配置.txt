@@ -14,7 +14,7 @@ events {
     # 每个worker最大连接数，默认512
     worker_connections  1024;
     # 事件驱动模型，只能在events块配置 epoll
-    # use method;
+    use epoll;
 }
 
 
@@ -23,16 +23,38 @@ http {
     include       /etc/nginx/mime.types;
     default_type  application/octet-stream;
 
-    log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
-                      '$status $body_bytes_sent "$http_referer" '
-                      '"$http_user_agent" "$http_x_forwarded_for"';
+    # 默认日志格式
+    #log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
+    #                  '$status $body_bytes_sent "$http_referer" '
+    #                  '"$http_user_agent" "$http_x_forwarded_for"';
+    # 自定义日志
+    log_format log_json '{"请求时间":"$time_iso8601",'
+    '"虚拟主机":"$server_addr",'
+    '"客户端地址":"$remote_addr",'
+    '"请求大小":$body_bytes_sent,'
+    '"响应时间":$request_time,'
+    '"代理响应时间":"$upstream_response_time",'
+    '"代理地址":"$upstream_addr",'
+    '"服务器主机":"$host",'
+    '"资源路径":"$uri",'
+    '"domain":"$host",'
+    '"xff":"$http_x_forwarded_for",'
+    '"请求来源":"$http_referer",'
+    '"agent":"$http_user_agent",'
+    '"Response状态":"$status"}';
 
-    access_log  /var/log/nginx/access.log  main;
+    # 日志存放路径
+    access_log  /var/log/nginx/access.log  log_json;
 
+    # 文件传输
     sendfile        on;
+    # 传输最大值，若为0则不限制
+    #sendfile_max_chunk 512k;
     #tcp_nopush     on;
-
+    # 连接超时、头信息超时 keepalive_timeout 65 100;
     keepalive_timeout  65;
+    # 限制连接请求次数 默认为100
+    # keepalive_requests
 
     #gzip  on;
 
