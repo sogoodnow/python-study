@@ -4,7 +4,119 @@ docker swarm init --advertise-addr 192.168.119.147
 docker swarm join --token SWMTKN-1-2b9sdfiy8v5xypbgj5xyd0uon65pk5c2yylfb8joj58ij8vy59-d7k2jg3ulyc09j88altjb2upc 192.168.119.147:2377
 To add a manager to this swarm, run 'docker swarm join-token manager' and follow the instructions.
 docker  node ls
+
 创建服务
 docker service
-docker service create --replicas 1 --name test busybox
+$ docker service create --replicas 1 --name helloworld alpine ping docker.com
+$ docker service ls
+$ docker service inspect --pretty helloworld
 
+$ docker service scale helloworld=5
+$ docker service ps helloworld
+$ docker service rm helloworld
+
+设置更新
+$ docker service create \
+  --replicas 3 \
+  --name redis \
+  --update-delay 10s \
+  redis:3.0.6
+$ docker service update --image redis:3.0.7 redis
+开启、关闭某个节点
+$ docker node update --availability drain worker1
+$ docker node update --availability active worker1
+
+===================================================
+$ docker service create \
+  --name <SERVICE-NAME> \
+  --publish published=<PUBLISHED-PORT>,target=<CONTAINER-PORT> \
+  <IMAGE>
+
+$ docker service create \
+  --name my-web \
+  --publish published=8080,target=80 \
+  --replicas 2 \
+  nginx
+
+当访问服务的端口时，自动均衡至可用的服务节点
+
+为已有的服务暴露服务端口
+$ docker service update \
+  --publish-add published=<PUBLISHED-PORT>,target=<CONTAINER-PORT> \
+  <SERVICE>
+
+创建时暴露端口
+$ docker service create --name dns-cache \
+  -p 53:53/udp \
+  dns-cache
+
+主机模式，绕过集群模式
+$ docker service create --name dns-cache \
+  --publish published=53,target=53,protocol=udp,mode=host \
+  --mode global \
+  dns-cache
+$ docker service ps redis
+
+通过私有仓库镜像建立服务
+$ docker login registry.example.com
+
+$ docker service  create \
+  --with-registry-auth \
+  --name my_service \
+  registry.example.com/acme/my_image:latest
+更新端口或删除端口
+$ docker service update --publish-add 80 my_web
+-publish-rm
+移除服务
+$ docker service remove my_web
+设置环境变量
+$ docker service create --name helloworld \
+  --env MYVAR=myvalue \
+  --workdir /tmp \
+  --user my_user \
+  alpine ping docker.com
+
+创建Nginx服务，在每个节点的8080端口都可以访问
+$ docker service create \
+  --mode global \
+  --publish mode=host,target=80,published=8080 \
+  --name=nginx \
+  nginx:latest
+
+创建overlayer网络
+$ docker network create --driver overlay my-network
+服务加入已创建的网络
+$ docker service create \
+  --replicas 3 \
+  --network my-network \
+  --name my-web \
+  nginx
+更新、移除
+$ docker service update --network-add my-network my-web
+$ docker service update --network-rm my-network my-web
+
+回滚操作
+$ docker service update \
+  --rollback \
+  --update-delay 0s
+  my_web
+
+--rollback-delay  回滚延迟
+--rollback-parallelism 并行回滚数量
+
+$ docker service create --name=my_redis \
+                        --replicas=5 \
+                        --rollback-parallelism=2 \
+                        --rollback-monitor=20s \
+                        --rollback-max-failure-ratio=.2 \
+                        redis:latest
+目录挂载
+$ docker service create \
+  --mount src=<VOLUME-NAME>,dst=<CONTAINER-PATH> \
+  --name myservice \
+  <IMAGE>
+
+$ docker service create \
+  --mount type=volume,src=<VOLUME-NAME>,dst=<CONTAINER-PATH>,volume-driver=<DRIVER>,volume-opt=<KEY0>=<VALUE0>,volume-opt=<KEY1>=<VALUE1>
+  --name myservice \
+  <IMAGE>

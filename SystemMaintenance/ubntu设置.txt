@@ -23,3 +23,6 @@ pip3 镜像：
 ~/.pip/pip.conf   隐藏目录,没有则手工创建
 [global] index-url = https://mirrors.aliyun.com/pypi/simple/
 [install] trusted-host = mirrors.aliyun.com
+
+设置网卡别名
+# ifconfig eth1:0 192.168.1.xx  netmask 255.255.255.0 up
