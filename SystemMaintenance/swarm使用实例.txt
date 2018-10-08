@@ -1,0 +1,8 @@
+docker service create \
+  --publish 80:80 \
+  --name=nginx \
+  --network mynetwork \
+  --rollback-delay 3m \
+  --update-delay 3m \
+  --replicas 3 \
+  nginx:alpine
