@@ -1,7 +1,7 @@
 # docker run --name mysql-server -t \
       -e MYSQL_DATABASE="zabbix" \
-      -e MYSQL_USER="zabbix" \
-      -e MYSQL_PASSWORD="zabbix_pwd" \
+      -e MYSQL_USER="root" \
+      -e MYSQL_PASSWORD="root" \
       -e MYSQL_ROOT_PASSWORD="root_pwd" \
       -d mysql:5.7
 
