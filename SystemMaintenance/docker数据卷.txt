@@ -1,0 +1,42 @@
+有两种挂载方式：
+1、volume:有容器或服务创建时，或独立指定，由docker管理
+当创建时，存储于docker所在所主机内/var/lib/docker/volumes/,
+不指定名称时，docker将随机命名
+注意：将容器内的内容，存储于docker主机中的目录里
+
+2、bind mount:
+将主机中的目录挂载至容器，不必先在主机上创建文件或目录，不存在时会由进程创建
+
+
+适应场景：
+Volumes 是容器或服务持久化数据的首选
+1.可在多个容器间共享数据
+2.不依赖于宿主机的目录路径（bind需要指定绝对路径）
+3.可以通过驱动，将数据放在远端机器
+4.便于数据备份与移植
+
+bind mount
+1.由宿主机共享配置文件至容器，例如Nginx配置文件
+2.部署文件、推荐在dockerfile构建镜像时，直接将源码拷贝至镜像，而不是挂载发布目录
+
+注意点
+1.如果将空卷挂载到容器中某一目录，而这个目录中存在目录及文件，则这些文件将被拷贝到卷中
+2.如果用bind方式，将目录挂载至容器，如果容器中该目录有文件，则会被挂载卷目录中的文件所覆盖
+
+卷驱动、swarm节点间共享数据
+$ docker volume create --driver vieux/sshfs \
+  -o sshcmd=test@node2:/home/test \
+  -o password=testpassword \
+  sshvolume
+
+$ docker run -d \
+  --name sshfs-container \
+  --volume-driver vieux/sshfs \
+  --mount src=sshvolume,target=/app,volume-opt=sshcmd=test@node2:/home/test,volume-opt=password=testpassword \
+  nginx:latest
+
+数据卷的备份与恢复
+通过--volumes-from创建新的容器，并关联至数据卷
+$ docker run --rm --volumes-from dbstore -v $(pwd):/backup ubuntu tar cvf /backup/backup.tar /dbdata
+$ docker run -v /dbdata --name dbstore2 ubuntu /bin/bash
+$ docker run --rm --volumes-from dbstore2 -v $(pwd):/backup ubuntu bash -c "cd /dbdata && tar xvf /backup/backup.tar --strip 1"
