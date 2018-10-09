@@ -28,5 +28,10 @@
       -e MYSQL_ROOT_PASSWORD="root" \
       --link mysql-server:mysql \
       --link zabbix-server-mysql:zabbix-server \
-      -p 80:80 \
+      -p 8888:80 \
       -d zabbix/zabbix-web-nginx-mysql:latest
+
+docker run --name zabbix-agent --link zabbix-server-mysql:zabbix-server \
+    -e ZBX_HOSTNAME="Zabbix server" \
+    -e ZBX_SERVER_HOST="zabbix-server" \
+    -d zabbix/zabbix-agent:latest
