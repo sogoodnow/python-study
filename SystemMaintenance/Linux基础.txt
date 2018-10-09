@@ -144,4 +144,4 @@ ssh-copy-id root@192.168.119.148
 
 scp local_file remote_username@remote_ip:remote_folder
 
-iptables -A INPUT -p tcp --dport 8999 -j DROP
+iptables -A INPUT -p tcp --dport 10050 -j DROP

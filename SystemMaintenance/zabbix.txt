@@ -35,3 +35,8 @@ docker run --name zabbix-agent --link zabbix-server-mysql:zabbix-server \
     -e ZBX_HOSTNAME="Zabbix server" \
     -e ZBX_SERVER_HOST="zabbix-server" \
     -d zabbix/zabbix-agent:latest
+
+docker run --name some-zabbix-agent -p 10050:10050 \
+ -e ZBX_HOSTNAME="hostname" \
+ -e ZBX_SERVER_HOST="zabbix服务器IP" \
+ -e ZBX_SERVER_PORT=10051 -d zabbix/zabbix-agent
