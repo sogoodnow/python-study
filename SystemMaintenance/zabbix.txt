@@ -31,12 +31,26 @@
       -p 8888:80 \
       -d zabbix/zabbix-web-nginx-mysql:latest
 
+本地
 docker run --name zabbix-agent --link zabbix-server-mysql:zabbix-server \
     -e ZBX_HOSTNAME="Zabbix server" \
     -e ZBX_SERVER_HOST="zabbix-server" \
     -d zabbix/zabbix-agent:latest
+远端
+docker run --name zabbix-agent1 -p 10050:10050 \
+ -e ZBX_HOSTNAME="zabbix-server-mysql" \
+ -e ZBX_SERVER_HOST="192.168.204.128" \
+ -e ZBX_SERVER_PORT=10051 \
+ -v /etc/localtime:/etc/localtime:ro \
+ -v /etc/timezone:/etc/timezone:ro \
+ -d zabbix/zabbix-agent
 
-docker run --name some-zabbix-agent -p 10050:10050 \
- -e ZBX_HOSTNAME="hostname" \
- -e ZBX_SERVER_HOST="zabbix服务器IP" \
- -e ZBX_SERVER_PORT=10051 -d zabbix/zabbix-agent
+ docker内部访问宿主机
+ docker run --name agent2 \
+  --add-host=dockerhost:`docker network inspect --format='{{range .IPAM.Config}}{{.Gateway}}{{end}}' bridge` \
+  -p 10050:10050 \
+  -e ZBX_HOSTNAME="localhost" \
+  -e ZBX_SERVER_HOST=`docker network inspect --format='{{range .IPAM.Config}}{{.Gateway}}{{end}}' bridge` \
+  -e ZBX_SERVER_PORT=10051 \
+  -d zabbix/zabbix-agent
+
