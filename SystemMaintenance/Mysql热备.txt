@@ -1,0 +1,124 @@
+一、环境准备：
+在两台虚拟机中安装mysql docker镜像，要确保mysql版本一致。
+数据也要一致：
+可使用mysqldump –u root –r test >/root/mysql/data/test.sql(必须以.sql结尾) 将主服务器上要热备的数据库数据拷贝到当前工作文件夹
+后使用scp –r ./name.sql slaveuser@slaveIP:~ 指令将要热备的数据库数据传送到从服务器上。
+Master:192.168.204.128
+Slave1:192.168.204.129
+Slave2:192.168.204.130
+
+docker pull mysql:5.6
+docker容器数据备份
+docker exec some-mysql \
+sh -c 'exec mysqldump --all-databases -uroot -p"$MYSQL_ROOT_PASSWORD"' > \
+/some/path/on/your/host/all-databases.sql
+
+
+ docker run --name master-mysql \
+ -v /root/mysql/conf:/etc/mysql/conf.d \
+ -v /root/mysql/data:/var/lib/mysql \
+ -e MYSQL_ROOT_PASSWORD=root \
+ -p 3306:3306 \
+ -d mysql:5.6 \
+ --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+
+
+  docker run --name slave1-mysql \
+ -v /root/mysql/conf:/etc/mysql/conf.d \
+ -v /root/mysql/data:/var/lib/mysql \
+ -e MYSQL_ROOT_PASSWORD=root \
+ -p 3306:3306 \
+ -d mysql:5.6 \
+ --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+
+ 二、数据库操作
+ 进入maste数据库
+ show databases;
+ show tables;
+
+ 在主服务器上为从服务器建立一个连接帐户，该帐户必须授予REPLICATION SLAVE权限
+ mysql> grant replication slave on *.* to 'root'@'192.168.204.129' identified by 'root';
+ mysql> flush privileges; #刷新权限配置
+ ---------------
+ 命令解释：grant 权限 on 数据库对象 to 用户 identified by "密码"
+ grant--授予
+ replication slave--权限
+ on *.* --所有数据库及表
+ 'slave1'@'192.168.204.129'  --类似ssh登录，slave机的mysql登录名及地址
+
+验证：
+创建好同步连接帐户后，我们可以通过在从服务器（Slave）上用replicat帐户对主服务器（Master）数据库进行访问下，看下是否能连接成功。
+在从服务器（Slave）上输入如下指令：(在docker容器linux中运行以下命令)
+mysql -h192.168.204.128 -uroot -proot;
+可在主库中先增加一个数据库，通过上述命令登录后，可以查看到有无数据库，可验证是否成功。
+
+
+三、配置文件修改
+复制一个/usr/share/mysql目录下的my-default.cnf文件到/etc目录，并改名为my.cnf
+
+[mysqld]
+# 唯一id
+server_id = 1
+# 指定日志文件　　
+log_bin=mysql-bin
+# 记录日志的数据库,可以多个,用逗号分隔
+binlog_do_db = test
+# 不记录日志的数据库
+# binlog_ignore_db = mysql
+
+重新启动数据库服务:service mysql restart
+成后登陆数据库，输入show master status\G; 查看数据库Master状态，
+生产环境中，使用锁表命令，同步完成后进行解锁，防止增量数据
+mysql> flush tables with read lock;
+unlock tables;
+mysql> show master status\G;
+*************************** 1. row ***************************
+             File: mysql-bin.000001
+         Position: 120
+     Binlog_Do_DB: test
+ Binlog_Ignore_DB:
+Executed_Gtid_Set:
+1 row in set (0.00 sec)
+
+ERROR:
+No query specified
+表示成功！！
+
+四、从服务器配置、修改从服务器配置文件
+[mysqld]
+# 唯一id、与主服务器id不一样
+server_id = 2
+log_bin=mysql-bin
+#此处与主服务器配置不一样
+replicate_do_db = test
+replicate_ignore_db = mysql,information_schema,performance_schema
+
+重新启slave数据库服务:service mysql restart
+
+
+五、关键步骤：在从服务器内执行
+# 先停步slave服务线程，这个是很重要的，如果不这样做会造成以下操作不成功。
+mysql>stop slave;
+mysql>change master to
+>master_host='192.168.204.128',master_user='root',master_password='root',
+> master_log_file='mysql-bin.000001',master_log_pos=720;
+注：master_log_file, master_log_pos由主服务器（Master）查出的状态值中确定。
+也就是刚刚叫注意的。master_log_file对应File, master_log_pos对应Position。
+Mysql 5.x以上版本已经不支持在配置文件中指定主服务器相关选项
+
+Change master to master_host=”masterIP”,master_port=masterport, master_user=”username”,
+master__password=”userpassword”, master_log_file=”mysql-bin.000xxx”,
+master_log_pos=position;
+其中masterIP为主服务器IP，masterport为主服务器Mysql端口，
+username为连接账户，userpassword为连接用户密码，
+mysql-bin.000xxx 、position;为设置主服务器记下File： 和 Positon后的参数。
+运行此命令无误后输入start slave 启动从服务， 输入 show slave status\G查看热备状态
+
+mysql>stop slave;
+mysql>reset slave;
+mysql>start slave;
+
+
+查看下面的两项均为yes，即表示成功：
+Slave_IO_Running:YES
+Slave_SQL_Running:YES
