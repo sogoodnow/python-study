@@ -1,0 +1,122 @@
+1.主机互相账号授权
+Master1:192.168.204.128
+Master2:192.168.204.129
+
+mysql> grant replication slave on *.* to 'root@192.168.204.128' identified by 'root'
+mysql> flush privileges;
+
+
+2.修改配置文件
+
+服务器A
+
+[mysqld]
+server-id = 1
+log-bin=mysql-bin
+binlog-do-db = test
+binlog-ignore-db = mysql
+replicate-do-db = test
+replicate-ignore-db = mysql,information_schema
+#主－主形式需要多添加的部分
+#配置从库上的更新操作是否写入二进制文件，
+#如果这台从库，还要做其他从库的主库，那么就需要打这个参数，以便从库的从库能够进行日志同步。
+log-slave-updates
+sync_binlog = 1
+auto_increment_offset = 1
+auto_increment_increment = 2
+
+
+服务器B：
+[mysqld]
+server-id = 2
+log-bin=mysql-bin
+binlog-do-db = test
+binlog-ignore-db = mysql
+replicate-do-db = test
+replicate-ignore-db = mysql,information_schema,performance_schema
+#主－主形式需要多添加的部分
+log-slave-updates
+sync_binlog = 1
+auto_increment_offset = 2
+auto_increment_increment = 2
+
+
+3.分别重启mysql服务
+
+4.配置文件详解
+
+Server-id
+
+ID值唯一的标识了复制群集中的主从服务器，因此它们必须各不相同。Master_id必须为1到232－1之间的一个正整数值，slave_id值必须为2到232－1之间的一个正整数值。
+
+Log-bin
+
+表示打开binlog，打开该选项才可以通过I/O写到Slave的relay-log，也是可以进行replication的前提。
+
+Binlog-do-db
+
+表示需要记录二进制日志的数据库。如果有多个数据可以用逗号分隔，或者使用多个binlog-do-dg选项。
+
+Binglog-ingore-db
+
+表示不需要记录二进制日志的数据库，如果有多个数据库可用逗号分隔，或者使用多binglog-ignore-db选项。
+
+Replicate-do-db
+
+表示需要同步的数据库，如果有多个数据可用逗号分隔，或者使用多个replicate-do-db选项。
+
+Replicate-ignore-db
+
+表示不需要同步的数据库，如果有多个数据库可用逗号分隔，或者使用多个replicate-ignore-db选项。
+
+Master-connect-retry
+
+master-connect-retry=n表示从服务器与主服务器的连接没有成功，则等待n秒（s）后再进行管理方式（默认设置是60s）。如果从服务器存在mater.info文件，它将忽略些选项。
+
+Log-slave-updates
+
+配置从库上的更新操作是否写入二进制文件，如果这台从库，还要做其他从库的主库，那么就需要打这个参数，以便从库的从库能够进行日志同步。
+
+Slave-skip-errors
+
+在复制过程，由于各种原因导致binglo中的sql出错，默认情况下，从库会停止复制，要用户介入。可以设置slave-skip-errors来定义错误号，如果复制过程中遇到的错误是定义的错误号，便可以路过。如果从库是用来做备份，设置这个参数会存在数据不一致，不要使用。如果是分担主库的查询压力，可以考虑。
+
+--slave-skip-errors=[err_code1,err_code2,...|all|ddl_exist_errors]
+MySQL 5.6 as well as MySQL Cluster NDB 7.3 support an additional shorthand value
+ddl_exist_errors, which is equivalent to the error code list 1007,1008,1050,1051,
+1054,1060,1061,1068,1094,1146.
+Examples:
+--slave-skip-errors=1062,1053
+--slave-skip-errors=all
+--slave-skip-errors=ddl_exist_errors
+
+Sync_binlog=1 Or N
+
+Sync_binlog的默认值是0，这种模式下，MySQL不会同步到磁盘中去。
+这样的话，Mysql依赖操作系统来刷新二进制日志binary log，就像操作系统刷新其他文件的机制一样。
+因此如果操作系统或机器（不仅仅是Mysql服务器）崩溃，有可能binlog中最后的语句丢失了。
+要想防止这种情况，可以使用sync_binlog全局变量，使binlog在每Ｎ次binlog写入后与硬盘同步。
+当sync_binlog变量设置为１是最安全的，因为在crash崩溃的情况下，
+你的二进制日志binary log只有可能丢失最多一个语句或者一个事务。
+但是，这也是最慢的一种方式（除非磁盘有使用带蓄电池后备电源的缓存cache,使得同步到磁盘的操作非常快）。
+
+即使sync_binlog设置为１，出现崩溃时，也有可能表内容和binlog内容之间存在不一致性。
+如果使用InnoDB表，Mysql服务器处理COMMIT语句，它将整个事务写入binlog并将事务提交到InnoDB中。
+如果在两次操作之间出现崩溃，重启时，事务被InnoDB回滚，但仍然存在binlog中。
+可以用-innodb-safe-binlog选项来增加InnoDB表内容和binlog之间的一致性。
+（注释：在Mysql 5.1版本中不需要-innodb-safe-binlog；由于引入了XA事务支持，该选项作废了），
+该选项可以提供更大程度的安全，使每个事务的binlog(sync_binlog=1)和（默认情况为真）InnoDB日志与硬盘同步，
+该选项的效果是崩溃后重启时，在滚回事务后，Mysql服务器从binlog剪切回滚的InnoDB事务。
+这样可以确保binlog反馈InnoDB表的确切数据等，并使从服务器保持与主服务器保持同步（不接收回滚的语句）。
+
+Auto_increment_offset和Auto_increment_increment
+
+Auto_increment_increment和auto_increment_offset用于主－主服务器（master-to-master）复制，
+并可以用来控制AUTO_INCREMENT列的操作。两个变量均可以设置为全局或局部变量，并且假定每个值都可以为1到65,535之间的整数值。
+将其中一个变量设置为0会使该变量为1。
+
+这两个变量影响AUTO_INCREMENT列的方式：auto_increment_increment控制列中的值的增量值，
+auto_increment_offset确定AUTO_INCREMENT列值的起点。
+
+如果auto_increment_offset的值大于auto_increment_increment的值，则auto_increment_offset的值被忽略。
+例如：表内已有一些数据，就会用现在已有的最大自增值做为初始值。
