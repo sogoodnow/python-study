@@ -42,12 +42,17 @@ auto_increment_increment = 2
 
 
 3.分别重启mysql服务
+分别在A服务器和B服务器上用change master to 指定同步位置
+分别在A和B服务器上重启从服务线程
+mysql>start slave;
+mysql>show slave status\G;
 
 4.配置文件详解
 
 Server-id
 
-ID值唯一的标识了复制群集中的主从服务器，因此它们必须各不相同。Master_id必须为1到232－1之间的一个正整数值，slave_id值必须为2到232－1之间的一个正整数值。
+ID值唯一的标识了复制群集中的主从服务器，因此它们必须各不相同。Master_id必须为1到232－1之间的一个正整数值，
+slave_id值必须为2到232－1之间的一个正整数值。
 
 Log-bin
 
