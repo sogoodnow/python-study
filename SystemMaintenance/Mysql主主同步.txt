@@ -71,15 +71,19 @@ Replicate-ignore-db
 
 Master-connect-retry
 
-master-connect-retry=n表示从服务器与主服务器的连接没有成功，则等待n秒（s）后再进行管理方式（默认设置是60s）。如果从服务器存在mater.info文件，它将忽略些选项。
+master-connect-retry=n表示从服务器与主服务器的连接没有成功，则等待n秒（s）后再进行管理方式（默认设置是60s）。
+如果从服务器存在mater.info文件，它将忽略些选项。
 
 Log-slave-updates
 
-配置从库上的更新操作是否写入二进制文件，如果这台从库，还要做其他从库的主库，那么就需要打这个参数，以便从库的从库能够进行日志同步。
+配置从库上的更新操作是否写入二进制文件，如果这台从库，还要做其他从库的主库，
+那么就需要打这个参数，以便从库的从库能够进行日志同步。
 
 Slave-skip-errors
 
-在复制过程，由于各种原因导致binglo中的sql出错，默认情况下，从库会停止复制，要用户介入。可以设置slave-skip-errors来定义错误号，如果复制过程中遇到的错误是定义的错误号，便可以路过。如果从库是用来做备份，设置这个参数会存在数据不一致，不要使用。如果是分担主库的查询压力，可以考虑。
+在复制过程，由于各种原因导致binglo中的sql出错，默认情况下，从库会停止复制，要用户介入。
+可以设置slave-skip-errors来定义错误号，如果复制过程中遇到的错误是定义的错误号，便可以路过。
+如果从库是用来做备份，设置这个参数会存在数据不一致，不要使用。如果是分担主库的查询压力，可以考虑。
 
 --slave-skip-errors=[err_code1,err_code2,...|all|ddl_exist_errors]
 MySQL 5.6 as well as MySQL Cluster NDB 7.3 support an additional shorthand value
