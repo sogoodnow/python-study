@@ -1,0 +1,37 @@
+# 后端服务器配置
+upstream tomcat {
+    ip_hash;
+    server tomcat7:8080;
+
+}
+# 全站跳转设置，301永久重定向
+server
+{
+  # 全站跳转https
+  listen 80;
+  server_name test.bitq.club;
+  rewrite ^(.*) https://$host$1 permanent;
+}
+# 443端口配置
+server {
+        listen 443;
+        server_name test.bitq.club; #填写绑定证书的域名
+        ssl on;
+        # test.bitq.club为测试域名
+        ssl_certificate /etc/nginx/conf.d/1_test.bitq.club_bundle.crt; # 秘钥文件
+        ssl_certificate_key /etc/nginx/conf.d/2_test.bitq.club.key;
+        ssl_session_timeout 5m;
+        ssl_protocols TLSv1 TLSv1.1 TLSv1.2; #按照这个协议配置
+        ssl_ciphers ECDHE-RSA-AES128-GCM-SHA256:HIGH:!aNULL:!MD5:!RC4:!DHE;#按照这个套件配置
+        ssl_prefer_server_ciphers on;
+        # 请求交给后端tomcat
+        location / {
+            proxy_redirect off;
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            #root   html; #站点目录
+            proxy_pass http://tomcat7;
+            index  index.html index.htm index.jsp;
+        }
+}

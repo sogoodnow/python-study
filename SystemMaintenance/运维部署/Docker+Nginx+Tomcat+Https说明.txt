@@ -9,22 +9,27 @@ https://www.jianshu.com/p/7a8e7b9e04d2
 
 2.配置Nginx
 ----------------------------------------------------------------------------------
-server {
-        listen 443;
-        server_name www.domain.com; #填写绑定证书的域名
-        ssl on;
-        ssl_certificate 1_www.domain.com_bundle.crt;
-        ssl_certificate_key 2_www.domain.com.key;
-        ssl_session_timeout 5m;
-        ssl_protocols TLSv1 TLSv1.1 TLSv1.2; #按照这个协议配置
-        ssl_ciphers ECDHE-RSA-AES128-GCM-SHA256:HIGH:!aNULL:!MD5:!RC4:!DHE;#按照这个套件配置
-        ssl_prefer_server_ciphers on;
-        location / {
-            root   html; #站点目录
-            index  index.html index.htm;
+    server {
+            listen 443;
+            server_name www.domain.com; #填写绑定证书的域名
+            ssl on;
+            ssl_certificate 1_www.domain.com_bundle.crt;
+            ssl_certificate_key 2_www.domain.com.key;
+            ssl_session_timeout 5m;
+            ssl_protocols TLSv1 TLSv1.1 TLSv1.2; #按照这个协议配置
+            ssl_ciphers ECDHE-RSA-AES128-GCM-SHA256:HIGH:!aNULL:!MD5:!RC4:!DHE;#按照这个套件配置
+            ssl_prefer_server_ciphers on;
+            location / {
+                root   html; #站点目录
+                index  index.html index.htm;
+            }
         }
-    }
-
+三.tomcat增加对https协议的支持
+1.Connector节点加入 redirectPort="443" proxyPort="443"
+2.加入新的Value节点 <Valve className="org.apache.catalina.valves.RemoteIpValve"
+remoteIpHeader="x-forwarded-for"
+remoteIpProxiesHeader="x-forwarded-by"
+protocolHeader="x-forwarded-proto"/>
 ---------------------------------------------------------------------------------
 worker_processes  1;
 events {
@@ -111,3 +116,6 @@ http {
     connectionTimeout="20000"
     redirectPort="443" />
 redirectPort改成ssl的connector的端口443，重启后便会生效。
+
+
+
