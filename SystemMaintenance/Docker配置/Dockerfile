@@ -28,7 +28,7 @@ ADD test relativeDir/
 ADD test /absoluteDir/
 
 # 将当前主机目录内容拷贝至镜像文件夹  ADD可以下载压缩文件并自动解压，一般情况下用COPY
-COPY . /code
+COPY .. /code
 
 #指令集的工作目录RUN, CMD, ENTRYPOINT, COPY和ADD跟随它的指令Dockerfile。
 #如果WORKDIR不存在,将创建它,即使它不用于任何 后续Dockerfile
@@ -54,11 +54,11 @@ CMD["ls","-l"]
 #挂载文件路径
 VOLUME ["/data"]
 # 作用于子镜像，基于现有镜像构筑新镜像时会执行，类型于继承,指令可能不会触发FROM或MAINTAINER指令
-ONBUILD ADD . /app/src
+ONBUILD ADD .. /app/src
 ONBUILD RUN /usr/local/bin/python-build --dir /app/src
 
 #==================================================
 FORM python:3.6
-COPY . /code
+COPY .. /code
 WORKDIR /code
 RUN pip install -r requirements.txt
