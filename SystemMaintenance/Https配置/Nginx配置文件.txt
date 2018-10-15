@@ -1,7 +1,7 @@
 # 后端服务器配置
 upstream tomcat {
     # ip_hash;
-    server tomcat7; # 此处不要配置端口号，如果使用doker，此处加入端口号，会变成访问overlay网络
+    server tomcat7; # 此处不要配置端口号
 
 }
 # 全站跳转设置，301永久重定向
