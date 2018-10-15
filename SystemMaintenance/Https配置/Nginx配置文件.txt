@@ -1,7 +1,7 @@
 # 后端服务器配置
 upstream tomcat {
-    ip_hash;
-    server tomcat7:8080;
+    # ip_hash;
+    server tomcat7; # 此处不要配置端口号，否则容易出错
 
 }
 # 全站跳转设置，301永久重定向
@@ -26,12 +26,12 @@ server {
         ssl_prefer_server_ciphers on;
         # 请求交给后端tomcat
         location / {
-            proxy_redirect off;
-            proxy_set_header Host $host:8080;
+            #proxy_redirect off;
+            #proxy_set_header Host $host:8080;
             proxy_set_header X-Real-IP $remote_addr;
             proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
             #root   html; #站点目录
-            proxy_pass http://tomcat7;
+            proxy_pass http://tomcat7:8080/;
             index  index.html index.htm index.jsp;
         }
 }
