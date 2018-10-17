@@ -6,3 +6,12 @@ WORKDIR /usr/local/apache-tomcat-8.5.34/
 COPY ./server.xml /usr/local/apache-tomcat-8.5.34/conf/
 EXPOSE 8080
 ENTRYPOINT ["/usr/local/apache-tomcat-8.5.34/bin/catalina.sh","run"]
+
+
+FROM tiangolo/uwsgi-nginx:python3.6
+LABEL maintainer="Qiuguochang"
+RUN pip install flask
+WORKDIR /usr/local/apache-tomcat-8.5.34/
+COPY ./server.xml /usr/local/apache-tomcat-8.5.34/conf/
+EXPOSE 8080
+ENTRYPOINT ["/usr/local/apache-tomcat-8.5.34/bin/catalina.sh","run"]
