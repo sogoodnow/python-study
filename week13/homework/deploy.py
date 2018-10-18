@@ -6,7 +6,7 @@ ZIP
 Psutil
 Scrapy : apt-get install build-essential libssl-dev libffi-dev python3-dev
             pip3 install scrapy
-Docker
+SystemMaintenance
 Redis  应用pip命令安装
 Scrapy_redis
 """
@@ -69,8 +69,8 @@ class Deploy:
         command = "docker run -d --name redis -v /root/redis/data:/data -p 6379:6379 redis"
         stdin3,stdout3,stderr3 =ssh.exec_command(command)
         if stderr3.read().decode():
-            print("Docker  Error=====>" +stderr3.read().decode())
-        print("Docker OK")
+            print("SystemMaintenance  Error=====>" +stderr3.read().decode())
+        print("SystemMaintenance OK")
 
         # 运行爬虫
         # Master

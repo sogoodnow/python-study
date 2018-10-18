@@ -1,7 +1,7 @@
 
 docker pull jenkins:alpine
 
-docker run -d --name my-jenkings -p 8080:8080 -p 50000:50000 -u root -v /root/jenkins-data:/var/jenkins_home jenkins:alpine
+docker run -d --name my-jenkins -p 8080:8080 -p 50000:50000 -u root -v /root/jenkins-data:/var/jenkins_home jenkins:alpine
 
 登录密码查看
 /var/jenkins_home/secrets/initialAdminPassword

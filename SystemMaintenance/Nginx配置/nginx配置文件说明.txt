@@ -186,7 +186,10 @@ name:组名
 
 upstream name {
 
-    #server address [parameters] 例如 adress可以是ip地址或unix:进程间通信,parameters:选项参数  weight = number服务器权重 ,max_fails一定时间范围内最大失败数
+    #server address [parameters] 例如 adress可以是ip地址或unix:进程间通信,parameters:选项参数
+    weight = number服务器权重 ,
+    max_fails一定时间范围内最大失败数
+    ip_hash 根据地址分配
     #超出该数值时，认为服务器down
     #server 127.0.0.1:7070; # TCP socket
 

@@ -1,0 +1,13 @@
+FROM python:3.6-alpine3.6
+
+LABEL maintainer="Qiu"
+
+RUN pip install flask
+RUN pip install requests
+EXPOSE 5000
+COPY ./beidou /app
+WORKDIR /app
+
+ENTRYPOINT ["/entrypoint.sh"]
+
+CMD [ "python", "./app.py" ]

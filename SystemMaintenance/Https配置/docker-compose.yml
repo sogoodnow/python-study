@@ -1,0 +1,42 @@
+version: '3'
+services:
+  # nginx
+  nginx:
+    image: nginx:stable-alpine
+    volumes:
+    - /root/web-clusters/nginx/conf.d:/etc/nginx/conf.d/
+    - /root/web-clusters/nginx/nginx.conf:/etc/nginx/nginx.conf
+    - /root/web-clusters/nginx/nginx.conf.default:/etc/nginx/nginx.conf.default
+    - /root/web-clusters/nginx/logs:/var/log/nginx
+    - /etc/localtime:/etc/localtime:ro
+    - /etc/timezone:/etc/timezone:ro
+
+    ports:
+    - "80:80"
+    - "443:443"   # 443端口
+    command: [nginx, '-g', 'daemon off;']
+    networks:
+    - web
+  # tomcat7
+  tomcat7:
+    image: tomcat:7-alpine
+    hostname: tomcat7
+    volumes:
+    - /root/web-clusters/7tomcats/conf:/usr/local/tomcat/conf
+    - /root/web-clusters/7tomcats/logs:/usr/local/tomcat/logs
+    - /root/web-clusters/7tomcats/webapps:/usr/local/tomcat/webapps
+    command: ["catalina.sh", "run"]
+    networks:
+    - web
+networks:
+  web:
+
+
+
+#docker run --name nginx --rm \
+#  -v /data/nginx/nginx.conf:/etc/nginx/nginx.conf \
+#  -v /data/nginx/key:/key \
+#  -v /data/nginx/logs:/logs -d \
+#  -p 80:80 -p 443:443\
+#  -v /etc/localtime:/etc/localtime:ro \
+#  -v /etc/timezone:/etc/timezone:ro ngin
