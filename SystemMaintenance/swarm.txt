@@ -120,3 +120,6 @@ $ docker service create \
   --mount type=volume,src=<VOLUME-NAME>,dst=<CONTAINER-PATH>,volume-driver=<DRIVER>,volume-opt=<KEY0>=<VALUE0>,volume-opt=<KEY1>=<VALUE1>
   --name myservice \
   <IMAGE>
+
+docker stack deploy -c myweb
+yml文件中不支持build，只能使用有的镜像，或镜像仓库的
