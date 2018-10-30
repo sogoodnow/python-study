@@ -1,0 +1,14 @@
+1、创建/etc/systemd/system/docker.service.d目录。
+2、创建一个/etc/systemd/system/docker.service.d/http-proxy.conf文件。
+$sudo vim /etc/systemd/system/docker.service.d/http-proxy.conf
+
+[Service]
+ExecStart=
+ExecStart=/usr/bin/dockerd -H tcp://0.0.0.0:2375 -H unix:///var/run/docker.sock
+
+3、刷新配置
+$ sudo systemctl daemon-reload
+4、重新启动docker守护进程。
+$sudo systemctl restart docker
+5、确认是否成功。
+$ ps -ef | grep docker
