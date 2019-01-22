@@ -1,0 +1,47 @@
+ 执行如下命令编辑文件/etc/exports：
+
+ # vi /etc/exports
+ 在该文件里添加如下内容：
+ /home/work 192.168.0.*（rw,sync,no_root_squash）
+ 然后保存退出。
+ 添加的内容表示：允许ip地址范围在192.168.0.*的计算机以读写的权限来访问/home/work目录。
+ /home/work也称为服务器输出共享目录。
+ 括号内的参数意义描述如下：
+ rw：读/写权限，只读权限的参数为ro；
+ sync：数据同步写入内存和硬盘，也可以使用async，此时数据会先暂存于内存中，而不立即写入硬盘。
+ no_root_squash：NFS服务器共享目录用户的属性，如果用户是root，那么对于这个共享目录来说就具有root的权限。
+ 接着执行如下命令，启动端口映射：
+ # /etc/rc.d/init.d/portmap start
+
+
+  最后执行如下命令启动NFS服务，此时NFS会激活守护进程，然后就开始监听Client端的请求：
+  # /etc/rc.d/init.d/nfs start
+  用户也可以重新启动Linux服务器，自动启动NFS服务。
+  在NFS服务器启动后，还需要检查Linux服务器的防火墙等设置（一般需要关闭防火墙服务），确保没有屏蔽掉NFS使用的端口和允许通信的主机，主要是检查Linux服务器iptables，ipchains等选项的设置，以及/etc/hosts.deny，/etc/hosts.allow文件。
+  我们首先在Linux服务器上进行NFS服务器的回环测试，验证共享目录是否能够被访问。在Linux服务器上运行如下命令：
+  # mount–t nfs 192.168.0.20:/home/work /mnt
+  # ls /mnt
+  命令将Linux服务器的NFS输出共享目录挂载到/mnt目录下，因此，如果NFS正常工作，应该能够在/mnt目录看到/home/work共享目录中的内容。
+
+
+
+2。客户端配置
+   在目标系统的Linux Shell下，执行如下命令来进行NFS共享目录挂载：
+   # mkdir /mnt/nfs //建立Linux服务器输出共享目录的挂载点；
+   # mount–t nfs 192.168.0.20:/home/work /mnt/nfs–o nolock
+   # cd /mnt/nfs
+   # ls
+   此时，嵌入式目标系统端所显示的内容即为Linux服务器的输出目录的内容，即Linux服务器的输出目。
+   录/home/work通过NFS映射到了嵌入式目标系统的/mnt/nfs目录。用户可以用增/删/修改文件的方式来验证实际效果。mount命令中的192.168.0.20为Linux服务器的IP地址，/home/work为Linux服务器端所配置的共享输出目录，/mnt/nfs为嵌入式设备上的本地目录。
+   在开发过程中，来回输入命令非常烦人，我写了两个简单的脚本来完成nfs的启动，挂载。
+   host启动nfs：
+   snfs
+   #!/bin/bash
+   ifconfig eth0 192.168.0.20
+   /etc/rc.d/init.d/portmap start
+   /etc/rc.d/init.d/nfs start
+   嵌入式目标机挂载nfs：
+   mnfs：
+   #!/bin/sh
+   mount -t nfs 192.168.0.20:/home/work/nfs /mnt/nfs -o nolock
+   echo“nfs ok！”
