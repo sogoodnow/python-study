@@ -1,3 +1,15 @@
+ https://blog.csdn.net/davin89/article/details/80567719
+ https://www.cnblogs.com/wanghuaijun/p/5566047.html
+ yum install rpcbind.x86_64
+ yum install nfs-utils.x86_64
+
+systemctl enable nfs
+systemctl start nfs
+systemctl enable rpcbind
+systemctl start rpcbind
+systemctl status nfs
+
+
  执行如下命令编辑文件/etc/exports：
 
  # vi /etc/exports
