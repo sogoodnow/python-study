@@ -1,0 +1,30 @@
+fdisk -l 查找到新挂载到的硬盘
+http://blog.51cto.com/12348890/2092339
+对硬盘进行格式化
+fidisk /dev/sdb
+在Command (m for help)提示符后面输入m显示一个帮助菜单。
+
+ 在Command (m for help)提示符后面输入n，执行 add a new partition 指令给硬盘增加一个新分区。
+ 出现Command action时，输入e，指定分区为扩展分区（extended）。
+ 出现Partition number(1-4)时，输入１表示只分一个区。
+ 后续指定起启柱面（cylinder）号完成分区。
+
+ 在Command (m for help)提示符后面输入p，显示分区表。
+系统提示如下：
+Device Boot                 Start                End                   Blocks          Id             System
+/dev/sdb1                           1            26108           209712478+           5          Extended
+
+
+在Command (m for help)提示符后面输入w，保存分区表。
+系统提示：The partition table has been altered!
+
+格式化
+mkfs -t ext4 /dev/sdb
+
+
+parted /dev/sdb
+mklabel gpt
+mkpart logical 0 -1
+
+vi /etc/fstab
+/dev/sdb1 /root/data ext4 defaults 0 0

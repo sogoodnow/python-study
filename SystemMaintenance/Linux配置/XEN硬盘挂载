@@ -1,0 +1,6 @@
+ ls -l /dev/disk/by-id/
+
+#device-config:device 后接查到的id name-label：名称自定义
+
+xe sr-create type=lvm content-type=user device-config:device=/dev/disk/by-id/scsi-SATA_WDC_WD40EZRZ-00_WD-WCC7K2EPZCTT name-label="4T Disk #1"
+xe sr-create type=lvm content-type=user device-config:device=/dev/disk/by-id/scsi-SATA_WDC_WD40EZRZ-00_WD-WCC7K2EPZRCK name-label="4T Disk #2"

@@ -1,0 +1,43 @@
+docker pull andyshinn/dnsmasq
+
+mkdir /root/dns-server
+目录下建立2个文件
+
+$ vi my_dnsmasq_hosts
+#加入一下内容
+192.168.11.32   inf.com
+192.168.11.32   test.com
+
+$ vi my_resolv.dnsmasq
+nameserver 114.114.114.114
+nameserver 8.8.8.8
+
+编写docker运行,ip为本机地址
+
+docker run -d \
+-p 192.168.11.32:53:53/tcp \
+-p 192.168.11.32:53:53/udp \
+-v /root/dns-server/my_dnsmasq_hosts:/etc/my_dnsmasq_hosts \
+-v /root/dns-server/my_resolv.dnsmasq:/etc/my_resolv.dnsmasq \
+--cap-add=NET_ADMIN \
+--name my_dns_server \
+andyshinn/dnsmasq:latest
+
+
+$ docker exec -it my_dns_server /bin/sh
+/ # vi /etc/dnsmasq.conf
+
+# 修改两处地方，都需要取消掉注释，并制定文件
+addn-hosts=/etc/my_dnsmasq_hosts
+resolv-file=/etc/my_resolv.dnsmasq
+# 重启服务
+exit
+docker restart my_dns_server
+my_dns_server
+
+修改防火墙DHCP设置，把DNS地址加入
+yum install bind-utils
+
+dig @192.168.11.32  demo.infinitsea.com
+
+
