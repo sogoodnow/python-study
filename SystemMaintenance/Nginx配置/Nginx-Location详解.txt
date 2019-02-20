@@ -7,3 +7,34 @@
 2.正则匹配按照书写上下文顺序进行，第一个匹配到的则使用其指向并停止后续匹配。
 3.^~ = 前缀，表示普通匹配成功后，不进行后续正则匹配
 4.在普通匹配时，如果完全一致，则称为完全匹配，终止后续正则匹配。
+
+
+如果普通匹配的长度都是一样的，则按照能否找到资源为优先级排列选择location
+能找到资源>not found>deny
+※意义不大，不应该有类似这种含糊的配置
+
+nginx deny allow 是层级过滤，匹配到了便跳出
+
+例如访问 http://127.0.0.1:8888/aaa  下面2个都匹配到了前缀
+如果aaa下有index.html则会返回该文件，走上面的location，如果没有则会走下面的deny
+    server {
+        listen       8888;
+        server_name  localhost;
+
+	location /aaa/bbb/{
+            root   html;
+
+        }
+
+    location /aaa/bbb/ccc/a.html {
+            root   html;
+            #index  index.html index.htm;
+	    deny all;
+        }
+
+    location / {
+            root   html;
+            index  index.html index.htm;
+        }
+
+}
